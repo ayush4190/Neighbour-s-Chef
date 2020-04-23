@@ -3,30 +3,27 @@ package com.example.myapplication;
 public class ItemList {
 
 
-    private String mImage_url, product_name, price, id;
+    private String product_id;
+    private String product_name;
+    private String product_price;
+    private String product_quantity;
 
-    public ItemList() {
+    ItemList() {
     }
 
-    public ItemList(String mImage_url, String product_name, String price, String id) {
-        this.mImage_url = mImage_url;
+    public ItemList(String product_id, String product_name, String product_price, String product_quantity) {
+        this.product_id = product_id;
         this.product_name = product_name;
-        this.price = price;
-        this.id = id;
+        this.product_price = product_price;
+        this.product_quantity = product_quantity;
     }
 
-    public ItemList(String product_name, String price, String id) {
-        this.product_name = product_name;
-        this.price = price;
-        this.id = id;
+    public String getProduct_id() {
+        return product_id;
     }
 
-    public String getmImage_url() {
-        return mImage_url;
-    }
-
-    public void setmImage_url(String mImage_url) {
-        this.mImage_url = mImage_url;
+    public void setProduct_id(String product_id) {
+        this.product_id = product_id;
     }
 
     public String getProduct_name() {
@@ -37,19 +34,19 @@ public class ItemList {
         this.product_name = product_name;
     }
 
-    public String getPrice() {
-        return price;
+    public String getProduct_price() {
+        return product_price;
     }
 
-    public void setPrice(String price) {
-        this.price = price;
+    public void setProduct_price(String product_price) {
+        this.product_price = product_price;
     }
 
-    public String getId() {
-        return id;
+    public String getProduct_quantity() {
+        return product_quantity;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setProduct_quantity(String product_quantity) {
+        this.product_quantity = product_quantity;
     }
 }

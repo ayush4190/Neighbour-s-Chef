@@ -1,0 +1,21 @@
+
+>
+java:S1659")Declare "mTextRecipe" on a separate line.(•Ã¯/
+@
+java:S1659"+Declare "mTextCategory" on a separate line.(•Ã¯/
+=
+java:S1659"(Declare "mTextPrice" on a separate line.(•Ã¯/
+h	java:S116"NRename this field "TAG" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(®Œ˜ıÿÿÿÿ
+<
+java:S1170"!Make this final field static too.(®Œ˜ıÿÿÿÿ
+`
+java:S1124"EReorder the modifiers to comply with the Java Language Specification.(®Œ˜ıÿÿÿÿ
+T
+java:S1854C">Remove this useless assignment to local variable "cartNumber".(áÉ‚è
+E
+java:S1481C"/Remove this unused "cartNumber" local variable.(áÉ‚è
+B
+java:S1068"'Remove this unused "TAG" private field.(®Œ˜ıÿÿÿÿ
+V	java:S125)"<This block of commented-out lines of code should be removed.(ƒ‘‡²ûÿÿÿÿ
+Q	java:S125B"<This block of commented-out lines of code should be removed.(âò
+Q	java:S125D"<This block of commented-out lines of code should be removed.(¤ÅÇ
