@@ -49,32 +49,32 @@ public class TodaysMenuFragment extends Fragment {
         adapter.notifyDataSetChanged();
 
 
-//        mRecyclerView.setHasFixedSize(false);
-//        adapter.setOnItemClickListener(new TodaysMenuAdapter.OnRecyclerViewItemClickListener() {
-//            @Override
-//            public void onItemClick(View view, String data) {
-//                Bundle itemInfo = new Bundle();
-////                for (int i=0; i<foods.size(); i++){
-////                    if (foods.get(i).getId() == Integer.valueOf(data)){
-////                        itemInfo.putInt("foodId", foods.get(i).getId());
-////                        itemInfo.putString("foodName", foods.get(i).getName());
-////                        itemInfo.putString("foodCat", foods.get(i).getCategory());
-////                        itemInfo.putString("foodRec", foods.get(i).getRecepiee());
-////                        itemInfo.putDouble("foodPrice", foods.get(i).getPrice());
-////                        itemInfo.putString("foodImage", foods.get(i).getImageUrl());
-////                        break;
-////                    }
-////                }
-//                ItemDetailFragment foodDetailFragment = new ItemDetailFragment();
-//                foodDetailFragment.setArguments(itemInfo);
-//                getActivity().getSupportFragmentManager()
-//                        .beginTransaction()
-//                        .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
-//                        .replace(R.id.main_fragment_container, foodDetailFragment)
-//                        .addToBackStack(TodaysMenuFragment.class.getName())
-//                        .commit();
-//            }
-//        });
+        mRecyclerView.setHasFixedSize(false);
+        adapter.setOnItemClickListener(new TodaysMenuAdapter.OnRecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(View view, String data) {
+                Bundle itemInfo = new Bundle();
+                for (int i=0; i<mItemList.size(); i++){
+                    if (mItemList.get(i).getProduct_id() == data){
+                        itemInfo.putString("foodId", mItemList.get(i).getProduct_id());
+                        itemInfo.putString("foodName", mItemList.get(i).getProduct_name());
+//                        itemInfo.putString("foodCat", mItemList.get(i).getCategory());
+//                        itemInfo.putString("foodRec", foods.get(i).getRecepiee());
+                        itemInfo.putString("foodPrice", mItemList.get(i).getProduct_price());
+                      //  itemInfo.putString("foodImage", foods.get(i).getImageUrl());
+                        break;
+                    }
+                }
+                ItemDetailFragment foodDetailFragment = new ItemDetailFragment();
+                foodDetailFragment.setArguments(itemInfo);
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
+                        .replace(R.id.main_fragment_container, foodDetailFragment)
+                        .addToBackStack(TodaysMenuFragment.class.getName())
+                        .commit();
+            }
+        });
 
     }
 

@@ -110,21 +110,20 @@
                     android:textSize="26sp"
                     android:textColor="@color/colorPrimaryDark"
                     android:layout_width="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="1.25"
                     android:layout_height="0dp"
-                    android:text="300.00"/>
-            <RelativeLayout android:layout_width="match_parent"
-                            android:gravity="bottom"
-                            android:layout_weight="4"
-                            android:layout_height="0dp">
+                    android:text="300.00" />
+
                 <Button
+                    android:layout_margin="20dp"
                         android:id="@+id/food_detail_add"
                         android:layout_marginTop="@dimen/activity_vertical_margin"
                         android:text="Add to Cart"
                         android:textColor="@color/icons"
                         android:backgroundTint="@color/colorPrimary"
-                        android:layout_width="match_parent" android:layout_height="wrap_content"/>
-            </RelativeLayout>
+                        android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
         </LinearLayout>
 
 

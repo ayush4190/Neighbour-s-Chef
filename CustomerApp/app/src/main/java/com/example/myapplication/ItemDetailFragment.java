@@ -38,13 +38,15 @@ public class ItemDetailFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_item_detail, container, false);
 
        initView();
-//        initFoodInfo();
+        initFoodInfo();
 //
         setButtonListener();
 
 
         return view;
     }
+
+
 
 
     private void initView(){
@@ -56,6 +58,17 @@ public class ItemDetailFragment extends Fragment {
         mTextPrice = (TextView) view.findViewById(R.id.food_detail_price);
         mButtonAdd = (Button) view.findViewById(R.id.food_detail_add);
         mImageView = (ImageView) view.findViewById(R.id.food_detail_image);
+    }
+
+    private void initFoodInfo() {
+
+        mItemlist = new ItemList();
+        mItemlist.setProduct_id(getArguments().getString("foodId"));
+        mItemlist.setProduct_name(getArguments().getString("foodName"));
+        mItemlist.setProduct_price(getArguments().getString("foodPrice"));
+        mTextId.setText(String.valueOf(mItemlist.getProduct_id()));
+        mTextPrice.setText(String.valueOf(mItemlist.getProduct_price()));
+        collapsingToolbarLayout.setTitle(mItemlist.getProduct_name());
     }
 
     private void setButtonListener(){

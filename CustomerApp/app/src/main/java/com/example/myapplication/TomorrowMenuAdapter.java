@@ -10,18 +10,21 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class TomorrowMenuAdapter extends RecyclerView.Adapter<TomorrowHolder> implements View.OnClickListener{
+public class TomorrowMenuAdapter extends RecyclerView.Adapter<TomorrowHolder> implements View.OnClickListener {
 
     private Context mContext;
+    List<ItemList> mItemList;
+    private List<String> s;
+    public String TAG = "TODAYSMENU";
+    public static ItemList n;
 
-    private ArrayList<ItemList> mItemList;
 
-    public String TAG = "TOMORROWSMENU";
-
-    public TomorrowMenuAdapter(Context mContext, ArrayList<ItemList> mItemList) {
+    public TomorrowMenuAdapter(Context mContext, List<ItemList> mItemList) {
         this.mContext = mContext;
         this.mItemList = mItemList;
     }
@@ -29,81 +32,84 @@ public class TomorrowMenuAdapter extends RecyclerView.Adapter<TomorrowHolder> im
     @Override
     public TomorrowHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(mContext).inflate(R.layout.cardview_food, parent, false);
-        TomorrowHolder tomorrowHolder = new TomorrowHolder(v);
+         TomorrowHolder allHolder = new TomorrowHolder(v);
         v.setOnClickListener(this);
-        return tomorrowHolder;
+        return allHolder;
     }
+
+
 
     @Override
     public void onBindViewHolder(TomorrowHolder holder, int position) {
-        holder.mTextCategory.setVisibility(View.INVISIBLE);
-        holder.mTextCateTitle.setVisibility(View.INVISIBLE);
-
-//        holder.mTextId.setText(String.valueOf(foods.get(position).getId()));
-//        holder.mTextName.setText(foods.get(position).getName());
-//        holder.mTextPrice.setText(String.valueOf(foods.get(position).getPrice()));
+        n = mItemList.get(position);
+        Log.v("alpha", n.getProduct_name());
+        holder.mTextId.setText(String.valueOf(n.getProduct_id()));
+        holder.mTextName.setText(n.getProduct_name());
+        holder.mTextPrice.setText(String.valueOf(n.getProduct_price()));
+//        holder.mTextCategory.setText(foods.get(position).getCategory());
 //        holder.mImageView.setImageBitmap(foods.get(position).getImage());
-//
-//        holder.itemView.setTag(foods.get(position).getId());
+
+        holder.itemView.setTag(mItemList.get(position).getProduct_id());
     }
 
+    public void addItem(ItemList eventsList, String t) {
+//        this.s.add(t);
+        this.mItemList.add(eventsList);
+    }
 
     @Override
-    public int getItemCount()
-    {
-        return 100 ;
+    public int getItemCount() {
+        return mItemList.size();
 //        foods.size();
     }
 
-    public void notifyData(ArrayList<ItemList> itemLists) {
-//        Log.d("notifyData ", foods.size() + "");
-        this.mItemList = itemLists;
-        //notifyDataSetChanged();
+    public void clear() {
+        mItemList.clear();
+        notifyDataSetChanged();
     }
 
-    public void clear() {
-    }
 
     public static interface OnRecyclerViewItemClickListener {
-        void onItemClick(View view , String data);
+        void onItemClick(View view, String data);
     }
 
-    private TodaysMenuAdapter.OnRecyclerViewItemClickListener mOnItemClickListener = null;
+    private OnRecyclerViewItemClickListener mOnItemClickListener = null;
 
-    public void setOnItemClickListener(TodaysMenuAdapter.OnRecyclerViewItemClickListener listener) {
+    public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
         this.mOnItemClickListener = listener;
     }
+
     @Override
     public void onClick(View view) {
+
+
         if (mOnItemClickListener != null) {
-            mOnItemClickListener.onItemClick(view,String.valueOf(view.getTag()));
-        }
-        else{
+            mOnItemClickListener.onItemClick(view, String.valueOf(view.getTag()));
+        } else {
             Log.e("CLICK", "ERROR");
         }
-    }
-}
 
+    }
+
+
+}
 
 
 class TomorrowHolder extends RecyclerView.ViewHolder {
-
+    //        NetworkImageView mImage;
     ImageView mImageView;
-    TextView mTextId, mTextName, mTextCategory, mTextPrice, mTextCateTitle;
+    TextView mTextId, mTextName, mTextCategory, mTextPrice;
 
-    public TomorrowHolder(@NonNull View itemView) {
+    public TomorrowHolder(View itemView) {
         super(itemView);
-
-
-    // mImage = (NetworkImageView) itemView.findViewById(R.id.food_img);
-        mImageView = (ImageView) itemView.findViewById(R.id.food_img);
+        // mImage = (NetworkImageView) itemView.findViewById(R.id.food_img);
+        //  mImageView = (ImageView) itemView.findViewById(R.id.food_img);
         mTextId = (TextView) itemView.findViewById(R.id.food_id);
         mTextName = (TextView) itemView.findViewById(R.id.food_name);
         mTextPrice = (TextView) itemView.findViewById(R.id.food_price);
-        mTextCategory = (TextView) itemView.findViewById(R.id.food_category);
-        mTextCateTitle = (TextView) itemView.findViewById(R.id.food_category_title);
+        //    mTextId = (TextView) itemView.findViewById(R.id.food_id);
+        //  mTextCategory = (TextView) itemView.findViewById(R.id.food_category);
     }
 
 
 }
-
