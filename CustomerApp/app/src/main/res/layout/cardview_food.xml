@@ -1,64 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                                    app:cardUseCompatPadding="true"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardUseCompatPadding="true">
 
     <LinearLayout
-            android:gravity="center_vertical"
-            android:padding="@dimen/horizontal_padding"
-            android:orientation="horizontal"
-            android:layout_width="match_parent" android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/horizontal_padding">
 
         <ImageView
-                android:id="@+id/food_img"
-                android:src="@drawable/food_sample"
-                android:scaleType="fitXY"
-                android:layout_width="100dp" android:layout_height="100dp"/>
+            android:id="@+id/food_img"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/food_sample" />
+
         <LinearLayout
-                android:paddingLeft="@dimen/activity_horizontal_margin"
-                android:orientation="vertical"
-                android:layout_width="match_parent" android:layout_height="match_parent">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/activity_horizontal_margin">
+
             <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_weight="1.3"
-                    android:layout_width="match_parent" android:layout_height="wrap_content">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.3"
+                android:orientation="horizontal">
+
                 <TextView
-                        android:textSize="12sp"
-                        android:text="Id: "
-                        android:layout_width="wrap_content" android:layout_height="match_parent"/>
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Id: "
+                    android:textSize="12sp" />
+
                 <TextView
-                        android:id="@+id/food_id"
-                        android:textSize="12sp"
-                        android:text="item id"
-                        android:layout_width="wrap_content"
-                    android:layout_height="match_parent"/>
+                    android:id="@+id/food_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="item id"
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
             <TextView
                 android:id="@+id/food_name"
-                android:gravity="bottom"
-                android:textSize="18sp"
-                android:text="item Name"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:gravity="bottom"
+                android:text="item Name"
+                android:textSize="18sp" />
 
             <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_weight="2"
-                    android:layout_width="match_parent" android:layout_height="wrap_content">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:orientation="horizontal">
+
                 <TextView
-                        android:id="@+id/food_category_title"
-                        android:text=""
-                        android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+                    android:id="@+id/food_category_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="" />
+
                 <TextView
-                        android:id="@+id/food_category"
-                        android:paddingLeft="@dimen/activity_horizontal_margin"
-                        android:text=""
-                        android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:id="@+id/food_category"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/activity_horizontal_margin"
+                    android:text="" />
             </LinearLayout>
 
             <LinearLayout
@@ -67,17 +80,19 @@
 
                 <TextView
                     android:id="@+id/food_price_final"
+                    android:layout_width="58dp"
+                    android:layout_height="wrap_content"
                     android:gravity="bottom"
                     android:text="Price: "
-                    android:textSize="16sp"
-                    android:layout_width="58dp" android:layout_height="wrap_content"/>
+                    android:textSize="16sp" />
 
                 <TextView
                     android:id="@+id/food_price"
+                    android:layout_width="179dp"
+                    android:layout_height="wrap_content"
                     android:gravity="bottom"
                     android:text="Price"
-                    android:textSize="16sp"
-                    android:layout_width="179dp" android:layout_height="wrap_content"/>
+                    android:textSize="16sp" />
             </LinearLayout>
 
 

@@ -1,16 +1,15 @@
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:tools="http://schemas.android.com/tools"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:paddingStart="@dimen/horizontal_padding"
-             android:paddingEnd="@dimen/horizontal_padding"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingStart="@dimen/horizontal_padding"
+    android:paddingEnd="@dimen/horizontal_padding"
     tools:ignore="MissingDefaultResource">
 
     <!-- TODO: Update blank fragment layout -->
     <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview_all"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        android:id="@+id/recyclerview_all"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </FrameLayout>

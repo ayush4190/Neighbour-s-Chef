@@ -17,13 +17,13 @@ import java.util.List;
 public class TodaysMenuAdapter extends RecyclerView.Adapter<AllHolder> implements View.OnClickListener {
 
     private Context mContext;
-    ArrayList<ItemList> mItemList;
+    List<ItemList> mItemList;
     private List<String> s;
     public String TAG = "TODAYSMENU";
     public static ItemList n;
 
 
-    public TodaysMenuAdapter(Context mContext, ArrayList<ItemList> mItemList) {
+    public TodaysMenuAdapter(Context mContext, List<ItemList> mItemList) {
         this.mContext = mContext;
         this.mItemList = mItemList;
     }
@@ -37,39 +37,38 @@ public class TodaysMenuAdapter extends RecyclerView.Adapter<AllHolder> implement
     }
 
 
-
     @Override
     public void onBindViewHolder(AllHolder holder, int position) {
-//        mItemList.get(position);
-//        holder.mTextId.setText(String.valueOf(mItemList.get(position).getId()));
-//        holder.mTextName.setText(mItemList.get(position).getProduct_name());
-//        holder.mTextPrice.setText(String.valueOf(mItemList.get(position).getPrice()));
-////        holder.mTextCategory.setText(foods.get(position).getCategory());
-////        holder.mImageView.setImageBitmap(foods.get(position).getImage());
-//
-//        holder.itemView.setTag(mItemList.get(position).getId());
+        n = mItemList.get(position);
+        Log.v("alpha", n.getProduct_name());
+        holder.mTextId.setText(String.valueOf(n.getProduct_id()));
+        holder.mTextName.setText(n.getProduct_name());
+        holder.mTextPrice.setText(String.valueOf(n.getProduct_price()));
+//        holder.mTextCategory.setText(foods.get(position).getCategory());
+//        holder.mImageView.setImageBitmap(foods.get(position).getImage());
+
+        holder.itemView.setTag(mItemList.get(position).getProduct_id());
     }
 
-    public void addItem(ItemList eventsList,String t)
-    {
-        this.s.add(t);
+    public void addItem(ItemList eventsList, String t) {
+//        this.s.add(t);
         this.mItemList.add(eventsList);
     }
 
     @Override
     public int getItemCount() {
-        return 1;
+        return mItemList.size();
 //        foods.size();
     }
+
     public void clear() {
         mItemList.clear();
         notifyDataSetChanged();
     }
 
 
-
     public static interface OnRecyclerViewItemClickListener {
-        void onItemClick(View view , String data);
+        void onItemClick(View view, String data);
     }
 
     private OnRecyclerViewItemClickListener mOnItemClickListener = null;
@@ -77,44 +76,37 @@ public class TodaysMenuAdapter extends RecyclerView.Adapter<AllHolder> implement
     public void setOnItemClickListener(OnRecyclerViewItemClickListener listener) {
         this.mOnItemClickListener = listener;
     }
+
     @Override
     public void onClick(View view) {
 
 
         if (mOnItemClickListener != null) {
-            mOnItemClickListener.onItemClick(view,String.valueOf(view.getTag()));
-        }
-        else{
+            mOnItemClickListener.onItemClick(view, String.valueOf(view.getTag()));
+        } else {
             Log.e("CLICK", "ERROR");
         }
 
     }
 
 
-
-    }
-
-
-
-
-
-
+}
 
 
 class AllHolder extends RecyclerView.ViewHolder {
-//        NetworkImageView mImage;
-        ImageView mImageView;
-        TextView mTextId, mTextName, mTextCategory, mTextPrice;
+    //        NetworkImageView mImage;
+    ImageView mImageView;
+    TextView mTextId, mTextName, mTextCategory, mTextPrice;
 
-        public AllHolder(View itemView) {
-            super(itemView);
-            // mImage = (NetworkImageView) itemView.findViewById(R.id.food_img);
-          //  mImageView = (ImageView) itemView.findViewById(R.id.food_img);
-            mTextId = (TextView) itemView.findViewById(R.id.food_id);
-            mTextName = (TextView) itemView.findViewById(R.id.food_name);
-            mTextPrice = (TextView) itemView.findViewById(R.id.food_price);
+    public AllHolder(View itemView) {
+        super(itemView);
+        // mImage = (NetworkImageView) itemView.findViewById(R.id.food_img);
+        //  mImageView = (ImageView) itemView.findViewById(R.id.food_img);
+        mTextId = (TextView) itemView.findViewById(R.id.food_id);
+        mTextName = (TextView) itemView.findViewById(R.id.food_name);
+        mTextPrice = (TextView) itemView.findViewById(R.id.food_price);
         //    mTextId = (TextView) itemView.findViewById(R.id.food_id);
-          //  mTextCategory = (TextView) itemView.findViewById(R.id.food_category);
-        }
+        //  mTextCategory = (TextView) itemView.findViewById(R.id.food_category);
+    }
 
 }
