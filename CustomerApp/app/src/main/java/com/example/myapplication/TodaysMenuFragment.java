@@ -43,6 +43,7 @@ public class TodaysMenuFragment extends Fragment {
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_all);
         adapter = new TodaysMenuAdapter(getActivity(), mItemList);
         getItemList();
+        adapter.clear();
         mRecyclerView.setAdapter(adapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter.notifyDataSetChanged();
