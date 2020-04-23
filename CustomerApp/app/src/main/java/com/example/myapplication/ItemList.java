@@ -3,19 +3,21 @@ package com.example.myapplication;
 public class ItemList {
 
 
-    private String mImage_url, product_name, price, id;
+    private String mImage_url, product_name;
+    private Double price;
+    private int id;
 
     public ItemList() {
     }
 
-    public ItemList(String mImage_url, String product_name, String price, String id) {
+    public ItemList(String mImage_url, String product_name, Double price, int id) {
         this.mImage_url = mImage_url;
         this.product_name = product_name;
         this.price = price;
         this.id = id;
     }
 
-    public ItemList(String product_name, String price, String id) {
+    public ItemList(String product_name, Double price, int id) {
         this.product_name = product_name;
         this.price = price;
         this.id = id;
@@ -37,19 +39,21 @@ public class ItemList {
         this.product_name = product_name;
     }
 
-    public String getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
-    public String getId() {
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+
 }

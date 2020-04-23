@@ -41,13 +41,13 @@ public class TodaysMenuAdapter extends RecyclerView.Adapter<AllHolder> implement
     @Override
     public void onBindViewHolder(AllHolder holder, int position) {
 //        mItemList.get(position);
-        holder.mTextId.setText(String.valueOf(mItemList.get(position).getId()));
-        holder.mTextName.setText(mItemList.get(position).getProduct_name());
-        holder.mTextPrice.setText(String.valueOf(mItemList.get(position).getPrice()));
-//        holder.mTextCategory.setText(foods.get(position).getCategory());
-//        holder.mImageView.setImageBitmap(foods.get(position).getImage());
-
-        holder.itemView.setTag(mItemList.get(position).getId());
+//        holder.mTextId.setText(String.valueOf(mItemList.get(position).getId()));
+//        holder.mTextName.setText(mItemList.get(position).getProduct_name());
+//        holder.mTextPrice.setText(String.valueOf(mItemList.get(position).getPrice()));
+////        holder.mTextCategory.setText(foods.get(position).getCategory());
+////        holder.mImageView.setImageBitmap(foods.get(position).getImage());
+//
+//        holder.itemView.setTag(mItemList.get(position).getId());
     }
 
     public void addItem(ItemList eventsList,String t)
@@ -58,7 +58,7 @@ public class TodaysMenuAdapter extends RecyclerView.Adapter<AllHolder> implement
 
     @Override
     public int getItemCount() {
-        return mItemList.size() ;
+        return 1;
 //        foods.size();
     }
     public void clear() {

@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     public static TextView cartNumber;
+
+    public static String City;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void init() {
 
-
+        City = "Hyderabad";
         androidx.appcompat.widget.Toolbar toolbar =  findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
