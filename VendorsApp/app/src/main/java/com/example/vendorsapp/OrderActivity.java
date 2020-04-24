@@ -134,7 +134,12 @@ public class OrderActivity extends AppCompatActivity implements NavigationView.O
         if(findViewById(R.id.main_fragment_container) != null) {
             HomepageFrag homeFragment = new HomepageFrag();
             getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_container, homeFragment ,"home_frag").commit();
+
         }
+
+
+
+
 
 
 
