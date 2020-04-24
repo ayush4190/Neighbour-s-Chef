@@ -81,7 +81,7 @@ public class RestoftheWeekFragment extends Fragment {
 
     private void getItemList() {
         DatabaseReference databaseReference;
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Development");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Development").child("Rest of the week");
         Query q = databaseReference;
         q.addChildEventListener(new ChildEventListener() {
             @Override

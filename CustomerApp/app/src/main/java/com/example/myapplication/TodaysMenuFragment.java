@@ -79,7 +79,7 @@ public class TodaysMenuFragment extends Fragment {
 
     private void getItemList() {
         DatabaseReference databaseReference;
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Development");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Development").child("Today's menu");
         Query q = databaseReference;
         q.addChildEventListener(new ChildEventListener() {
             @Override

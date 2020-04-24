@@ -81,7 +81,7 @@ public class TomorrowMenuFragment extends Fragment {
 
     private void getItemList() {
         DatabaseReference databaseReference;
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Development");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Development").child("Tomorrows menu");
         Query q = databaseReference;
         q.addChildEventListener(new ChildEventListener() {
             @Override

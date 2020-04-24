@@ -8,12 +8,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 public class CartAdapter extends RecyclerView.Adapter<CartHolder> implements View.OnClickListener{
     private Context mContext;
     private final String TAG = "ADAPTER";
+    private int cartQuantity ;
+    private TextView mTextView;
 
     public CartAdapter(Context context) {
         mContext = context;
@@ -27,60 +30,29 @@ public class CartAdapter extends RecyclerView.Adapter<CartHolder> implements Vie
     }
 
     @Override
-    public void onBindViewHolder(final CartHolder holder, int position) {
+    public void onBindViewHolder(final CartHolder holder, final int position) {
 
-//        int id = ShoppingCartItem.getInstance(mContext).getFoodInCart().get(position);
-//        final Food curFood = ShoppingCartItem.getInstance(mContext).getFoodById(id);
-//        final int curFoodNumber = ShoppingCartItem.getInstance(mContext).getFoodNumber(curFood);
-//
-//        holder.mTextName.setText(curFood.getName());
-//        holder.mTextCategory.setText(curFood.getCategory());
-//        holder.mEditQuantity.setText(String.valueOf(curFoodNumber));
-//        holder.mTextPrice.setText(String.valueOf(curFoodNumber * curFood.getPrice()));
-//        holder.mImage.setImageBitmap(curFood.getImage());
+
 
         holder.btn_minus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if (curFoodNumber == 0){
-//                    return;
-//                }
-//                int currentNumber = curFoodNumber - 1;
-//                ShoppingCartItem.getInstance(mContext).setFoodNumber(curFood, currentNumber);
-//
-//
-//                HomePageActivity.cartNumber.setText(String.valueOf(ShoppingCartItem.getInstance(mContext).getSize()));
-//                CartFragment.cart_total.setText(String.valueOf(ShoppingCartItem.getInstance(mContext).getPrice()));
-//                notifyDataSetChanged();
+                Toast.makeText(mContext,"decrement",Toast.LENGTH_SHORT).show();
+
             }
         });
 
         holder.btn_plus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                if (curFoodNumber == 99){
-//                    return;
-//                }
-//                int currentNumber = curFoodNumber + 1;
-//                ShoppingCartItem.getInstance(mContext).setFoodNumber(curFood, currentNumber);
-//
-//                HomePageActivity.cartNumber.setText(String.valueOf(ShoppingCartItem.getInstance(mContext).getSize()));
-//                CartFragment.cart_total.setText(String.valueOf(ShoppingCartItem.getInstance(mContext).getPrice()));
-//                notifyDataSetChanged();
+                Toast.makeText(mContext,"increment",Toast.LENGTH_SHORT).show();
             }
         });
 
     }
 
     public void deleteData(int position) {
-//        int id = ShoppingCartItem.getInstance(mContext).getFoodInCart().get(position);
-//        Food curFood = ShoppingCartItem.getInstance(mContext).getFoodById(id);
-//        ShoppingCartItem.getInstance(mContext).setFoodNumber(curFood, 0);
-//
-//
-//        HomePageActivity.cartNumber.setText(String.valueOf(ShoppingCartItem.getInstance(mContext).getSize()));
-//        CartFragment.cart_total.setText(String.valueOf(ShoppingCartItem.getInstance(mContext).getPrice()));
-//        notifyDataSetChanged();
+
     }
 
     @Override

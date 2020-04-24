@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -40,8 +41,8 @@ public class AddItems extends Fragment  {
     private ItemDetail mitemDetail = new ItemDetail() ;
     private int count = 4; //number of items that need to be added
     boolean status= false;
-    private int id = 0; // how to create autoincrement and checks on number of fields
-    private String food_id;
+    private static int id = 1; // how to create autoincrement and checks on number of fields
+    private String food_id , menu_date;
     private Spinner spinner;
     //create a list of items for the spinner.
     String[] items = new String[]{"Select" ,"Today's menu", "Tomorrows menu", "Rest of the week"};
@@ -76,11 +77,7 @@ public class AddItems extends Fragment  {
                     quantity.setError("Field cannot be left blank");
                     count--;
                 }
-                if(TextUtils.isEmpty(item_id.getText().toString()))
-                {
-                    item_id.setError("Field cannot be left blank");
-                    count --;
-                }
+
 
     if(count == 4) {
         assignValues();
@@ -98,7 +95,7 @@ public class AddItems extends Fragment  {
         price =(EditText) view.findViewById(R.id.price);
         quantity =(EditText) view.findViewById(R.id.packet_quantity);
         item_id =  (EditText) view.findViewById(R.id.Food_Id);
-        item_id.setEnabled(true);
+        item_id.setEnabled(false);
         mImageView = (ImageView) view.findViewById(R.id.item_image);
         mButton = (Button) view.findViewById(R.id.add_item_button);
         view.requestFocus();
@@ -127,16 +124,23 @@ public class AddItems extends Fragment  {
                 return view;
             }
         };
+
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+       spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+           @Override
+           public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+               menu_date = parent.getItemAtPosition(position).toString();
+           }
 
-        // uncomment this when publishing the app ;
-      //  databaseReference = FirebaseDatabase.getInstance().getReference().child("Production");
-        food_id = String.valueOf(id +1);
-//        item_id.setText(food_id);
+           @Override
+           public void onNothingSelected(AdapterView<?> parent) {
 
+           }
+       });
+       food_id = auto_increment();
+       item_id.setText(food_id);
 
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Development").child("3");
 
 
 
@@ -145,11 +149,14 @@ public class AddItems extends Fragment  {
     private void assignValues()
     {
 
+
+
         mitemDetail.setProduct_name(item_name.getText().toString());
         mitemDetail.setProduct_price(price.getText().toString());
         mitemDetail.setProduct_quantity(quantity.getText().toString());
         mitemDetail.setProduct_id(food_id);
 
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Development").child(menu_date).child(food_id);
 
       databaseReference.setValue(mitemDetail);
 
@@ -157,9 +164,8 @@ public class AddItems extends Fragment  {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 Toast.makeText(getActivity(),"item added Succefully",Toast.LENGTH_SHORT).show();
-                id = id+1 ;
                 cleartext();
-//                startActivity(new Intent());
+
                 }
         });
 
@@ -176,7 +182,15 @@ public class AddItems extends Fragment  {
         quantity.setText("");
     }
 
-// check for on back press
+//how to check if the autoincremented value needs to be changed or not
+    // instead of auto increment try using firbase to store the count
 
 
+    private String auto_increment()
+    {
+        id = id+1 ;
+        return String.valueOf(id);
+
+
+    }
 }
