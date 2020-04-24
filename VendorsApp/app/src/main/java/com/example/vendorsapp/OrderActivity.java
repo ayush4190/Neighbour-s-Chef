@@ -5,6 +5,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.annotation.SuppressLint;
@@ -25,7 +26,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 public class OrderActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
+    FloatingActionButton fab ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,14 +103,16 @@ public class OrderActivity extends AppCompatActivity implements NavigationView.O
         setSupportActionBar(toolbar);
 
 
-        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+      fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("RestrictedApi")
             @Override
             public void onClick(View view) {
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 AddItems additems = new AddItems();
-                transaction.replace(R.id.main_fragment_container, additems).commit();
+                transaction.replace(R.id.main_fragment_container, additems);
+                transaction.addToBackStack ("add_item");
+                transaction.commit();
                 fab.setVisibility(View.GONE);
 
             }
@@ -127,6 +130,13 @@ public class OrderActivity extends AppCompatActivity implements NavigationView.O
         View navHeaderView = navigationView.inflateHeaderView(R.layout.nav_header_main);
         TextView header_mobile = (TextView) navHeaderView.findViewById(R.id.nav_mobile);
         TextView header_name = (TextView) navHeaderView.findViewById(R.id.nav_name);
+
+        if(findViewById(R.id.main_fragment_container) != null) {
+            HomepageFrag homeFragment = new HomepageFrag();
+            getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_container, homeFragment ,"home_frag").commit();
+        }
+
+
 
 
     }
@@ -151,5 +161,27 @@ public class OrderActivity extends AppCompatActivity implements NavigationView.O
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressLint("RestrictedApi")
+    @Override
+    public void onBackPressed() {
+
+
+        DrawerLayout drawer = (DrawerLayout) findViewById (R.id.drawer_layout);
+        if (drawer.isDrawerOpen (GravityCompat.START)) {
+            drawer.closeDrawer (GravityCompat.START);
+        } else  {
+            super.onBackPressed ();
+            getSupportFragmentManager ().popBackStackImmediate (null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        }
+        HomepageFrag myFragment = (HomepageFrag)getSupportFragmentManager().findFragmentByTag("home_frag");
+
+        if (myFragment != null && myFragment.isVisible()) {
+            fab.setVisibility(View.VISIBLE);
+
+        }
+
+
     }
 }

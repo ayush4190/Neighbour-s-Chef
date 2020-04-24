@@ -58,10 +58,8 @@ public class TodaysMenuFragment extends Fragment {
                     if (mItemList.get(i).getProduct_id() == data){
                         itemInfo.putString("foodId", mItemList.get(i).getProduct_id());
                         itemInfo.putString("foodName", mItemList.get(i).getProduct_name());
-//                        itemInfo.putString("foodCat", mItemList.get(i).getCategory());
-//                        itemInfo.putString("foodRec", foods.get(i).getRecepiee());
                         itemInfo.putString("foodPrice", mItemList.get(i).getProduct_price());
-                      //  itemInfo.putString("foodImage", foods.get(i).getImageUrl());
+
                         break;
                     }
                 }

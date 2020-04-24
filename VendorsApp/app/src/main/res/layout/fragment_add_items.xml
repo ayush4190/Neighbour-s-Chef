@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:layout_marginLeft="@dimen/activity_horizontal_margin"
-    android:layout_marginRight="@dimen/activity_horizontal_margin"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <LinearLayout
         android:gravity="center"
         android:layout_gravity="center"
@@ -30,10 +29,19 @@
 
     </LinearLayout>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
     <ImageView
         android:layout_margin="@dimen/activity_vertical_margin"
-        android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_gravity="center_horizontal"
         android:id="@+id/item_image"
         android:src="@drawable/food_sample"/>
@@ -50,6 +58,8 @@
             android:id="@+id/item_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:windowSoftInputMode="adjustResize|stateHidden"
+            android:nextFocusForward="@id/packet_quantity"
             android:hint="Item Name" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -63,7 +73,9 @@
             android:id="@+id/packet_quantity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:windowSoftInputMode="adjustResize|stateHidden"
             android:inputType="number"
+            android:nextFocusForward="@id/price"
             android:hint="Quantity" />
     </com.google.android.material.textfield.TextInputLayout>
     <com.google.android.material.textfield.TextInputLayout
@@ -76,7 +88,9 @@
             android:id="@+id/price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:windowSoftInputMode="adjustResize|stateHidden"
             android:inputType="number"
+            android:nextFocusForward="@id/Food_Id"
             android:hint="Price"/>
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -91,9 +105,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
              android:inputType="textAutoComplete"
+            android:windowSoftInputMode="adjustResize|stateHidden"
             android:hint="Food_Id"
             tools:ignore="TextViewEdits" />
     </com.google.android.material.textfield.TextInputLayout>
+
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:windowSoftInputMode="adjustResize|stateHidden"
+        />
+
 
 
 
@@ -109,6 +135,8 @@
         android:layout_width="match_parent"
         android:id="@+id/add_item_button"
         android:layout_height="60dp"/>
+</LinearLayout>
+    </ScrollView>
 
 
 </LinearLayout>

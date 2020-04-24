@@ -1,15 +1,18 @@
 package com.example.vendorsapp;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
@@ -39,7 +42,9 @@ public class AddItems extends Fragment  {
     boolean status= false;
     private int id = 0; // how to create autoincrement and checks on number of fields
     private String food_id;
-
+    private Spinner spinner;
+    //create a list of items for the spinner.
+    String[] items = new String[]{"Select" ,"Today's menu", "Tomorrows menu", "Rest of the week"};
 
     private DatabaseReference databaseReference  ;
     public AddItems() {
@@ -77,9 +82,9 @@ public class AddItems extends Fragment  {
                     count --;
                 }
 
-
+    if(count == 4) {
         assignValues();
-
+    }
 
             }
         });
@@ -93,17 +98,45 @@ public class AddItems extends Fragment  {
         price =(EditText) view.findViewById(R.id.price);
         quantity =(EditText) view.findViewById(R.id.packet_quantity);
         item_id =  (EditText) view.findViewById(R.id.Food_Id);
-        item_id.setEnabled(false);
+        item_id.setEnabled(true);
         mImageView = (ImageView) view.findViewById(R.id.item_image);
         mButton = (Button) view.findViewById(R.id.add_item_button);
+        view.requestFocus();
+
+        spinner = (Spinner) view.findViewById(R.id.spinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_dropdown_item, items)
+        {
+            @Override
+            public boolean isEnabled(int position) {
+                if (position == 0) {
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+
+            @Override
+            public View getDropDownView(int position, View convertView, ViewGroup parent) {
+                View view = super.getDropDownView(position, convertView, parent);
+                TextView textview = (TextView) view;
+                if (position == 0) {
+                    textview.setTextColor(Color.GREEN);
+                } else {
+                    textview.setTextColor(Color.BLACK);
+                }
+                return view;
+            }
+        };
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
 
         // uncomment this when publishing the app ;
       //  databaseReference = FirebaseDatabase.getInstance().getReference().child("Production");
         food_id = String.valueOf(id +1);
-        item_id.setText(food_id);
+//        item_id.setText(food_id);
 
 
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Development").child(food_id);
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Development").child("3");
 
 
 
