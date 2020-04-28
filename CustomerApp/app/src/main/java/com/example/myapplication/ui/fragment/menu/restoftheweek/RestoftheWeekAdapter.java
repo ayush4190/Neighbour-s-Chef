@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.fragment.menu.today;
+package com.example.myapplication.ui.fragment.menu.restoftheweek;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,12 +14,12 @@ import com.example.myapplication.ui.fragment.menu.MenuViewHolder;
 
 import java.util.List;
 
-public class TodaysMenuAdapter extends RecyclerView.Adapter<MenuViewHolder> implements View.OnClickListener {
+public class RestoftheWeekAdapter extends RecyclerView.Adapter<MenuViewHolder> implements View.OnClickListener {
     private List<Product> products;
     private List<String> s;
     public String TAG = "TODAYSMENU";
 
-    TodaysMenuAdapter(List<Product> products) {
+    RestoftheWeekAdapter(List<Product> products) {
         this.products = products;
     }
 
@@ -34,6 +34,7 @@ public class TodaysMenuAdapter extends RecyclerView.Adapter<MenuViewHolder> impl
         binding.getRoot().setOnClickListener(this);
         return new MenuViewHolder(binding);
     }
+
 
 
     @Override

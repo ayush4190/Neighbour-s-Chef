@@ -5,55 +5,53 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.fragment.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.myapplication.Order;
-import com.example.myapplication.R;
+import com.example.myapplication.databinding.FragmentHistoryBinding;
+import com.example.myapplication.model.Order;
+import com.example.myapplication.util.android.base.BaseFragment;
 
 import java.util.ArrayList;
 
-public class HistoryFragment extends Fragment {
-
-    private RecyclerView mRecyclerView;
-    private HistoryAdapter adapter;
-
+public class HistoryFragment extends BaseFragment<FragmentHistoryBinding> {
     private ArrayList<Order> orders = new ArrayList<>();
+    private HistoryAdapter adapter;
 
     private String TAG = "ORDER_HISTORY";
 
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().setTitle("History");
+        requireActivity().setTitle("History");
     }
 
-    public HistoryFragment() {
-        // Required empty public constructor
-    }
+    private HistoryFragment() {}
 
+    public static HistoryFragment newInstance() {
+        return new HistoryFragment();
+    }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_history, container, false);
+        binding = FragmentHistoryBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         if (orders.size()==0){
 
         }
 
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_history);
-        adapter = new HistoryAdapter(getContext(), orders);
-        mRecyclerView.setAdapter(adapter);
-        mRecyclerView.setHasFixedSize(true);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        return view;
+        adapter = new HistoryAdapter(orders);
+        binding.recyclerviewHistory.setAdapter(adapter);
+        binding.recyclerviewHistory.setHasFixedSize(true);
+        binding.recyclerviewHistory.setLayoutManager(new LinearLayoutManager(getContext()));
     }
-
-
-
-
-
 }
 

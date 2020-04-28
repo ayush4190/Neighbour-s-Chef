@@ -11,27 +11,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.example.myapplication.Order;
 import com.example.myapplication.R;
+import com.example.myapplication.databinding.FragmentTrackBinding;
+import com.example.myapplication.model.Order;
+import com.example.myapplication.util.android.base.BaseFragment;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-public class TrackFragment extends Fragment {
-
-    // LinearLayout Property: no data pass, invisible; get data from track, visible; after search, visible
-    private LinearLayout mLinearLayout;
-    // search part
-    private EditText mEditOrderSearch;
-    private TextView mTextSearch;
-    // display part
-    private TextView mTextID, mTextDate, mTextTotal, mTextStatus;
-    private ImageView mImageStatus;
-
-    private View fragView;
-
+public class TrackFragment extends BaseFragment<FragmentTrackBinding> {
 //    private final String baseUrl = "http://rjtmobile.com/ansari/fos/fosapp/order_track.php?&order_id=";
 
     private int orderId;
@@ -41,41 +30,41 @@ public class TrackFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().setTitle("Track");
+        requireActivity().setTitle("Track");
     }
 
-    public TrackFragment() {
-        // Required empty public constructor
-    }
+    private TrackFragment() {}
 
+    public static TrackFragment newInstance() {
+        return new TrackFragment();
+    }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        fragView = inflater.inflate(R.layout.fragment_track, container, false);
+        binding = FragmentTrackBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
 
-
-        mEditOrderSearch = (EditText) fragView.findViewById(R.id.track_edit_search);
-        mTextSearch = (TextView) fragView.findViewById(R.id.track_search);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         order = new Order();
 
-        mLinearLayout = (LinearLayout) fragView.findViewById(R.id.track_detail_block);
-        mTextSearch.setOnClickListener(new View.OnClickListener() {
+        binding.trackSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try{
-                    orderId = Integer.valueOf(mEditOrderSearch.getText().toString().trim());
-                    mLinearLayout.setVisibility(View.VISIBLE);
+                    orderId = Integer.parseInt(binding.trackEditSearch.getText().toString().trim());
+                    binding.trackDetailBlock.setVisibility(View.VISIBLE);
 //                    getData(fragView);
                     /*--------insert code to get data---*/
-                }catch (Exception e){
+                } catch (Exception e){
                     e.printStackTrace();
                     Log.e("ERROR", e.toString());
                     Toast.makeText(getActivity(), "Wrong Id Format. Please Try Again!", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
 
@@ -84,14 +73,13 @@ public class TrackFragment extends Fragment {
         if (orderBundle != null) {
             orderId = orderBundle.getInt("OrderId");
 //            getData(fragView);
-            mLinearLayout.setVisibility(View.VISIBLE);
+            binding.trackDetailBlock.setVisibility(View.VISIBLE);
         } else {
-            mLinearLayout.setVisibility(View.INVISIBLE);
+            binding.trackDetailBlock.setVisibility(View.INVISIBLE);
         }
-        return fragView;
     }
 
-//    private void getData(final View view){
+    //    private void getData(final View view){
 //        final String TAG = "TRACK_FRAGMENT";
 //        HomePageActivity.showPDialog();
 //        JsonObjectRequest jsonObjReq = new JsonObjectRequest(Request.Method.GET, buildUrl(), null, new Response.Listener<JSONObject>() {
@@ -153,26 +141,28 @@ public class TrackFragment extends Fragment {
 //    }
 
     private String parseWord(String s) {
-        if (s.equals("1")) {
-            return "Packing";
-        } else if (s.equals("2")) {
-            return "On the way";
-        } else if (s.equals("3")) {
-            return "Delivered";
-        } else {
-            return "Error";
+        switch (s) {
+            case "1":
+                return "Packing";
+            case "2":
+                return "On the way";
+            case "3":
+                return "Delivered";
+            default:
+                return "Error";
         }
     }
 
     private int parseImage(String s) {
-        if (s.equals("1")) {
-            return imageResources[0];
-        } else if (s.equals("2")) {
-            return imageResources[1];
-        } else if (s.equals("3")) {
-            return imageResources[2];
-        } else {
-            return imageResources[3];
+        switch (s) {
+            case "1":
+                return imageResources[0];
+            case "2":
+                return imageResources[1];
+            case "3":
+                return imageResources[2];
+            default:
+                return imageResources[3];
         }
     }
 

@@ -7,80 +7,62 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.fragment.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
-import com.example.myapplication.model.Product;
 import com.example.myapplication.R;
+import com.example.myapplication.databinding.FragmentItemDetailBinding;
+import com.example.myapplication.model.Product;
 import com.example.myapplication.ui.activity.cart.CartActivity;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.example.myapplication.util.android.base.BaseFragment;
 
-public class ItemDetailFragment extends Fragment {
-    TextView mTextId, mTextRecipe, mTextCategory, mTextPrice;
+import static com.example.myapplication.util.common.Constants.EXTRA_PRODUCT;
 
-    Button mButtonAdd;
-    ImageView mImageView;
-    Product mItemlist;
+public class ItemDetailFragment extends BaseFragment<FragmentItemDetailBinding> {
+    private Product product;
     final private String TAG = "FoodDetail";
-    CollapsingToolbarLayout collapsingToolbarLayout;
 
+    private ItemDetailFragment() {}
 
-    View view;
-
-    public ItemDetailFragment() {
-        // Required empty public constructor
+    public static ItemDetailFragment newInstance(Product product) {
+        ItemDetailFragment fragment = new ItemDetailFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(EXTRA_PRODUCT, product);
+        fragment.setArguments(args);
+        return fragment;
     }
-
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        view = inflater.inflate(R.layout.fragment_item_detail, container, false);
-
-       initView();
-        initFoodInfo();
-//
-        setButtonListener();
-
-
-        return view;
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = FragmentItemDetailBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
+        product = requireArguments().getParcelable(EXTRA_PRODUCT);
+        initFoodInfo();
 
-
-    private void initView(){
-        collapsingToolbarLayout = (CollapsingToolbarLayout) view.findViewById(R.id.food_detail_collapsing_toolbar);
-        collapsingToolbarLayout.setTitle("Food Name");
-        mTextId = (TextView) view.findViewById(R.id.food_detail_id);
-        mTextRecipe = (TextView) view.findViewById(R.id.food_detail_recipe);
-        mTextCategory = (TextView) view.findViewById(R.id.food_detail_category);
-        mTextPrice = (TextView) view.findViewById(R.id.food_detail_price);
-        mButtonAdd = (Button) view.findViewById(R.id.food_detail_add);
-        mImageView = (ImageView) view.findViewById(R.id.food_detail_image);
+        setButtonListener();
     }
 
     private void initFoodInfo() {
-
-        mItemlist = new Product();
-        mItemlist.setId(getArguments().getString("foodId"));
-        mItemlist.setName(getArguments().getString("foodName"));
-        mItemlist.setPrice(getArguments().getString("foodPrice"));
-        mTextId.setText(String.valueOf(mItemlist.getId()));
-        mTextPrice.setText(String.valueOf(mItemlist.getPrice()));
-        collapsingToolbarLayout.setTitle(mItemlist.getName());
+        binding.foodDetailId.setText(product.getId());
+        binding.foodDetailPrice.setText(product.getPrice());
+        binding.foodDetailCollapsingToolbar.setTitle(product.getName());
     }
 
     private void setButtonListener(){
-        mButtonAdd.setOnClickListener(new View.OnClickListener() {
+        binding.foodDetailAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
               //  ShoppingCartItem.getInstance(getContext()).addToCart(food);
-                TextView cartNumber = (TextView)getActivity().findViewById(R.id.cart_item_number);
+                TextView cartNumber = (TextView)requireActivity().findViewById(R.id.cart_item_number);
              //   cartNumber.setText(String.valueOf(ShoppingCartItem.getInstance(getContext()).getSize()));
 
                 new AlertDialog.Builder(getActivity()).setTitle("Successful!").setIcon(

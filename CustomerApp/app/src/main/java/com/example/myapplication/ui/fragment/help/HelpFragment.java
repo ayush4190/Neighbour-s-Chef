@@ -1,73 +1,51 @@
 package com.example.myapplication.ui.fragment.help;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
 
-import androidx.fragment.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
-import com.example.myapplication.R;
+import com.example.myapplication.databinding.FragmentHelpBinding;
+import com.example.myapplication.util.android.base.BaseFragment;
 
-public class HelpFragment extends Fragment {
+import static com.example.myapplication.util.android.Utility.sendEmail;
 
-    Button mButtonConfirm;
-    EditText mEditSubject, mEditContent;
+public class HelpFragment extends BaseFragment<FragmentHelpBinding> {
+    private HelpFragment() {}
 
-    public HelpFragment() {
-        // Required empty public constructor
+    public static HelpFragment newInstance() {
+        return new HelpFragment();
     }
-
 
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().setTitle("Help");
+        requireActivity().setTitle("Help");
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_help, container, false);
-        mEditContent = (EditText) v.findViewById(R.id.help_email_subject);
-        mEditSubject = (EditText) v.findViewById(R.id.help_email_content);
-        mButtonConfirm = (Button) v.findViewById(R.id.help_email_send);
-        mButtonConfirm.setOnClickListener(new View.OnClickListener() {
+        binding = FragmentHelpBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        binding.helpEmailSend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendEmail();
+                sendEmail(requireContext(),
+                        binding.helpEmailSubject.getText().toString(),
+                        binding.helpEmailContent.getText().toString()
+                );
             }
         });
-        return v;
     }
-
-    private void sendEmail() {
-        String subject = mEditSubject.getText().toString();
-        String message = mEditContent.getText().toString();
-        Intent email = new Intent(Intent.ACTION_SEND);
-        email.setData(Uri.parse("mailto:"));
-        email.setType("text/plain");
-        email.putExtra(Intent.EXTRA_EMAIL, new String[]{ "a.ayushkumar1997@gmail.com"});
-        email.putExtra(Intent.EXTRA_SUBJECT, subject);
-        email.putExtra(Intent.EXTRA_TEXT, message);
-        try {
-            startActivity(Intent.createChooser(email, "Send mail..."));
-            Log.i("Finished", "");
-            mEditContent.setText("");
-            mEditSubject.setText("");
-        } catch (android.content.ActivityNotFoundException ex) {
-            Toast.makeText(getContext(),
-                    "There is no email client installed.", Toast.LENGTH_SHORT).show();
-        }
-
-    }
-
 }
 

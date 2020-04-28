@@ -4,28 +4,23 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
-import com.example.myapplication.R;
+import com.example.myapplication.databinding.FragmentSignUpBinding;
+import com.example.myapplication.util.android.base.BaseFragment;
 
-public class SignUpFragment extends Fragment {
+public class SignUpFragment extends BaseFragment<FragmentSignUpBinding> {
+    private SignUpFragment() {}
 
-    private EditText username, mobile, email, password, repassword, address;
-    private Button btn_signUp;
-    private TextView toSignIn;
+    public static SignUpFragment newInstance() {
+        return new SignUpFragment();
+    }
 
-    private View view;
-
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_sign_up, container, false);
-
-        return view;
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        binding = FragmentSignUpBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 }

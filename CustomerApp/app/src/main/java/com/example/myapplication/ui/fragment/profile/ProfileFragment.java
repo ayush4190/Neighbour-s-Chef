@@ -6,49 +6,44 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.fragment.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.example.myapplication.R;
+import com.example.myapplication.databinding.FragmentProfileBinding;
+import com.example.myapplication.util.android.base.BaseFragment;
 
-public class ProfileFragment extends Fragment {
-
-    private TextView mTextMobile, mTextAddress;
-    private TextView mTextUpdateMobile, mTextUpdateAddress, mTextUpdatePwd;
-    private EditText mEditOldPwd, mEditNewPwd, mEditNewPwd2;
-    private Button mButtonConfirm, mButtonCancel;
-    private LinearLayout mLinearPwd;
-
+public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().setTitle("Profile");
-    }
-    public ProfileFragment() {
-        // Required empty public constructor
+        requireActivity().setTitle("Profile");
     }
 
+    private ProfileFragment() {}
+
+    public static ProfileFragment newInstance() {
+        return new ProfileFragment();
+    }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
-        mTextMobile = (TextView) view.findViewById(R.id.profile_mobile);
+        binding = FragmentProfileBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
 
-        mTextAddress = (TextView) view.findViewById(R.id.profile_address);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        mTextUpdateMobile = (TextView) view.findViewById(R.id.profile_update_mobile);
-
-        mTextUpdateMobile.setOnClickListener(new View.OnClickListener() {
+        binding.profileUpdateMobile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LayoutInflater inflater = getActivity().getLayoutInflater();
+                LayoutInflater inflater = requireActivity().getLayoutInflater();
                 View layout = inflater.inflate(R.layout.dialog_set_mobile,(ViewGroup) view.findViewById(R.id.dialog_mobile));
                 new android.app.AlertDialog.Builder(getActivity()).setTitle("Please Input Contact Information").setIcon(
                         android.R.drawable.ic_dialog_dialer).setView(
@@ -56,15 +51,15 @@ public class ProfileFragment extends Fragment {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         Dialog dialog = (Dialog) dialogInterface;
-                        EditText inputMobile = (EditText) dialog.findViewById(R.id.dialog_et_mobile);
-                        if (inputMobile.getText().toString().isEmpty()){
+                        EditText inputMobile = dialog.findViewById(R.id.dialog_et_mobile);
+                        if (inputMobile.getText().toString().isEmpty()) {
                             return;
                         }
-                        try{
-                            long number = Long.valueOf(inputMobile.getText().toString());
+                        try {
+                            long number = Long.parseLong(inputMobile.getText().toString());
 
 
-                        }catch (Exception e){
+                        } catch (Exception e){
                             Toast.makeText(getActivity(), "Please Input Correct Phone Number!", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -72,31 +67,22 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-
-        mEditOldPwd = (EditText) view.findViewById(R.id.profile_oldpwd);
-        mEditNewPwd = (EditText) view.findViewById(R.id.profile_newpwd);
-        mEditNewPwd2 = (EditText) view.findViewById(R.id.profile_newpwd2);
-        mTextUpdateAddress = (TextView)view.findViewById(R.id.profile_update_address);
-        mTextUpdateAddress.setOnClickListener(new View.OnClickListener() {
+        binding.profileUpdateAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TextView mPhone = (TextView) mLinearPwd.findViewById(R.id.profile_tv_pwd);
-                mEditOldPwd.setHint("Phone Number");
-                mPhone.setText("Mobile:");
-                TextView mPwd = (TextView) mLinearPwd.findViewById(R.id.profile_tv_newpwd);
-                mPwd.setText("Password:");
-                mEditNewPwd.setHint("Password");
-                TextView mAddr = (TextView) mLinearPwd.findViewById(R.id.profile_tv_repwd);
-                mAddr.setText("New Address");
-                mEditNewPwd2.setHint("Address");
-                mLinearPwd.setVisibility(View.VISIBLE);
-                mButtonConfirm = (Button) mLinearPwd.findViewById(R.id.profile_confirm_button);
-                mButtonConfirm.setOnClickListener(new View.OnClickListener() {
+                binding.profileTvPwd.setText("Mobile:");
+                binding.profileOldpwd.setHint("Phone Number");
+                binding.profileNewpwd.setText("Password:");
+                binding.profileNewpwd.setHint("Password");
+                binding.profileTvRepwd.setText("New Address");
+                binding.profileNewpwd2.setHint("Address");
+                binding.profilePwdLinear.setVisibility(View.VISIBLE);
+                binding.profileConfirmButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        String phone = mEditOldPwd.getText().toString();
-                        String password = mEditNewPwd.getText().toString();
-                        String address = mEditNewPwd2.getText().toString();
+                        String phone = binding.profileOldpwd.getText().toString();
+                        String password = binding.profileNewpwd.getText().toString();
+                        String address = binding.profileNewpwd2.getText().toString();
 
                     }
                 });
@@ -104,29 +90,23 @@ public class ProfileFragment extends Fragment {
 
             }
         });
-        mLinearPwd = (LinearLayout) view.findViewById(R.id.profile_pwd_linear);
-        mLinearPwd.setVisibility(View.INVISIBLE);
-        mTextUpdatePwd = (TextView) view.findViewById(R.id.profile_update_pwd);
-        mTextUpdatePwd.setOnClickListener(new View.OnClickListener() {
+        binding.profilePwdLinear.setVisibility(View.INVISIBLE);
+        binding.profileUpdatePwd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                TextView mPhone = (TextView) mLinearPwd.findViewById(R.id.profile_tv_pwd);
-                mPhone.setText("Old Password:");
-                mEditOldPwd.setHint("Old Password");
-                TextView mPwd = (TextView) mLinearPwd.findViewById(R.id.profile_tv_newpwd);
-                mPwd.setText("New Password:");
-                mEditNewPwd.setHint("New Password");
-                TextView mAddr = (TextView) mLinearPwd.findViewById(R.id.profile_tv_repwd);
-                mAddr.setText("Retype:");
-                mEditNewPwd2.setHint("Retype Password");
-                mLinearPwd.setVisibility(View.VISIBLE);
-                mButtonConfirm = (Button) mLinearPwd.findViewById(R.id.profile_confirm_button);
-                mButtonConfirm.setOnClickListener(new View.OnClickListener() {
+                binding.profileTvPwd.setText("Old Password:");
+                binding.profileOldpwd.setHint("Old Password");
+                binding.profileTvNewpwd.setText("New Password:");
+                binding.profileNewpwd.setHint("New Password");
+                binding.profileTvRepwd.setText("Retype:");
+                binding.profileNewpwd2.setHint("Retype Password");
+                binding.profilePwdLinear.setVisibility(View.VISIBLE);
+                binding.profileConfirmButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        String oldPwd = mEditOldPwd.getText().toString();
-                        String newPwd = mEditNewPwd.getText().toString();
-                        String newPwd2 = mEditNewPwd2.getText().toString();
+                        String oldPwd = binding.profileOldpwd.getText().toString();
+                        String newPwd = binding.profileNewpwd.getText().toString();
+                        String newPwd2 = binding.profileNewpwd2.getText().toString();
                         /*------use checkOldPwd() to check old pwd--------*/
 //                        if (!checkMatch(newPwd, newPwd2)) {
 //                            Toast.makeText(getContext(), "New password does not match", Toast.LENGTH_LONG).show();
@@ -143,18 +123,14 @@ public class ProfileFragment extends Fragment {
             }
         });
 
-
-        mButtonCancel = (Button) view.findViewById(R.id.profile_cancel_button);
-        mButtonCancel.setOnClickListener(new View.OnClickListener() {
+        binding.profileCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mLinearPwd.setVisibility(View.INVISIBLE);
-                mEditNewPwd.setText("");
-                mEditOldPwd.setText("");
-                mEditNewPwd2.setText("");
+                binding.profilePwdLinear.setVisibility(View.INVISIBLE);
+                binding.profileOldpwd.setText("");
+                binding.profileNewpwd.setText("");
+                binding.profileNewpwd2.setText("");
             }
         });
-        return view;
     }
-
 }

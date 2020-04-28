@@ -10,62 +10,57 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
-import androidx.fragment.app.Fragment;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
+import com.example.myapplication.databinding.FragmentCartBinding;
+import com.example.myapplication.util.android.base.BaseFragment;
 
-public class CartFragment extends Fragment {
-
-    private RecyclerView mRecyclerView;
-    public static TextView cart_total;
-private  View view ;
-    private Paint p = new Paint();
+public class CartFragment extends BaseFragment<FragmentCartBinding> {
     private CartAdapter adapter;
-    private Button mButtonCancel, mButtonCheckout;
 
-    public CartFragment() {
-        // Required empty public constructor
+    private CartFragment() {}
+
+    public static CartFragment newInstance() {
+        return new CartFragment();
     }
-
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-       view =  inflater.inflate(R.layout.fragment_cart, container, false);
-    init();
-        return view;
+        binding = FragmentCartBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        init();
+    }
 
     private void init(){
+        // binding.cartTotalPrice.setText(String.valueOf(ShoppingCartItem.getInstance(getContext()).getPrice()));
 
-        cart_total = (TextView) view.findViewById(R.id.cart_total_price);
-       // cart_total.setText(String.valueOf(ShoppingCartItem.getInstance(getContext()).getPrice()));
-
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_cart);
-        adapter = new CartAdapter(getContext());
+        adapter = new CartAdapter();
         initSwipe();
-        mRecyclerView.setAdapter(adapter);
-        mRecyclerView.setHasFixedSize(false);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.recyclerviewCart.setAdapter(adapter);
+        binding.recyclerviewCart.setHasFixedSize(false);
+        binding.recyclerviewCart.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mButtonCancel = (Button)view.findViewById(R.id.cart_back);
-        mButtonCancel.setOnClickListener(new View.OnClickListener() {
+        binding.cartBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity().finish();
+                requireActivity().finish();
             }
         });
 
-        mButtonCheckout = (Button)view.findViewById(R.id.cart_checkout);
-        mButtonCheckout.setOnClickListener(new View.OnClickListener() {
+        binding.cartCheckout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 //                CheckoutFragment checkoutFragment = new CheckoutFragment();
@@ -78,12 +73,11 @@ private  View view ;
     }
 
 
-    //
 
     private void initSwipe() {
         ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 return false;
             }
 
@@ -96,20 +90,22 @@ private  View view ;
             }
 
             @Override
-            public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX, float dY, int actionState, boolean isCurrentlyActive) {
+            public void onChildDraw(@NonNull Canvas c, @NonNull RecyclerView recyclerView,
+                                    @NonNull RecyclerView.ViewHolder viewHolder, float dX,
+                                    float dY, int actionState, boolean isCurrentlyActive) {
                 Bitmap icon;
-                if(actionState == ItemTouchHelper.ACTION_STATE_SWIPE){
-
+                if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+                    Paint p = new Paint();
                     View itemView = viewHolder.itemView;
                     float height = (float) itemView.getBottom() - (float) itemView.getTop();
                     float width = height / 3;
 
-                    if(dX < 0){
+                    if (dX < 0){
                         p.setColor(Color.parseColor("#D32F2F"));
                         RectF background = new RectF((float) itemView.getRight() + dX, (float) itemView.getTop(),(float) itemView.getRight(), (float) itemView.getBottom());
                         c.drawRect(background,p);
                         icon = BitmapFactory.decodeResource(getResources(), R.drawable.delete);
-                        RectF icon_dest = new RectF((float) itemView.getRight() - 2*width ,(float) itemView.getTop() + width,(float) itemView.getRight() - width,(float)itemView.getBottom() - width);
+                        RectF icon_dest = new RectF((float) itemView.getRight() - 2 * width ,(float) itemView.getTop() + width,(float) itemView.getRight() - width,(float)itemView.getBottom() - width);
                         c.drawBitmap(icon,null,icon_dest,p);
                     }
                 }
@@ -117,8 +113,6 @@ private  View view ;
             }
         };
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
-        itemTouchHelper.attachToRecyclerView(mRecyclerView);
-
+        itemTouchHelper.attachToRecyclerView(binding.recyclerviewCart);
     }
-    //
 }

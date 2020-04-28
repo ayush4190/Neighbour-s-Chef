@@ -1,11 +1,5 @@
 package com.example.myapplication.ui.activity.main;
 
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentTransaction;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,40 +7,47 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.example.myapplication.R;
+import com.example.myapplication.databinding.ActivityMainBinding;
+import com.example.myapplication.ui.activity.cart.CartActivity;
 import com.example.myapplication.ui.fragment.help.HelpFragment;
 import com.example.myapplication.ui.fragment.history.HistoryFragment;
 import com.example.myapplication.ui.fragment.home.HomeFragment;
 import com.example.myapplication.ui.fragment.profile.ProfileFragment;
-import com.example.myapplication.R;
 import com.example.myapplication.ui.fragment.track.TrackFragment;
-import com.example.myapplication.ui.activity.cart.CartActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+    private ActivityMainBinding binding;
 
+    public TextView cartNumber;
 
-    public static TextView cartNumber;
+    public static String city;
 
-    public static String City;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
         init();
     }
 
-
-
-
     private void init() {
-
-        City = "Hyderabad";
-        androidx.appcompat.widget.Toolbar toolbar =  findViewById(R.id.toolbar);
+        city = "Hyderabad";
+        Toolbar toolbar =  findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-       FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        cartNumber = (TextView) findViewById(R.id.cart_item_number);
+        FloatingActionButton fab = findViewById(R.id.fab);
+        cartNumber = findViewById(R.id.cart_item_number);
 //        cartNumber.setText(String.valueOf(ShoppingCartItem.getInstance(this).getSize()));
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,28 +56,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-       DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(MainActivity.this , drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         View navHeaderView = navigationView.inflateHeaderView(R.layout.nav_header_main);
-        TextView header_mobile = (TextView) navHeaderView.findViewById(R.id.nav_mobile);
-        TextView header_name = (TextView) navHeaderView.findViewById(R.id.nav_name);
+        TextView header_mobile = navHeaderView.findViewById(R.id.nav_mobile);
+        TextView header_name = navHeaderView.findViewById(R.id.nav_name);
 
-
-        if(findViewById(R.id.main_fragment_container) != null) {
-            HomeFragment homeFragment = new HomeFragment();
+        if (findViewById(R.id.main_fragment_container) != null) {
+            HomeFragment homeFragment = HomeFragment.newInstance();
             getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_container, homeFragment).commit();
         }
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -106,33 +106,32 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-     FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         switch (id) {
             case R.id.nav_home:
-                HomeFragment homeFragment = new HomeFragment();
+                HomeFragment homeFragment = HomeFragment.newInstance();
                 transaction.replace(R.id.main_fragment_container, homeFragment).commit();
                 break;
             case R.id.nav_addr:
                 break;
             case R.id.nav_profile:
-                ProfileFragment profileFragment = new ProfileFragment();
+                ProfileFragment profileFragment = ProfileFragment.newInstance();
                 transaction.replace(R.id.main_fragment_container, profileFragment).commit();
                 break;
             case R.id.nav_history:
-                HistoryFragment historyFragment = new HistoryFragment();
+                HistoryFragment historyFragment = HistoryFragment.newInstance();
                 transaction.replace(R.id.main_fragment_container, historyFragment).commit();
                 break;
             case R.id.nav_track:
-                TrackFragment trackFragment = new TrackFragment();
+                TrackFragment trackFragment = TrackFragment.newInstance();
                 transaction.replace(R.id.main_fragment_container, trackFragment).commit();
                 break;
             case R.id.nav_help:
-                HelpFragment helpFragment = new HelpFragment();
+                HelpFragment helpFragment = HelpFragment.newInstance();
                 transaction.replace(R.id.main_fragment_container, helpFragment).commit();
                 break;
             case R.id.nav_rate:
@@ -143,11 +142,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
-
 }
 

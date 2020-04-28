@@ -5,43 +5,38 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
-import com.example.myapplication.R;
+import com.example.myapplication.databinding.FragmentSignInBinding;
 import com.example.myapplication.ui.activity.main.MainActivity;
+import com.example.myapplication.util.android.base.BaseFragment;
 
-public class SignInFragment extends Fragment {
+public class SignInFragment extends BaseFragment<FragmentSignInBinding> {
+    private SignInFragment() {}
 
-    // Declare all views name;
-    View view;
-    //    Button btn_signIn;
-    EditText mobile, password;
-    TextView toSignUp;
-    Button mSignIn ;
-
-
-
+    public static SignInFragment newInstance() {
+        return new SignInFragment();
+    }
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_sign_in, container, false);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        binding = FragmentSignInBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
 
-        mSignIn = (Button) view.findViewById(R.id.sign_in_btn);
-        mSignIn.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        binding.btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), MainActivity.class);
                 startActivity(intent);
             }
         });
-        return view;
     }
-
-
 }

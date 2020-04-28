@@ -1,6 +1,9 @@
 package com.example.myapplication.model;
 
-public class Product {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Product implements Parcelable {
     private String id;
     private String name;
     private String price;
@@ -16,6 +19,15 @@ public class Product {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
+    }
+
+    private Product(Parcel parcel) {
+        this(
+          parcel.readString(),
+          parcel.readString(),
+          parcel.readString(),
+          parcel.readString()
+        );
     }
 
     public String getId() {
@@ -49,4 +61,29 @@ public class Product {
     public void setQuantity(String quantity) {
         this.quantity = quantity;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(name);
+        dest.writeString(price);
+        dest.writeString(quantity);
+    }
+
+    public static Parcelable.Creator<Product> CREATOR = new Parcelable.Creator<Product>() {
+        @Override
+        public Product createFromParcel(Parcel source) {
+            return new Product(source);
+        }
+
+        @Override
+        public Product[] newArray(int size) {
+            return new Product[size];
+        }
+    };
 }
