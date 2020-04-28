@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.ui.fragment.help;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+
+import com.example.myapplication.R;
 
 public class HelpFragment extends Fragment {
 

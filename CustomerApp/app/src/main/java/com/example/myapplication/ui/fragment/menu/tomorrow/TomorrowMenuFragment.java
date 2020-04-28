@@ -1,7 +1,6 @@
-package com.example.myapplication;
+package com.example.myapplication.ui.fragment.menu.tomorrow;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,9 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.myapplication.R;
+import com.example.myapplication.model.ItemList;
+import com.example.myapplication.ui.fragment.details.ItemDetailFragment;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -22,26 +24,26 @@ import com.google.firebase.database.Query;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TodaysMenuFragment extends Fragment {
+public class TomorrowMenuFragment extends Fragment {
 
     private List<ItemList> mItemList = new ArrayList<>();
     private RecyclerView mRecyclerView;
-    private TodaysMenuAdapter adapter;
+    private TomorrowMenuAdapter adapter;
 
 
-    public TodaysMenuFragment() {
+    public TomorrowMenuFragment() {
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.todays_menufrag, container, false);
+        return inflater.inflate(R.layout.fragment_tomorrow_tab, container, false);
     }
 
 
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_all);
-        adapter = new TodaysMenuAdapter(getActivity(), mItemList);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_veg);
+        adapter = new TomorrowMenuAdapter(getActivity(), mItemList);
         getItemList();
         adapter.clear();
         mRecyclerView.setAdapter(adapter);
@@ -50,7 +52,7 @@ public class TodaysMenuFragment extends Fragment {
 
 
         mRecyclerView.setHasFixedSize(false);
-        adapter.setOnItemClickListener(new TodaysMenuAdapter.OnRecyclerViewItemClickListener() {
+        adapter.setOnItemClickListener(new TomorrowMenuAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, String data) {
                 Bundle itemInfo = new Bundle();
@@ -58,8 +60,10 @@ public class TodaysMenuFragment extends Fragment {
                     if (mItemList.get(i).getProduct_id() == data){
                         itemInfo.putString("foodId", mItemList.get(i).getProduct_id());
                         itemInfo.putString("foodName", mItemList.get(i).getProduct_name());
+//                        itemInfo.putString("foodCat", mItemList.get(i).getCategory());
+//                        itemInfo.putString("foodRec", foods.get(i).getRecepiee());
                         itemInfo.putString("foodPrice", mItemList.get(i).getProduct_price());
-
+                        //  itemInfo.putString("foodImage", foods.get(i).getImageUrl());
                         break;
                     }
                 }
@@ -69,7 +73,7 @@ public class TodaysMenuFragment extends Fragment {
                         .beginTransaction()
                         .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
                         .replace(R.id.main_fragment_container, foodDetailFragment)
-                        .addToBackStack(TodaysMenuFragment.class.getName())
+                        .addToBackStack(TomorrowMenuFragment.class.getName())
                         .commit();
             }
         });
@@ -79,7 +83,7 @@ public class TodaysMenuFragment extends Fragment {
 
     private void getItemList() {
         DatabaseReference databaseReference;
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Development").child("Today's menu");
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("Development").child("Tomorrows menu");
         Query q = databaseReference;
         q.addChildEventListener(new ChildEventListener() {
             @Override

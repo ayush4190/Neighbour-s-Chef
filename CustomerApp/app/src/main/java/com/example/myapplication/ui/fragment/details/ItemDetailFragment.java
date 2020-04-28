@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.ui.fragment.details;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -13,6 +13,9 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.example.myapplication.model.ItemList;
+import com.example.myapplication.R;
+import com.example.myapplication.ui.activity.cart.CartActivity;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 public class ItemDetailFragment extends Fragment {

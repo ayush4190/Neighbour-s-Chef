@@ -1,8 +1,11 @@
-package com.example.myapplication;
+package com.example.myapplication.ui.activity.cart;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.myapplication.ui.fragment.cart.CartFragment;
+import com.example.myapplication.R;
 
 public class CartActivity extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.model;
 
 public class ItemList {
 
@@ -8,7 +8,7 @@ public class ItemList {
     private String product_price;
     private String product_quantity;
 
-    ItemList() {
+    public ItemList() {
     }
 
     public ItemList(String product_id, String product_name, String product_price, String product_quantity) {

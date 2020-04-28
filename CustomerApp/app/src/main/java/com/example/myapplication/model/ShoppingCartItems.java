@@ -1,6 +1,4 @@
-package com.example.myapplication;
-
-import android.content.Context;
+package com.example.myapplication.model;
 
 import java.util.ArrayList;
 

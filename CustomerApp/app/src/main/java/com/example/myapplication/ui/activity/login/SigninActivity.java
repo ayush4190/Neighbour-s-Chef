@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.ui.activity.login;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -10,6 +10,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.myapplication.R;
+import com.example.myapplication.ui.fragment.login.SignInFragment;
+import com.example.myapplication.ui.fragment.register.SignUpFragment;
 import com.google.android.material.tabs.TabLayout;
 
 

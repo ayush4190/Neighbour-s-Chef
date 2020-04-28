@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.ui.fragment.history;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.myapplication.Order;
+import com.example.myapplication.R;
 
 import java.util.ArrayList;
 

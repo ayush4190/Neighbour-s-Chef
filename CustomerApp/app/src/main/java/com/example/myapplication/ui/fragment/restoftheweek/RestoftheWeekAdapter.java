@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.ui.fragment.restoftheweek;
 
 import android.content.Context;
 import android.util.Log;
@@ -8,11 +8,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
-import java.util.ArrayList;
+import com.example.myapplication.R;
+import com.example.myapplication.model.ItemList;
+
 import java.util.List;
 
 public class RestoftheWeekAdapter extends RecyclerView.Adapter<RestWeekHolder> implements View.OnClickListener {

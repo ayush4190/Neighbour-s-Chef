@@ -1,6 +1,5 @@
-package com.example.myapplication;
+package com.example.myapplication.ui.activity.main;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.GravityCompat;
@@ -13,9 +12,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.Toolbar;
 
+import com.example.myapplication.ui.fragment.help.HelpFragment;
+import com.example.myapplication.ui.fragment.history.HistoryFragment;
+import com.example.myapplication.ui.fragment.home.HomeFragment;
+import com.example.myapplication.ui.fragment.profile.ProfileFragment;
+import com.example.myapplication.R;
+import com.example.myapplication.ui.fragment.track.TrackFragment;
+import com.example.myapplication.ui.activity.cart.CartActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 

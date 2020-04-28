@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.ui.fragment.menu.today;
 
 import android.content.Context;
 import android.util.Log;
@@ -8,14 +8,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
-import java.util.ArrayList;
+import com.example.myapplication.R;
+import com.example.myapplication.model.ItemList;
+
 import java.util.List;
 
-public class TomorrowMenuAdapter extends RecyclerView.Adapter<TomorrowHolder> implements View.OnClickListener {
+public class TodaysMenuAdapter extends RecyclerView.Adapter<AllHolder> implements View.OnClickListener {
 
     private Context mContext;
     List<ItemList> mItemList;
@@ -24,23 +24,22 @@ public class TomorrowMenuAdapter extends RecyclerView.Adapter<TomorrowHolder> im
     public static ItemList n;
 
 
-    public TomorrowMenuAdapter(Context mContext, List<ItemList> mItemList) {
+    public TodaysMenuAdapter(Context mContext, List<ItemList> mItemList) {
         this.mContext = mContext;
         this.mItemList = mItemList;
     }
 
     @Override
-    public TomorrowHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public AllHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(mContext).inflate(R.layout.cardview_food, parent, false);
-         TomorrowHolder allHolder = new TomorrowHolder(v);
+        AllHolder allHolder = new AllHolder(v);
         v.setOnClickListener(this);
         return allHolder;
     }
 
 
-
     @Override
-    public void onBindViewHolder(TomorrowHolder holder, int position) {
+    public void onBindViewHolder(AllHolder holder, int position) {
         n = mItemList.get(position);
         Log.v("alpha", n.getProduct_name());
         holder.mTextId.setText(String.valueOf(n.getProduct_id()));
@@ -95,12 +94,12 @@ public class TomorrowMenuAdapter extends RecyclerView.Adapter<TomorrowHolder> im
 }
 
 
-class TomorrowHolder extends RecyclerView.ViewHolder {
+class AllHolder extends RecyclerView.ViewHolder {
     //        NetworkImageView mImage;
     ImageView mImageView;
     TextView mTextId, mTextName, mTextCategory, mTextPrice;
 
-    public TomorrowHolder(View itemView) {
+    public AllHolder(View itemView) {
         super(itemView);
         // mImage = (NetworkImageView) itemView.findViewById(R.id.food_img);
         //  mImageView = (ImageView) itemView.findViewById(R.id.food_img);
@@ -110,6 +109,5 @@ class TomorrowHolder extends RecyclerView.ViewHolder {
         //    mTextId = (TextView) itemView.findViewById(R.id.food_id);
         //  mTextCategory = (TextView) itemView.findViewById(R.id.food_category);
     }
-
 
 }

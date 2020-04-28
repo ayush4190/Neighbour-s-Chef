@@ -1,18 +1,16 @@
-package com.example.myapplication;
+package com.example.myapplication.ui.fragment.history;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.example.myapplication.Order;
+import com.example.myapplication.R;
 
 import java.util.ArrayList;
 

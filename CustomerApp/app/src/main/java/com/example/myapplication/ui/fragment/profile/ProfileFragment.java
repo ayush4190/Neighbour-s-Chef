@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.ui.fragment.profile;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -13,6 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+
+import com.example.myapplication.R;
 
 public class ProfileFragment extends Fragment {
 

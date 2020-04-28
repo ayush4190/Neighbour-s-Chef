@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.ui.fragment.cart;
 
 import android.content.Context;
 import android.util.Log;
@@ -11,6 +11,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.myapplication.R;
+import com.example.myapplication.ui.fragment.menu.today.TodaysMenuAdapter;
 
 public class CartAdapter extends RecyclerView.Adapter<CartHolder> implements View.OnClickListener{
     private Context mContext;
