@@ -14,7 +14,7 @@ import com.example.myapplication.util.android.base.BaseFragment;
 import com.google.android.material.tabs.TabLayout;
 
 public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
-    private HomeFragment() {}
+    public HomeFragment() {}
 
     public static HomeFragment newInstance() {
         return new HomeFragment();

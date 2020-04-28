@@ -19,11 +19,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
 import com.example.myapplication.databinding.FragmentCartBinding;
+import com.example.myapplication.model.Product;
+import com.example.myapplication.ui.fragment.checkout.CheckOutFragment;
+import com.example.myapplication.ui.fragment.details.ItemDetailFragment;
+import com.example.myapplication.ui.fragment.menu.tomorrow.TomorrowMenuFragment;
 import com.example.myapplication.util.android.base.BaseFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CartFragment extends BaseFragment<FragmentCartBinding> {
     private CartAdapter adapter;
-
+    private List<Product> products = new ArrayList<>();
     private CartFragment() {}
 
     public static CartFragment newInstance() {
@@ -63,11 +70,16 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
         binding.cartCheckout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                CheckoutFragment checkoutFragment = new CheckoutFragment();
-//                getActivity().getSupportFragmentManager().beginTransaction()
-//                        .replace(R.id.cart_container, checkoutFragment)
-//                        .addToBackStack(CartFragment.class.getName())
-//                        .commit();
+
+               CheckOutFragment checkOutFragment= new CheckOutFragment();
+                requireActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
+                        .replace(R.id.main_fragment_container, checkOutFragment)
+                        .addToBackStack(CartFragment.class.getName())
+                        .commit();
+
+
             }
         });
     }

@@ -24,7 +24,7 @@ public class ItemDetailFragment extends BaseFragment<FragmentItemDetailBinding> 
     private Product product;
     final private String TAG = "FoodDetail";
 
-    private ItemDetailFragment() {}
+    public ItemDetailFragment() {}
 
     public static ItemDetailFragment newInstance(Product product) {
         ItemDetailFragment fragment = new ItemDetailFragment();

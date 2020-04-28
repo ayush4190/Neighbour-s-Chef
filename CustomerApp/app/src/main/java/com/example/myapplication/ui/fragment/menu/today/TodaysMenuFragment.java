@@ -1,6 +1,7 @@
 package com.example.myapplication.ui.fragment.menu.today;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +29,7 @@ public class TodaysMenuFragment extends BaseFragment<TodaysMenufragBinding> {
     private List<Product> products = new ArrayList<>();
     private TodaysMenuAdapter adapter;
 
-    private TodaysMenuFragment() {}
+    public TodaysMenuFragment() {}
 
     public static TodaysMenuFragment newInstance() {
         return new TodaysMenuFragment();
@@ -82,11 +83,14 @@ public class TodaysMenuFragment extends BaseFragment<TodaysMenufragBinding> {
         q.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
                 if (dataSnapshot.exists()) {
-                    Product data = dataSnapshot.getValue(Product.class);
-                    adapter.addItem(data, dataSnapshot.getKey());
-                    adapter.notifyDataSetChanged();
-                    binding.recyclerviewAll.setAdapter(adapter);
+                    Log.v("ds_id", dataSnapshot.getKey());
+                        Product data = dataSnapshot.getValue(Product.class);
+                        adapter.addItem(data, dataSnapshot.getKey());
+                        adapter.notifyDataSetChanged();
+                        binding.recyclerviewAll.setAdapter(adapter);
+
                 }
             }
 

@@ -28,7 +28,7 @@ public class RestoftheWeekFragment extends BaseFragment<FragmentRestOfTheWeekTab
     private List<Product> products = new ArrayList<>();
     private RestoftheWeekAdapter adapter;
 
-    private RestoftheWeekFragment() {}
+    public RestoftheWeekFragment() {}
 
     public static RestoftheWeekFragment newInstance() {
         return new RestoftheWeekFragment();
@@ -44,7 +44,7 @@ public class RestoftheWeekFragment extends BaseFragment<FragmentRestOfTheWeekTab
         super.onViewCreated(view, savedInstanceState);
 
         adapter = new RestoftheWeekAdapter(products);
-        getItemList();
+       getItemList();
         adapter.clear();
         binding.recyclerviewNonveg.setAdapter(adapter);
         binding.recyclerviewNonveg.setLayoutManager(new LinearLayoutManager(getContext()));

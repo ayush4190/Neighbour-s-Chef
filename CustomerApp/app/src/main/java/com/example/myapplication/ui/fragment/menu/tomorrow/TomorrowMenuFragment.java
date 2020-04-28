@@ -28,7 +28,7 @@ public class TomorrowMenuFragment extends BaseFragment<FragmentTomorrowTabBindin
     private List<Product> products = new ArrayList<>();
     private TomorrowMenuAdapter adapter;
 
-    private TomorrowMenuFragment() {}
+    public TomorrowMenuFragment() {}
 
     public static TomorrowMenuFragment newInstance() {
         return new TomorrowMenuFragment();

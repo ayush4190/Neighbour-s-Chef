@@ -2,11 +2,11 @@
             xmlns:tools="http://schemas.android.com/tools"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:context="com.example.guanzhuli.foody.CartPage.fragment.CheckoutFragment">
+            android:layout_height="match_parent">
 
     <!-- TODO: Update blank fragment layout -->
-    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="match_parent"
                   android:orientation="vertical">
         <LinearLayout
                 android:orientation="horizontal"

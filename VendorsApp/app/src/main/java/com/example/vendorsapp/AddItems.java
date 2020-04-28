@@ -151,10 +151,10 @@ public class AddItems extends Fragment  {
 
 
 
-        mitemDetail.setProduct_name(item_name.getText().toString());
-        mitemDetail.setProduct_price(price.getText().toString());
-        mitemDetail.setProduct_quantity(quantity.getText().toString());
-        mitemDetail.setProduct_id(food_id);
+        mitemDetail.setName(item_name.getText().toString());
+        mitemDetail.setPrice(price.getText().toString());
+        mitemDetail.setQuantity(quantity.getText().toString());
+        mitemDetail.setId(food_id);
 
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Development").child(menu_date).child(food_id);
 

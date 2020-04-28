@@ -14,7 +14,8 @@ import com.example.myapplication.ui.activity.main.MainActivity;
 import com.example.myapplication.util.android.base.BaseFragment;
 
 public class SignInFragment extends BaseFragment<FragmentSignInBinding> {
-    private SignInFragment() {}
+    public SignInFragment() {
+    }
 
     public static SignInFragment newInstance() {
         return new SignInFragment();

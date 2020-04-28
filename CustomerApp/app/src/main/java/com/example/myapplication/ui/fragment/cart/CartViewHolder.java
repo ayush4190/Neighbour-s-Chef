@@ -20,6 +20,7 @@ class CartViewHolder extends BaseViewHolder<CardviewCartBinding, Cart> {
         binding.cartBtnMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Toast.makeText(binding.getRoot().getContext(),"decrement",Toast.LENGTH_SHORT).show();
             }
         });
@@ -28,7 +29,12 @@ class CartViewHolder extends BaseViewHolder<CardviewCartBinding, Cart> {
             @Override
             public void onClick(View view) {
                 Toast.makeText(binding.getRoot().getContext(),"increment",Toast.LENGTH_SHORT).show();
+
             }
+
+
         });
     }
+
+
 }
