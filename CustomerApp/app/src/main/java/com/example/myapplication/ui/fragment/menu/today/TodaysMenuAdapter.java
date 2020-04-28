@@ -11,22 +11,22 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.model.ItemList;
+import com.example.myapplication.model.Product;
 
 import java.util.List;
 
 public class TodaysMenuAdapter extends RecyclerView.Adapter<AllHolder> implements View.OnClickListener {
 
     private Context mContext;
-    List<ItemList> mItemList;
+    List<Product> mProduct;
     private List<String> s;
     public String TAG = "TODAYSMENU";
-    public static ItemList n;
+    public static Product n;
 
 
-    public TodaysMenuAdapter(Context mContext, List<ItemList> mItemList) {
+    public TodaysMenuAdapter(Context mContext, List<Product> mProduct) {
         this.mContext = mContext;
-        this.mItemList = mItemList;
+        this.mProduct = mProduct;
     }
 
     @Override
@@ -40,30 +40,30 @@ public class TodaysMenuAdapter extends RecyclerView.Adapter<AllHolder> implement
 
     @Override
     public void onBindViewHolder(AllHolder holder, int position) {
-        n = mItemList.get(position);
-        Log.v("alpha", n.getProduct_name());
-        holder.mTextId.setText(String.valueOf(n.getProduct_id()));
-        holder.mTextName.setText(n.getProduct_name());
-        holder.mTextPrice.setText(String.valueOf(n.getProduct_price()));
+        n = mProduct.get(position);
+        Log.v("alpha", n.getName());
+        holder.mTextId.setText(String.valueOf(n.getId()));
+        holder.mTextName.setText(n.getName());
+        holder.mTextPrice.setText(String.valueOf(n.getPrice()));
 //        holder.mTextCategory.setText(foods.get(position).getCategory());
 //        holder.mImageView.setImageBitmap(foods.get(position).getImage());
 
-        holder.itemView.setTag(mItemList.get(position).getProduct_id());
+        holder.itemView.setTag(mProduct.get(position).getId());
     }
 
-    public void addItem(ItemList eventsList, String t) {
+    public void addItem(Product eventsList, String t) {
 //        this.s.add(t);
-        this.mItemList.add(eventsList);
+        this.mProduct.add(eventsList);
     }
 
     @Override
     public int getItemCount() {
-        return mItemList.size();
+        return mProduct.size();
 //        foods.size();
     }
 
     public void clear() {
-        mItemList.clear();
+        mProduct.clear();
         notifyDataSetChanged();
     }
 

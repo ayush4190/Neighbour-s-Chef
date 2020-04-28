@@ -1,91 +1,89 @@
-package com.example.myapplication;
+package com.example.myapplication.model;
 
 public class Order {
+    private int id;
+    private String name;
+    private int quantity;
+    private double total;
+    private String category;
+    private String date;
+    private String address;
+    private String status;
 
-    private int mId;
-    private String mName;
-    private int mQuantity;
-    private double mTotal;
-    private String mCategory;
-    private String mDate;
-    private String mAddress;
-    private String mStatus;
+    public Order() {}
 
-    public Order() {
+    public Order(int id, String name, int quantity, double total, String category, String date, String address, String status) {
+        this.id = id;
+        this.name = name;
+        this.quantity = quantity;
+        this.total = total;
+        this.category = category;
+        this.date = date;
+        this.address = address;
+        this.status = status;
     }
 
-    public Order(int mId, String mName, int mQuantity, double mTotal, String mCategory, String mDate, String mAddress, String mStatus) {
-        this.mId = mId;
-        this.mName = mName;
-        this.mQuantity = mQuantity;
-        this.mTotal = mTotal;
-        this.mCategory = mCategory;
-        this.mDate = mDate;
-        this.mAddress = mAddress;
-        this.mStatus = mStatus;
+    public int getId() {
+        return id;
     }
 
-    public int getmId() {
-        return mId;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public void setmId(int mId) {
-        this.mId = mId;
+    public String getName() {
+        return name;
     }
 
-    public String getmName() {
-        return mName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setmName(String mName) {
-        this.mName = mName;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public int getmQuantity() {
-        return mQuantity;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
-    public void setmQuantity(int mQuantity) {
-        this.mQuantity = mQuantity;
+    public double getTotal() {
+        return total;
     }
 
-    public double getmTotal() {
-        return mTotal;
+    public void setTotal(double total) {
+        this.total = total;
     }
 
-    public void setmTotal(double mTotal) {
-        this.mTotal = mTotal;
+    public String getCategory() {
+        return category;
     }
 
-    public String getmCategory() {
-        return mCategory;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
-    public void setmCategory(String mCategory) {
-        this.mCategory = mCategory;
+    public String getDate() {
+        return date;
     }
 
-    public String getmDate() {
-        return mDate;
+    public void setDate(String date) {
+        this.date = date;
     }
 
-    public void setmDate(String mDate) {
-        this.mDate = mDate;
+    public String getAddress() {
+        return address;
     }
 
-    public String getmAddress() {
-        return mAddress;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public void setmAddress(String mAddress) {
-        this.mAddress = mAddress;
+    public String getStatus() {
+        return status;
     }
 
-    public String getmStatus() {
-        return mStatus;
-    }
-
-    public void setmStatus(String mStatus) {
-        this.mStatus = mStatus;
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

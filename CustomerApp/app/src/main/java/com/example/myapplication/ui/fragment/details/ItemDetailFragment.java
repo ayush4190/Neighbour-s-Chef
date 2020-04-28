@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-import com.example.myapplication.model.ItemList;
+import com.example.myapplication.model.Product;
 import com.example.myapplication.R;
 import com.example.myapplication.ui.activity.cart.CartActivity;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
@@ -23,7 +23,7 @@ public class ItemDetailFragment extends Fragment {
 
     Button mButtonAdd;
     ImageView mImageView;
-    ItemList mItemlist;
+    Product mItemlist;
     final private String TAG = "FoodDetail";
     CollapsingToolbarLayout collapsingToolbarLayout;
 
@@ -65,13 +65,13 @@ public class ItemDetailFragment extends Fragment {
 
     private void initFoodInfo() {
 
-        mItemlist = new ItemList();
-        mItemlist.setProduct_id(getArguments().getString("foodId"));
-        mItemlist.setProduct_name(getArguments().getString("foodName"));
-        mItemlist.setProduct_price(getArguments().getString("foodPrice"));
-        mTextId.setText(String.valueOf(mItemlist.getProduct_id()));
-        mTextPrice.setText(String.valueOf(mItemlist.getProduct_price()));
-        collapsingToolbarLayout.setTitle(mItemlist.getProduct_name());
+        mItemlist = new Product();
+        mItemlist.setId(getArguments().getString("foodId"));
+        mItemlist.setName(getArguments().getString("foodName"));
+        mItemlist.setPrice(getArguments().getString("foodPrice"));
+        mTextId.setText(String.valueOf(mItemlist.getId()));
+        mTextPrice.setText(String.valueOf(mItemlist.getPrice()));
+        collapsingToolbarLayout.setTitle(mItemlist.getName());
     }
 
     private void setButtonListener(){

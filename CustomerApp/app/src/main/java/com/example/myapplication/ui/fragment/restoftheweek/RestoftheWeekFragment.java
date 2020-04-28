@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.R;
-import com.example.myapplication.model.ItemList;
+import com.example.myapplication.model.Product;
 import com.example.myapplication.ui.fragment.details.ItemDetailFragment;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -26,7 +26,7 @@ import java.util.List;
 
 public class RestoftheWeekFragment extends Fragment {
 
-    private List<ItemList> mItemList = new ArrayList<>();
+    private List<Product> mProduct = new ArrayList<>();
     private RecyclerView mRecyclerView;
     private RestoftheWeekAdapter adapter;
 
@@ -43,7 +43,7 @@ public class RestoftheWeekFragment extends Fragment {
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recyclerview_nonveg);
-        adapter = new RestoftheWeekAdapter(getActivity(), mItemList);
+        adapter = new RestoftheWeekAdapter(getActivity(), mProduct);
         getItemList();
         adapter.clear();
         mRecyclerView.setAdapter(adapter);
@@ -56,13 +56,13 @@ public class RestoftheWeekFragment extends Fragment {
             @Override
             public void onItemClick(View view, String data) {
                 Bundle itemInfo = new Bundle();
-                for (int i=0; i<mItemList.size(); i++){
-                    if (mItemList.get(i).getProduct_id() == data){
-                        itemInfo.putString("foodId", mItemList.get(i).getProduct_id());
-                        itemInfo.putString("foodName", mItemList.get(i).getProduct_name());
+                for (int i = 0; i< mProduct.size(); i++){
+                    if (mProduct.get(i).getId() == data){
+                        itemInfo.putString("foodId", mProduct.get(i).getId());
+                        itemInfo.putString("foodName", mProduct.get(i).getName());
 //                        itemInfo.putString("foodCat", mItemList.get(i).getCategory());
 //                        itemInfo.putString("foodRec", foods.get(i).getRecepiee());
-                        itemInfo.putString("foodPrice", mItemList.get(i).getProduct_price());
+                        itemInfo.putString("foodPrice", mProduct.get(i).getPrice());
                         //  itemInfo.putString("foodImage", foods.get(i).getImageUrl());
                         break;
                     }
@@ -89,7 +89,7 @@ public class RestoftheWeekFragment extends Fragment {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 if (dataSnapshot.exists()) {
-                    ItemList data = dataSnapshot.getValue(ItemList.class);
+                    Product data = dataSnapshot.getValue(Product.class);
                     adapter.addItem(data, dataSnapshot.getKey());
                     adapter.notifyDataSetChanged();
                     mRecyclerView.setAdapter(adapter);

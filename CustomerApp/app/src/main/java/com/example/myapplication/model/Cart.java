@@ -2,22 +2,20 @@ package com.example.myapplication.model;
 
 import java.util.ArrayList;
 
-public class ShoppingCartItems {
+public class Cart {
     private static ArrayList<Integer> foodsId;
-    private static ShoppingCartItems instance = null;
+    private static Cart instance = null;
     private int totalNumber;
     private int totalPrice;
 
-
-    public ShoppingCartItems(int totalNumber, int totalPrice) {
+    public Cart(int totalNumber, int totalPrice) {
         this.totalNumber = totalNumber;
         this.totalPrice = totalPrice;
     }
 
-    public ShoppingCartItems() {
-    }
+    public Cart() {}
 
-    public ShoppingCartItems(ArrayList<Integer> foodsId,  int totalNumber, int totalPrice){
+    public Cart(ArrayList<Integer> foodsId, int totalNumber, int totalPrice){
         this.foodsId = foodsId;
         this.totalNumber = totalNumber;
         this.totalPrice = totalPrice;
