@@ -45,7 +45,7 @@ public class CheckOutFragment extends BaseFragment<FragmentCheckoutBinding> {
 
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        
+
 
     }
 

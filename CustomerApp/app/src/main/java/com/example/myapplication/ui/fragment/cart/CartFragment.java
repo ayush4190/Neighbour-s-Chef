@@ -71,8 +71,10 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
             @Override
             public void onClick(View view) {
 
+
+                // not able to set view for checkout fragment 
                CheckOutFragment checkOutFragment= new CheckOutFragment();
-                getActivity().getSupportFragmentManager()
+                requireActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
                         .replace(R.id.main_fragment_container, checkOutFragment)
