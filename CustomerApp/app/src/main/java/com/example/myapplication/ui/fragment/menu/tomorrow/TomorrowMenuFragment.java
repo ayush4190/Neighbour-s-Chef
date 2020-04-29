@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.myapplication.R;
@@ -14,21 +16,20 @@ import com.example.myapplication.databinding.FragmentTomorrowTabBinding;
 import com.example.myapplication.model.Product;
 import com.example.myapplication.ui.fragment.details.ItemDetailFragment;
 import com.example.myapplication.util.android.base.BaseFragment;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
+import com.example.myapplication.util.common.State;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import kotlin.Pair;
 
 public class TomorrowMenuFragment extends BaseFragment<FragmentTomorrowTabBinding> {
     private List<Product> products = new ArrayList<>();
     private TomorrowMenuAdapter adapter;
 
-    public TomorrowMenuFragment() {}
+    private TomorrowMenuViewModel viewModel;
+
+    private TomorrowMenuFragment() {}
 
     public static TomorrowMenuFragment newInstance() {
         return new TomorrowMenuFragment();
@@ -43,14 +44,13 @@ public class TomorrowMenuFragment extends BaseFragment<FragmentTomorrowTabBindin
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        viewModel = new ViewModelProvider(this).get(TomorrowMenuViewModel.class);
+
         adapter = new TomorrowMenuAdapter(products);
-        getItemList();
-        adapter.clear();
         binding.recyclerviewVeg.setAdapter(adapter);
         binding.recyclerviewVeg.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter.notifyDataSetChanged();
-
         binding.recyclerviewVeg.setHasFixedSize(false);
+
         adapter.setOnItemClickListener(new TomorrowMenuAdapter.OnRecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View view, String data) {
@@ -74,41 +74,19 @@ public class TomorrowMenuFragment extends BaseFragment<FragmentTomorrowTabBindin
             }
         });
 
+        observeChanges();
     }
 
-    private void getItemList() {
-        DatabaseReference databaseReference;
-        databaseReference = FirebaseDatabase.getInstance().getReference().child("Development").child("Tomorrows menu");
-        Query q = databaseReference;
-        q.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                if (dataSnapshot.exists()) {
-                    Product data = dataSnapshot.getValue(Product.class);
-                    adapter.addItem(data, dataSnapshot.getKey());
-                    adapter.notifyDataSetChanged();
-                    binding.recyclerviewVeg.setAdapter(adapter);
-                }
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
+    private void observeChanges() {
+        viewModel.getProduct().observe(getViewLifecycleOwner(), state -> {
+            if (state instanceof State.Loading) {
+                Toast.makeText(requireContext(), "Loading", Toast.LENGTH_SHORT).show();
+            } else if (state instanceof State.Success) {
+                Pair<String, Product> pair = (Pair<String, Product>) ((State.Success) state).getData();
+                assert pair != null;
+                adapter.addItem(pair.getSecond(), pair.getFirst());
+            } else {
+                Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show();
             }
         });
     }

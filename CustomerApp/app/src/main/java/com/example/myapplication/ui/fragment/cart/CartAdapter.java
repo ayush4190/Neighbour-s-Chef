@@ -1,6 +1,5 @@
 package com.example.myapplication.ui.fragment.cart;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.databinding.CardviewCartBinding;
 import com.example.myapplication.ui.fragment.menu.today.TodaysMenuAdapter;
+
+import static com.example.myapplication.util.android.LoggingUtils.log;
 
 public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> implements View.OnClickListener{
     private final String TAG = "ADAPTER";
@@ -42,7 +43,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> implements
 //                ShoppingCartItem.getInstance(mContext).getFoodTypeSize();
     }
 
-    void deleteData(int position) {
+    public void deleteData(int position) {
 
     }
 
@@ -62,7 +63,7 @@ public class CartAdapter extends RecyclerView.Adapter<CartViewHolder> implements
             mOnItemClickListener.onItemClick(view,String.valueOf(view.getTag()));
         }
         else{
-            Log.e("CLICK", "ERROR");
+            log("ERROR", "");
         }
     }
 

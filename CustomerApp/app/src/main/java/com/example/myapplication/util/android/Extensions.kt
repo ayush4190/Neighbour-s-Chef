@@ -19,7 +19,6 @@ fun Context.sendEmail(
     email.putExtra(Intent.EXTRA_TEXT, message)
     try {
         startActivity(Intent.createChooser(email, "Send mail..."))
-        Log.i("Finished", "")
         //            binding.helpEmailContent.setText("");
 //            binding.helpEmailSubject.setText("");
     } catch (ex: ActivityNotFoundException) {

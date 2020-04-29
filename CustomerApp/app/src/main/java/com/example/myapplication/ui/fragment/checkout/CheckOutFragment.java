@@ -9,18 +9,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.myapplication.R;
 import com.example.myapplication.databinding.FragmentCheckoutBinding;
 import com.example.myapplication.model.Product;
-import com.example.myapplication.ui.fragment.details.ItemDetailFragment;
-import com.example.myapplication.ui.fragment.menu.tomorrow.TomorrowMenuAdapter;
-import com.example.myapplication.ui.fragment.menu.tomorrow.TomorrowMenuFragment;
 import com.example.myapplication.util.android.base.BaseFragment;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.example.myapplication.util.common.Constants.EXTRA_PRODUCT;
 
 public class CheckOutFragment extends BaseFragment<FragmentCheckoutBinding> {
 
@@ -53,21 +47,18 @@ public class CheckOutFragment extends BaseFragment<FragmentCheckoutBinding> {
         adapter.notifyDataSetChanged();
 
         binding.recyclerviewCheckout.setHasFixedSize(false);
-        adapter.setOnItemClickListener(new TomorrowMenuAdapter.OnRecyclerViewItemClickListener() {
-            @Override
-            public void onItemClick(View view, String data) {
-                int index = 0;
-                for (int i = 0; i < products.size(); i++){
-                    if (products.get(i).getId().equals(data)){
-                        index = i;
+        adapter.setOnItemClickListener((view1, data) -> {
+            int index = 0;
+            for (int i = 0; i < products.size(); i++){
+                if (products.get(i).getId().equals(data)){
+                    index = i;
 //                        itemInfo.putString("foodCat", mItemList.get(i).getCategory());
 //                        itemInfo.putString("foodRec", foods.get(i).getRecepiee());
-                        //  itemInfo.putString("foodImage", foods.get(i).getImageUrl());
-                        break;
-                    }
+                    //  itemInfo.putString("foodImage", foods.get(i).getImageUrl());
+                    break;
                 }
-
             }
+
         });
 
     }

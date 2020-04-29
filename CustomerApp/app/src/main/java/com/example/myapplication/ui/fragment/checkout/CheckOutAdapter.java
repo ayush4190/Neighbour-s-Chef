@@ -9,12 +9,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.databinding.CardviewCheckoutBinding;
-import com.example.myapplication.databinding.CardviewFoodBinding;
 import com.example.myapplication.model.Product;
-import com.example.myapplication.ui.fragment.menu.MenuViewHolder;
 import com.example.myapplication.ui.fragment.menu.tomorrow.TomorrowMenuAdapter;
 
 import java.util.List;
+
+import static com.example.myapplication.util.android.LoggingUtils.log;
 
 public class CheckOutAdapter extends RecyclerView.Adapter<CheckOutHolder> implements View.OnClickListener{
 
@@ -22,7 +22,7 @@ public class CheckOutAdapter extends RecyclerView.Adapter<CheckOutHolder> implem
     private List<String> s;
     public String TAG = "CHECKOUT ITEMS";
 
-    public CheckOutAdapter(List<Product> products) {
+    CheckOutAdapter(List<Product> products) {
         this.products = products;
     }
 
@@ -31,7 +31,7 @@ public class CheckOutAdapter extends RecyclerView.Adapter<CheckOutHolder> implem
         if (mOnItemClickListener != null) {
             mOnItemClickListener.onItemClick(v, String.valueOf(v.getTag()));
         } else {
-            Log.e("CLICK", "ERROR");
+            log("ERROR", "");
         }
     }
 
@@ -71,6 +71,4 @@ public class CheckOutAdapter extends RecyclerView.Adapter<CheckOutHolder> implem
     void setOnItemClickListener(TomorrowMenuAdapter.OnRecyclerViewItemClickListener listener) {
         this.mOnItemClickListener = listener;
     }
-
-
 }

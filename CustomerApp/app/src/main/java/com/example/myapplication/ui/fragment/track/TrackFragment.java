@@ -1,24 +1,20 @@
 package com.example.myapplication.ui.fragment.track;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 
 import com.example.myapplication.R;
 import com.example.myapplication.databinding.FragmentTrackBinding;
 import com.example.myapplication.model.Order;
 import com.example.myapplication.util.android.base.BaseFragment;
+
+import static com.example.myapplication.util.android.LoggingUtils.log;
 
 public class TrackFragment extends BaseFragment<FragmentTrackBinding> {
 //    private final String baseUrl = "http://rjtmobile.com/ansari/fos/fosapp/order_track.php?&order_id=";
@@ -62,7 +58,7 @@ public class TrackFragment extends BaseFragment<FragmentTrackBinding> {
                     /*--------insert code to get data---*/
                 } catch (Exception e){
                     e.printStackTrace();
-                    Log.e("ERROR", e.toString());
+                    log(e, "");
                     Toast.makeText(getActivity(), "Wrong Id Format. Please Try Again!", Toast.LENGTH_SHORT).show();
                 }
             }

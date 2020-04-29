@@ -14,6 +14,8 @@ import com.example.myapplication.ui.fragment.menu.MenuViewHolder;
 
 import java.util.List;
 
+import static com.example.myapplication.util.android.LoggingUtils.log;
+
 public class RestoftheWeekAdapter extends RecyclerView.Adapter<MenuViewHolder> implements View.OnClickListener {
     private List<Product> products;
     private List<String> s;
@@ -42,9 +44,10 @@ public class RestoftheWeekAdapter extends RecyclerView.Adapter<MenuViewHolder> i
         holder.bindTo(products.get(position));
     }
 
-    void addItem(Product eventsList, String t) {
+    void addItem(Product product, String t) {
 //        this.s.add(t);
-        this.products.add(eventsList);
+        products.add(product);
+        notifyItemInserted(products.size() - 1);
     }
 
     @Override
@@ -73,7 +76,7 @@ public class RestoftheWeekAdapter extends RecyclerView.Adapter<MenuViewHolder> i
         if (mOnItemClickListener != null) {
             mOnItemClickListener.onItemClick(view, String.valueOf(view.getTag()));
         } else {
-            Log.e("CLICK", "ERROR");
+            log("ERROR", "");
         }
     }
 }

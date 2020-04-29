@@ -1,7 +1,6 @@
 package com.example.myapplication.ui.fragment.details;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -57,26 +56,20 @@ public class ItemDetailFragment extends BaseFragment<FragmentItemDetailBinding> 
     }
 
     private void setButtonListener(){
-        binding.foodDetailAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        binding.foodDetailAdd.setOnClickListener(view -> {
 
-              //  ShoppingCartItem.getInstance(getContext()).addToCart(food);
-                TextView cartNumber = (TextView)requireActivity().findViewById(R.id.cart_item_number);
-             //   cartNumber.setText(String.valueOf(ShoppingCartItem.getInstance(getContext()).getSize()));
+          //  ShoppingCartItem.getInstance(getContext()).addToCart(food);
+            TextView cartNumber = requireActivity().findViewById(R.id.cart_item_number);
+         //   cartNumber.setText(String.valueOf(ShoppingCartItem.getInstance(getContext()).getSize()));
 
-                new AlertDialog.Builder(getActivity()).setTitle("Successful!").setIcon(
-                        android.R.drawable.ic_dialog_info)
-                        .setMessage("Add 1 " + "mItemlist.getProduct_name()" + " to cart!")
-                        .setPositiveButton("Jump to cart", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                Intent cartAct = new Intent(getActivity(), CartActivity.class);
-                                startActivity(cartAct);
-                            }
-                        })
-                        .setNegativeButton("Continue", null).show();
-            }
+            new AlertDialog.Builder(getActivity()).setTitle("Successful!").setIcon(
+                    android.R.drawable.ic_dialog_info)
+                    .setMessage("Add 1 " + "mItemlist.getProduct_name()" + " to cart!")
+                    .setPositiveButton("Jump to cart", (dialogInterface, i) -> {
+                        Intent cartAct = new Intent(getActivity(), CartActivity.class);
+                        startActivity(cartAct);
+                    })
+                    .setNegativeButton("Continue", null).show();
         });
     }
 }

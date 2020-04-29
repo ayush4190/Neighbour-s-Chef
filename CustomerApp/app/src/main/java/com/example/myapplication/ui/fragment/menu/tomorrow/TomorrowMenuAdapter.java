@@ -14,6 +14,8 @@ import com.example.myapplication.ui.fragment.menu.MenuViewHolder;
 
 import java.util.List;
 
+import static com.example.myapplication.util.android.LoggingUtils.log;
+
 public class TomorrowMenuAdapter extends RecyclerView.Adapter<MenuViewHolder> implements View.OnClickListener {
     private List<Product> products;
     private List<String> s;
@@ -40,9 +42,10 @@ public class TomorrowMenuAdapter extends RecyclerView.Adapter<MenuViewHolder> im
         holder.bindTo(products.get(position));
     }
 
-    void addItem(Product eventsList, String t) {
+    void addItem(Product product, String t) {
 //        this.s.add(t);
-        this.products.add(eventsList);
+        products.add(product);
+        notifyItemInserted(products.size() - 1);
     }
 
     @Override
@@ -72,7 +75,7 @@ public class TomorrowMenuAdapter extends RecyclerView.Adapter<MenuViewHolder> im
         if (mOnItemClickListener != null) {
             mOnItemClickListener.onItemClick(view, String.valueOf(view.getTag()));
         } else {
-            Log.e("CLICK", "ERROR");
+            log("ERROR", "");
         }
     }
 }
