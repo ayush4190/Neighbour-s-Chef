@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 29
@@ -22,6 +23,11 @@ android {
         }
     }
 
+    viewBinding.enabled = true
+}
+
+repositories {
+    mavenCentral()
 }
 
 dependencies {
@@ -47,8 +53,4 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage:19.1.1'
     implementation 'com.google.firebase:firebase-database:19.2.1'
 
-}
-apply plugin: 'com.google.gms.google-services'
-repositories {
-    mavenCentral()
 }

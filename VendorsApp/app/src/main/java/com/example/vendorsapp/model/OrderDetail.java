@@ -1,4 +1,4 @@
-package com.example.vendorsapp;
+package com.example.vendorsapp.model;
 
 public class OrderDetail {
 

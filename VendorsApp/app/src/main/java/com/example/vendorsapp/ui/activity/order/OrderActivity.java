@@ -1,38 +1,40 @@
-package com.example.vendorsapp;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+package com.example.vendorsapp.ui.activity.order;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.Toolbar;
 
-import com.facebook.login.LoginManager;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.common.api.Status;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.example.vendorsapp.R;
+import com.example.vendorsapp.databinding.ActivityOrderBinding;
+import com.example.vendorsapp.ui.fragment.additems.AddItemsFragment;
+import com.example.vendorsapp.ui.fragment.home.HomepageFragment;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 public class OrderActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-    FloatingActionButton fab ;
+    private ActivityOrderBinding binding;
+
+    private FloatingActionButton fab;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_order);
-        init();
 
+        binding = ActivityOrderBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        init();
     }
 
     @Override
@@ -87,80 +89,59 @@ public class OrderActivity extends AppCompatActivity implements NavigationView.O
                 break;
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        binding.drawerLayout.closeDrawer(GravityCompat.START);
         return true;
-
-
     }
 
 
 
-    private  void init()
-    {
-
-        androidx.appcompat.widget.Toolbar toolbar = (androidx.appcompat.widget.Toolbar) findViewById(R.id.toolbar);
+    private  void init() {
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-      fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("RestrictedApi")
             @Override
             public void onClick(View view) {
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                AddItems additems = new AddItems();
-                transaction.replace(R.id.main_fragment_container, additems);
+                transaction.replace(R.id.main_fragment_container, AddItemsFragment.newInstance());
                 transaction.addToBackStack ("add_item");
                 transaction.commit();
                 fab.setVisibility(View.GONE);
-
             }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
+        drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         View navHeaderView = navigationView.inflateHeaderView(R.layout.nav_header_main);
-        TextView header_mobile = (TextView) navHeaderView.findViewById(R.id.nav_mobile);
-        TextView header_name = (TextView) navHeaderView.findViewById(R.id.nav_name);
+        TextView header_mobile = navHeaderView.findViewById(R.id.nav_mobile);
+        TextView header_name = navHeaderView.findViewById(R.id.nav_name);
 
-        if(findViewById(R.id.main_fragment_container) != null) {
-            HomepageFrag homeFragment = new HomepageFrag();
+        if (findViewById(R.id.main_fragment_container) != null) {
+            HomepageFragment homeFragment = HomepageFragment.newInstance();
             getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment_container, homeFragment ,"home_frag").commit();
 
         }
-
-
-
-
-
-
-
-
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -171,22 +152,17 @@ public class OrderActivity extends AppCompatActivity implements NavigationView.O
     @SuppressLint("RestrictedApi")
     @Override
     public void onBackPressed() {
-
-
-        DrawerLayout drawer = (DrawerLayout) findViewById (R.id.drawer_layout);
-        if (drawer.isDrawerOpen (GravityCompat.START)) {
-            drawer.closeDrawer (GravityCompat.START);
+        if (binding.drawerLayout.isDrawerOpen (GravityCompat.START)) {
+            binding.drawerLayout.closeDrawer (GravityCompat.START);
         } else  {
             super.onBackPressed ();
             getSupportFragmentManager ().popBackStackImmediate (null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
         }
-        HomepageFrag myFragment = (HomepageFrag)getSupportFragmentManager().findFragmentByTag("home_frag");
+        HomepageFragment myFragment = (HomepageFragment)getSupportFragmentManager().findFragmentByTag("home_frag");
 
         if (myFragment != null && myFragment.isVisible()) {
             fab.setVisibility(View.VISIBLE);
 
         }
-
-
     }
 }
