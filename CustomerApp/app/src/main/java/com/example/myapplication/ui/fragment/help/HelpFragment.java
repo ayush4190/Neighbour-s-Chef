@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 import com.example.myapplication.databinding.FragmentHelpBinding;
 import com.example.myapplication.util.android.base.BaseFragment;
 
-import static com.example.myapplication.util.android.Utility.sendEmail;
+import static com.example.myapplication.util.android.Extensions.sendEmail;
 
 public class HelpFragment extends BaseFragment<FragmentHelpBinding> {
     private HelpFragment() {}

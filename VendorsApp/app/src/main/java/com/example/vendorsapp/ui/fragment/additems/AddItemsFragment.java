@@ -113,7 +113,7 @@ public class AddItemsFragment extends BaseFragment<FragmentAddItemsBinding> {
 
     private void assignValues() {
         product.setName(binding.itemName.getText().toString());
-        product.setPrice(binding.price.getText().toString());
+        product.setName(binding.price.getText().toString());
         product.setQuantity(binding.packetQuantity.getText().toString());
         product.setId(foodId);
 
