@@ -72,7 +72,7 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
             public void onClick(View view) {
 
                CheckOutFragment checkOutFragment= new CheckOutFragment();
-                requireActivity().getSupportFragmentManager()
+                getActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
                         .replace(R.id.main_fragment_container, checkOutFragment)

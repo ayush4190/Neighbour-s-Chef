@@ -39,36 +39,13 @@ public class CheckOutFragment extends BaseFragment<FragmentCheckoutBinding> {
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentCheckoutBinding.inflate(inflater, container, false);
+        binding = FragmentCheckoutBinding.inflate(getLayoutInflater());
         return binding.getRoot();
     }
 
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        adapter = new CheckOutAdapter(products);
-        adapter.clear();
-        binding.recyclerviewCheckout.setAdapter(adapter);
-        binding.recyclerviewCheckout.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter.notifyDataSetChanged();
-
-        binding.recyclerviewCheckout.setHasFixedSize(false);
-        adapter.setOnItemClickListener(new TomorrowMenuAdapter.OnRecyclerViewItemClickListener() {
-            @Override
-            public void onItemClick(View view, String data) {
-                int index = 0;
-                for (int i = 0; i < products.size(); i++){
-                    if (products.get(i).getId().equals(data)){
-                        index = i;
-//                        itemInfo.putString("foodCat", mItemList.get(i).getCategory());
-//                        itemInfo.putString("foodRec", foods.get(i).getRecepiee());
-                        //  itemInfo.putString("foodImage", foods.get(i).getImageUrl());
-                        break;
-                    }
-                }
-
-            }
-        });
+        
 
     }
 

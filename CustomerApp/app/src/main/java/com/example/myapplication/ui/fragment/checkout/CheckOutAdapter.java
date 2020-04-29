@@ -54,7 +54,7 @@ public class CheckOutAdapter extends RecyclerView.Adapter<CheckOutHolder> implem
 
     @Override
     public int getItemCount() {
-        return 0;
+        return 1;
     }
     void clear() {
         products.clear();
