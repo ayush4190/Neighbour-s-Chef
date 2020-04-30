@@ -37,12 +37,9 @@ public class HomepageFragment extends BaseFragment<FragmentHomepageBinding> {
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        adapter = new OrderAdapter(requireActivity(), mOrderList);
-//        getItemList();
-        adapter.clear();
+        adapter = new OrderAdapter(mOrderList, requireActivity());
         binding.recyclerviewOrder.setAdapter(adapter);
         binding.recyclerviewOrder.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter.notifyDataSetChanged();
 
         binding.recyclerviewOrder.setHasFixedSize(false);
     }

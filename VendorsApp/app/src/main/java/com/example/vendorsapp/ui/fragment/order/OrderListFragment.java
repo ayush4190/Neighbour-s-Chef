@@ -23,9 +23,13 @@ import java.util.List;
 
 public class OrderListFragment extends BaseFragment<FragmentOrderListBinding> {
     private OrderItemListAdapter adapter;
-    private List<Product> mItemList = new ArrayList<>();
+    private List<Product> products = new ArrayList<>();
 
-    public OrderListFragment() {}
+    private OrderListFragment() {}
+
+    public static OrderListFragment newInstance() {
+        return new OrderListFragment();
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -54,14 +58,10 @@ public class OrderListFragment extends BaseFragment<FragmentOrderListBinding> {
                 floatingActionButton.setVisibility(View.VISIBLE);
             }
         });
-//
-        adapter = new OrderItemListAdapter(mItemList);
-//        getItemList();
-        adapter.clear();
+
+        adapter = new OrderItemListAdapter(products);
         binding.recyclerviewOrderlist.setAdapter(adapter);
         binding.recyclerviewOrderlist.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter.notifyDataSetChanged();
-
         binding.recyclerviewOrderlist.setHasFixedSize(false);
     }
 }

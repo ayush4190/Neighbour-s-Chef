@@ -17,7 +17,7 @@ import com.example.vendorsapp.util.android.base.BaseViewHolder;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 class OrderViewHolder extends BaseViewHolder<OrderViewBinding, OrderDetail> {
-    private Context context;
+    private final Context context;
 
     OrderViewHolder(@NonNull OrderViewBinding binding, @Nullable Context context) {
         super(binding);
@@ -37,7 +37,7 @@ class OrderViewHolder extends BaseViewHolder<OrderViewBinding, OrderDetail> {
                 OrderActivity activity = (OrderActivity) context;
                 FloatingActionButton floatingActionButton = activity.findViewById(R.id.fab);
                 floatingActionButton.setVisibility(View.GONE);
-                Fragment myFragment = new OrderListFragment();
+                Fragment myFragment = OrderListFragment.newInstance();
                 activity.getSupportFragmentManager().beginTransaction().
                         replace(R.id.main_fragment_container, myFragment).
                         addToBackStack("Complete_order_list").commit();
