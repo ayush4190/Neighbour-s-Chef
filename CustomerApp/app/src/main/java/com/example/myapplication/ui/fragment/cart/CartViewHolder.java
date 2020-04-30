@@ -1,6 +1,5 @@
 package com.example.myapplication.ui.fragment.cart;
 
-import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,24 +16,8 @@ class CartViewHolder extends BaseViewHolder<CardviewCartBinding, Cart> {
 
     @Override
     public void bindTo(@Nullable Cart item) {
-        binding.cartBtnMinus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        binding.cartBtnMinus.setOnClickListener(view -> Toast.makeText(binding.getRoot().getContext(),"decrement",Toast.LENGTH_SHORT).show());
 
-                Toast.makeText(binding.getRoot().getContext(),"decrement",Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        binding.cartBtnPlus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(binding.getRoot().getContext(),"increment",Toast.LENGTH_SHORT).show();
-
-            }
-
-
-        });
+        binding.cartBtnPlus.setOnClickListener(view -> Toast.makeText(binding.getRoot().getContext(),"increment", Toast.LENGTH_SHORT).show());
     }
-
-
 }

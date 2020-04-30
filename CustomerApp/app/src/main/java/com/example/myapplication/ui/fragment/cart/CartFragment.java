@@ -44,19 +44,18 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
     }
 
     private void init(){
-        // binding.cartTotalPrice.setText(String.valueOf(ShoppingCartItem.getInstance(getContext()).getPrice()));
+//         binding.textTotalPrice.setText(String.valueOf(ShoppingCartItem.getInstance(getContext()).getPrice()));
 
         adapter = new CartAdapter();
         initSwipe();
-        binding.recyclerviewCart.setAdapter(adapter);
-        binding.recyclerviewCart.setHasFixedSize(false);
-        binding.recyclerviewCart.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.recyclerCart.setAdapter(adapter);
+        binding.recyclerCart.setHasFixedSize(false);
+        binding.recyclerCart.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        binding.cartBack.setOnClickListener(view -> requireActivity().finish());
+        binding.btnBack.setOnClickListener(view -> requireActivity().finish());
 
-        binding.cartCheckout.setOnClickListener(view -> {
-
-           CheckOutFragment checkOutFragment= new CheckOutFragment();
+        binding.btnCheckout.setOnClickListener(view -> {
+            CheckOutFragment checkOutFragment= CheckOutFragment.newInstance(null);
             requireActivity().getSupportFragmentManager()
                     .beginTransaction()
                     .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
@@ -68,6 +67,6 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
 
     private void initSwipe() {
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new CartSwipeCallback(adapter));
-        itemTouchHelper.attachToRecyclerView(binding.recyclerviewCart);
+        itemTouchHelper.attachToRecyclerView(binding.recyclerCart);
     }
 }

@@ -1,115 +1,158 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
-    <LinearLayout android:layout_width="match_parent"
-        android:layout_height="match_parent"
-                  android:orientation="vertical">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
         <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="wrap_content" android:layout_height="wrap_content">
-            <TextView
-                    android:textSize="18sp"
-                    android:text="Mobile:"
-                    android:layout_marginRight="@dimen/activity_horizontal_margin"
-                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-            <TextView
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:id="@+id/checkout_mobile"
-                    android:text="6143136377"
-                    android:layout_marginRight="@dimen/horizontal_padding"
-                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-            <TextView
-                    android:clickable="true"
-                    android:textSize="12sp"
-                    android:id="@+id/checkout_edit_mobile"
-                    android:text="not this?"
-                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+            android:id="@+id/layout_mobile"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="Mobile:"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_mobile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginEnd="@dimen/horizontal_padding"
+                tools:text="6143136377"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_wrong_mobile"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="not this?"
+                android:clickable="true"
+                android:focusable="true" />
+
         </LinearLayout>
 
-        <TextView
+        <LinearLayout
+            android:id="@+id/layout_address"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/horizontal_padding"
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/layout_mobile"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:textSize="18sp"
                 android:text="Address:"
-                android:layout_marginRight="@dimen/activity_horizontal_margin"
-                android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-        <LinearLayout
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/horizontal_padding"
-                android:orientation="horizontal"
-                android:layout_width="wrap_content" android:layout_height="wrap_content">
-            <TextView
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:id="@+id/checkout_address"
-                    android:text=" 1840 wessel ct"
-                    android:layout_marginRight="@dimen/horizontal_padding"
-                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-            <TextView
-                    android:textSize="12sp"
-                    android:id="@+id/checkout_edit_addr"
-                    android:clickable="true"
-                    android:text="not this?"
-                    android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-        </LinearLayout>
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <View
-                android:layout_width="0dp"
-                android:layout_height="2dp"
-                android:layout_weight="1"
-                android:layout_marginTop="8dp"
-                android:background="@color/colorPrimary"/>
-    </LinearLayout>
-        <LinearLayout
-                android:padding="@dimen/horizontal_padding"
-                android:orientation="horizontal"
-                android:layout_width="match_parent" android:layout_height="wrap_content">
-            <TextView
-                    android:text="Food Name"
-                    android:layout_weight="4"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"/>
-            <TextView
-                    android:text="Quantity"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"/>
-            <TextView
-                    android:text="Price"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"/>
-        </LinearLayout>
-        <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerview_checkout"
-                android:layout_marginTop="@dimen/horizontal_padding"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        <TextView
-                android:textSize="26sp"
-                android:text="4000.00"
-                android:gravity="end"
-                android:textColor="@color/colorPrimaryDark"
-                android:id="@+id/checkout_total"
-                android:layout_width="match_parent" android:layout_height="wrap_content"/>
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"/>
 
-        <Button
-                android:layout_marginTop="@dimen/horizontal_padding"
-                android:id="@+id/checkout_pay"
-                android:backgroundTint="@color/colorPrimary"
-                android:textColor="@color/icons"
-                android:text="Place order"
-                android:layout_width="match_parent"
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:layout_marginRight="@dimen/horizontal_padding"
+                tools:text=" 1840 wessel ct"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_wrong_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="not this?"
+                android:clickable="true"
+                android:focusable="true" />
+
+        </LinearLayout>
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/colorPrimary"
+            app:layout_constraintTop_toBottomOf="@id/layout_address"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <LinearLayout
+            android:id="@+id/layout_product"
+            android:padding="@dimen/horizontal_padding"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/divider">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:text="Food Name"
+                android:layout_weight="4"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"/>
-        <Button
-                android:text="Cancel"
-                android:id="@+id/checkout_cancel"
-                android:layout_width="match_parent"
+
+            <com.google.android.material.textview.MaterialTextView
+                android:text="Quantity"
+                android:layout_weight="1"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"/>
-    </LinearLayout>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:text="Price"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_checkout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/horizontal_padding"
+            app:layout_constraintTop_toBottomOf="@id/layout_product" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/text_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="26sp"
+            android:text="4000.00"
+            android:textColor="@color/colorPrimaryDark"
+            app:layout_constraintTop_toBottomOf="@id/recycler_checkout"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_place_order"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/horizontal_padding"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/icons"
+            android:text="Place order"
+            app:layout_constraintTop_toBottomOf="@id/text_total" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            app:layout_constraintTop_toBottomOf="@id/btn_place_order" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </ScrollView>
