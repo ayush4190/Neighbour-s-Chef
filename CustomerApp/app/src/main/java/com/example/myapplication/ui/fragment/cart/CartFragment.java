@@ -63,8 +63,6 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
                     .replace(R.id.main_fragment_container, checkOutFragment)
                     .addToBackStack(CartFragment.class.getName())
                     .commit();
-
-
         });
     }
 

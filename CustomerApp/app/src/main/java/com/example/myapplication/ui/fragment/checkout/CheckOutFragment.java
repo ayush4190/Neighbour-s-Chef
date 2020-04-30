@@ -17,8 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CheckOutFragment extends BaseFragment<FragmentCheckoutBinding> {
-
-
     private List<Product> products = new ArrayList<>();
     private CheckOutAdapter adapter;
     public CheckOutFragment() {
@@ -41,12 +39,10 @@ public class CheckOutFragment extends BaseFragment<FragmentCheckoutBinding> {
         super.onViewCreated(view, savedInstanceState);
 
         adapter = new CheckOutAdapter(products);
-        adapter.clear();
         binding.recyclerviewCheckout.setAdapter(adapter);
         binding.recyclerviewCheckout.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter.notifyDataSetChanged();
-
         binding.recyclerviewCheckout.setHasFixedSize(false);
+
         adapter.setOnItemClickListener((view1, data) -> {
             int index = 0;
             for (int i = 0; i < products.size(); i++){
@@ -60,8 +56,5 @@ public class CheckOutFragment extends BaseFragment<FragmentCheckoutBinding> {
             }
 
         });
-
     }
-
-
 }
