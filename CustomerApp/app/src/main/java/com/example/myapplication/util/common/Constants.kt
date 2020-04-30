@@ -10,3 +10,6 @@ const val PATH_DEV = "Development"
 const val PATH_TODAY = "Today's menu"
 const val PATH_TOMORROW = "Tomorrows menu"
 const val PATH_REST_OF_THE_WEEK = "Rest of the week"
+
+// Misc
+const val DEV_EMAIL = "a.ayushkumar1997@gmail.com"

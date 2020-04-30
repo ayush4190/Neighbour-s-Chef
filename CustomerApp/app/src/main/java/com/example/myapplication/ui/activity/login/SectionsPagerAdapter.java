@@ -9,7 +9,6 @@ import com.example.myapplication.ui.fragment.login.SignInFragment;
 import com.example.myapplication.ui.fragment.register.SignUpFragment;
 
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
-
     SectionsPagerAdapter(FragmentManager fm) {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
     }
