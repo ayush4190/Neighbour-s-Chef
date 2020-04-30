@@ -11,21 +11,21 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.myapplication.R;
 import com.example.myapplication.databinding.FragmentTomorrowTabBinding;
 import com.example.myapplication.model.Product;
-import com.example.myapplication.ui.fragment.details.ItemDetailFragment;
+import com.example.myapplication.ui.fragment.menu.MenuAdapter;
 import com.example.myapplication.util.android.base.BaseFragment;
 import com.example.myapplication.util.common.State;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import kotlin.Pair;
 
 public class TomorrowMenuFragment extends BaseFragment<FragmentTomorrowTabBinding> {
     private List<Product> products = new ArrayList<>();
-    private TomorrowMenuAdapter adapter;
+    private MenuAdapter adapter;
 
     private TomorrowMenuViewModel viewModel;
 
@@ -46,33 +46,10 @@ public class TomorrowMenuFragment extends BaseFragment<FragmentTomorrowTabBindin
 
         viewModel = new ViewModelProvider(this).get(TomorrowMenuViewModel.class);
 
-        adapter = new TomorrowMenuAdapter(products);
+        adapter = new MenuAdapter(products, requireActivity().getSupportFragmentManager());
         binding.recyclerviewVeg.setAdapter(adapter);
         binding.recyclerviewVeg.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerviewVeg.setHasFixedSize(false);
-
-        adapter.setOnItemClickListener(new TomorrowMenuAdapter.OnRecyclerViewItemClickListener() {
-            @Override
-            public void onItemClick(View view, String data) {
-                int index = 0;
-                for (int i = 0; i < products.size(); i++){
-                    if (products.get(i).getId().equals(data)){
-                        index = i;
-//                        itemInfo.putString("foodCat", mItemList.get(i).getCategory());
-//                        itemInfo.putString("foodRec", foods.get(i).getRecepiee());
-                        //  itemInfo.putString("foodImage", foods.get(i).getImageUrl());
-                        break;
-                    }
-                }
-                ItemDetailFragment foodDetailFragment = ItemDetailFragment.newInstance(products.get(index));
-                requireActivity().getSupportFragmentManager()
-                        .beginTransaction()
-                        .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
-                        .replace(R.id.main_fragment_container, foodDetailFragment)
-                        .addToBackStack(TomorrowMenuFragment.class.getName())
-                        .commit();
-            }
-        });
 
         observeChanges();
     }
@@ -84,7 +61,7 @@ public class TomorrowMenuFragment extends BaseFragment<FragmentTomorrowTabBindin
             } else if (state instanceof State.Success) {
                 Pair<String, Product> pair = (Pair<String, Product>) ((State.Success) state).getData();
                 assert pair != null;
-                adapter.addItem(pair.getSecond(), pair.getFirst());
+                adapter.submitList(Collections.singletonList(pair.getSecond()), false);
             } else {
                 Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show();
             }

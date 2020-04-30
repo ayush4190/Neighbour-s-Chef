@@ -11,21 +11,21 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.myapplication.R;
 import com.example.myapplication.databinding.TodaysMenufragBinding;
 import com.example.myapplication.model.Product;
-import com.example.myapplication.ui.fragment.details.ItemDetailFragment;
+import com.example.myapplication.ui.fragment.menu.MenuAdapter;
 import com.example.myapplication.util.android.base.BaseFragment;
 import com.example.myapplication.util.common.State;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import kotlin.Pair;
 
 public class TodaysMenuFragment extends BaseFragment<TodaysMenufragBinding> {
     private List<Product> products = new ArrayList<>();
-    private TodaysMenuAdapter adapter;
+    private MenuAdapter adapter;
 
     private TodayMenuViewModel viewModel;
 
@@ -46,28 +46,10 @@ public class TodaysMenuFragment extends BaseFragment<TodaysMenufragBinding> {
 
         viewModel = new ViewModelProvider(this).get(TodayMenuViewModel.class);
 
-        adapter = new TodaysMenuAdapter(products);
+        adapter = new MenuAdapter(products, requireActivity().getSupportFragmentManager());
         binding.recyclerviewAll.setAdapter(adapter);
         binding.recyclerviewAll.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerviewAll.setHasFixedSize(false);
-
-        adapter.setOnItemClickListener((view1, data) -> {
-            int index = 0;
-            for (int i = 0; i < products.size(); i++){
-                if (products.get(i).getId().equals(data)){
-                    index = i;
-                    break;
-                }
-            }
-            ItemDetailFragment foodDetailFragment = ItemDetailFragment.newInstance(products.get(index));
-
-            requireActivity().getSupportFragmentManager()
-                    .beginTransaction()
-                    .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)
-                    .replace(R.id.main_fragment_container, foodDetailFragment)
-                    .addToBackStack(TodaysMenuFragment.class.getName())
-                    .commit();
-        });
 
         observeChanges();
     }
@@ -79,7 +61,7 @@ public class TodaysMenuFragment extends BaseFragment<TodaysMenufragBinding> {
             } else if (state instanceof State.Success) {
                 Pair<String, Product> pair = (Pair<String, Product>) ((State.Success) state).getData();
                 assert pair != null;
-                adapter.addItem(pair.getSecond(), pair.getFirst());
+                adapter.submitList(Collections.singletonList(pair.getSecond()), false);
             } else {
                 Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show();
             }

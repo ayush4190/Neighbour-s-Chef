@@ -55,12 +55,13 @@ public class ItemDetailFragment extends BaseFragment<FragmentItemDetailBinding> 
         binding.foodDetailCollapsingToolbar.setTitle(product.getName());
     }
 
-    private void setButtonListener(){
+    private void setButtonListener() {
         binding.foodDetailAdd.setOnClickListener(view -> {
 
           //  ShoppingCartItem.getInstance(getContext()).addToCart(food);
             TextView cartNumber = requireActivity().findViewById(R.id.cart_item_number);
          //   cartNumber.setText(String.valueOf(ShoppingCartItem.getInstance(getContext()).getSize()));
+
 
             new AlertDialog.Builder(getActivity()).setTitle("Successful!").setIcon(
                     android.R.drawable.ic_dialog_info)

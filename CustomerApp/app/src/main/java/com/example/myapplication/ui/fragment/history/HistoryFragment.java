@@ -19,14 +19,6 @@ public class HistoryFragment extends BaseFragment<FragmentHistoryBinding> {
     private ArrayList<Order> orders = new ArrayList<>();
     private HistoryAdapter adapter;
 
-    private String TAG = "ORDER_HISTORY";
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        requireActivity().setTitle("History");
-    }
-
     private HistoryFragment() {}
 
     public static HistoryFragment newInstance() {
@@ -43,6 +35,8 @@ public class HistoryFragment extends BaseFragment<FragmentHistoryBinding> {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        requireActivity().setTitle("History");
 
         if (orders.size()==0){
 

@@ -43,7 +43,7 @@ public class CartFragment extends BaseFragment<FragmentCartBinding> {
         init();
     }
 
-    private void init(){
+    private void init() {
 //         binding.textTotalPrice.setText(String.valueOf(ShoppingCartItem.getInstance(getContext()).getPrice()));
 
         adapter = new CartAdapter();

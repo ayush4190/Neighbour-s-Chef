@@ -76,3 +76,4 @@ constants must use **UPPER_SNAKE_CASE**.
 * Use `Timber` for logging instead of `Log.i`, etc.
 * Use `ChildFragmentManager` when attaching fragments to existing fragments (instead of parent 
 activity's `SupportFragmentManager`).
+* Use [`Dexter`](https://github.com/Karumi/Dexter) for requesting permissions from the user.

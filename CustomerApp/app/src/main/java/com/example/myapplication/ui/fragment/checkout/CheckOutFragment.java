@@ -16,18 +16,23 @@ import com.example.myapplication.util.android.base.BaseFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.myapplication.util.common.Constants.EXTRA_PRODUCT;
+
 public class CheckOutFragment extends BaseFragment<FragmentCheckoutBinding> {
     private List<Product> products = new ArrayList<>();
     private CheckOutAdapter adapter;
 
     private CheckOutFragment() {}
 
-    public static CheckOutFragment newInstance(Product product) {
-       CheckOutFragment fragment = new CheckOutFragment();
-//        Bundle args = new Bundle();
-//        args.putParcelable(EXTRA_PRODUCT, product);
-//        fragment.setArguments(args);
-        return fragment;}
+    public static CheckOutFragment newInstance(@Nullable final Product product) {
+        CheckOutFragment fragment = new CheckOutFragment();
+        if (product != null) {
+            Bundle args = new Bundle();
+            args.putParcelable(EXTRA_PRODUCT, product);
+            fragment.setArguments(args);
+        }
+        return fragment;
+    }
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -42,18 +47,5 @@ public class CheckOutFragment extends BaseFragment<FragmentCheckoutBinding> {
         binding.recyclerCheckout.setAdapter(adapter);
         binding.recyclerCheckout.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerCheckout.setHasFixedSize(false);
-
-        adapter.setOnItemClickListener((view1, data) -> {
-            int index = 0;
-            for (int i = 0; i < products.size(); i++){
-                if (products.get(i).getId().equals(data)){
-                    index = i;
-//                        itemInfo.putString("foodCat", mItemList.get(i).getCategory());
-//                        itemInfo.putString("foodRec", foods.get(i).getRecepiee());
-                    //  itemInfo.putString("foodImage", foods.get(i).getImageUrl());
-                    break;
-                }
-            }
-        });
     }
 }
