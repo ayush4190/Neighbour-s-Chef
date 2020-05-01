@@ -4,9 +4,17 @@ package com.example.myapplication.util.android
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.widget.Toast
 import com.example.myapplication.util.common.DEV_EMAIL
 
-fun sendEmail(context: Context, subject: String?, message: String?) {
+/**
+ * Creates an IntentChooser for sending emails
+ * @param context context required to launch intent and start activity
+ * @param subject subject of the email
+ * @param message content of the email
+ */
+fun sendEmail(context: Context, subject: String, message: String) {
+    // ACTION_SENDTO and "mailto:" ensure that only email clients can receive this intent
     val intent = Intent(Intent.ACTION_SENDTO).apply {
         data = Uri.parse("mailto:")
         putExtra(Intent.EXTRA_EMAIL, arrayOf(DEV_EMAIL))
@@ -15,5 +23,7 @@ fun sendEmail(context: Context, subject: String?, message: String?) {
     }
     if (intent.resolveActivity(context.packageManager) != null) {
         context.startActivity(intent)
+    } else {
+        Toast.makeText(context, "No email clients found", Toast.LENGTH_SHORT).show()
     }
 }

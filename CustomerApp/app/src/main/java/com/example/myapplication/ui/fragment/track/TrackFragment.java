@@ -14,7 +14,7 @@ import com.example.myapplication.databinding.FragmentTrackBinding;
 import com.example.myapplication.model.Order;
 import com.example.myapplication.util.android.base.BaseFragment;
 
-import static com.example.myapplication.util.android.LoggingUtils.log;
+import timber.log.Timber;
 
 public class TrackFragment extends BaseFragment<FragmentTrackBinding> {
 //    private final String baseUrl = "http://rjtmobile.com/ansari/fos/fosapp/order_track.php?&order_id=";
@@ -58,7 +58,7 @@ public class TrackFragment extends BaseFragment<FragmentTrackBinding> {
                     /*--------insert code to get data---*/
                 } catch (Exception e){
                     e.printStackTrace();
-                    log(e, "");
+                    Timber.d(e);
                     Toast.makeText(getActivity(), "Wrong Id Format. Please Try Again!", Toast.LENGTH_SHORT).show();
                 }
             }

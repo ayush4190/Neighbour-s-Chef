@@ -4,6 +4,13 @@ import android.os.Parcel
 import com.example.myapplication.util.android.KParcelable
 import com.example.myapplication.util.android.parcelableCreator
 
+/*
+    TODO: Update fields to resemble real world
+    user: aayush
+    date: 1/5/20
+*/
+// Price should be a float or double
+// Quantity should be an int
 data class Product(
     var id: String,
     var name: String,

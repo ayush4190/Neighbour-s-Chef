@@ -11,7 +11,7 @@ import com.example.myapplication.ui.fragment.details.ItemDetailFragment;
 import com.example.myapplication.ui.fragment.menu.restoftheweek.RestoftheWeekFragment;
 import com.example.myapplication.util.android.base.BaseViewHolder;
 
-import static com.example.myapplication.util.android.LoggingUtils.log;
+import timber.log.Timber;
 
 public class MenuViewHolder extends BaseViewHolder<CardviewFoodBinding, Product> {
     private final FragmentManager fragmentManager;
@@ -24,7 +24,7 @@ public class MenuViewHolder extends BaseViewHolder<CardviewFoodBinding, Product>
     @Override
     public void bindTo(@Nullable Product item) {
         if (item != null) {
-            log(item.getName(), "");
+            Timber.d(item.toString());
             binding.getRoot().setOnClickListener(v -> {
                 fragmentManager.beginTransaction()
                         .setCustomAnimations(R.anim.fade_in, R.anim.fade_out, R.anim.fade_in, R.anim.fade_out)

@@ -18,10 +18,7 @@ import com.example.myapplication.util.android.base.BaseFragment;
 import com.example.myapplication.util.common.State;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
-import kotlin.Pair;
 
 public class RestoftheWeekFragment extends BaseFragment<FragmentRestOfTheWeekTabBinding> {
     private List<Product> products = new ArrayList<>();
@@ -55,15 +52,14 @@ public class RestoftheWeekFragment extends BaseFragment<FragmentRestOfTheWeekTab
     }
 
     private void observeChanges() {
-        viewModel.getProduct().observe(getViewLifecycleOwner(), state -> {
+        viewModel.getProducts().observe(getViewLifecycleOwner(), state -> {
             if (state instanceof State.Loading) {
                 Toast.makeText(requireContext(), "Loading", Toast.LENGTH_SHORT).show();
             } else if (state instanceof State.Success) {
-                Pair<String, Product> pair = (Pair<String, Product>) ((State.Success) state).getData();
-                assert pair != null;
-                adapter.submitList(Collections.singletonList(pair.getSecond()), false);
-            } else {
-                Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show();
+                List<Product> data = (List<Product>) ((State.Success) state).getData();
+                adapter.submitList(data, false);
+            } else if (state instanceof State.Failure) {
+                Toast.makeText(requireContext(), ((State.Failure) state).getReason(), Toast.LENGTH_SHORT).show();
             }
         });
     }

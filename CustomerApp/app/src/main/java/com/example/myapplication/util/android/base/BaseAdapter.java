@@ -47,6 +47,9 @@ public abstract class BaseAdapter<VH extends BaseViewHolder<? extends ViewBindin
         }
     }
 
+    /**
+     * Clears the data held and notifies updates to the RecyclerView
+     */
     public void clear() {
         final int size = items.size();
         items.clear();
