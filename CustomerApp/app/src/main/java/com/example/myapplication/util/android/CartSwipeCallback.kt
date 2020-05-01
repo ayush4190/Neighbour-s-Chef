@@ -1,4 +1,4 @@
-package com.example.myapplication.util.android.base
+package com.example.myapplication.util.android
 
 import android.graphics.*
 import androidx.recyclerview.widget.ItemTouchHelper

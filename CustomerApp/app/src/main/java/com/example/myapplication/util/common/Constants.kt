@@ -3,6 +3,7 @@ package com.example.myapplication.util.common
 
 private const val PACKAGE_NAME = "com.example.myapplication"
 
+// Extras
 const val EXTRA_PRODUCT = "${PACKAGE_NAME}.EXTRA_PRODUCT"
 
 // Firebase constants

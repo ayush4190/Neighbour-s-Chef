@@ -1,3 +1,4 @@
+@file:JvmName("Extensions")
 package com.example.myapplication.util.android
 
 import com.example.myapplication.model.Product

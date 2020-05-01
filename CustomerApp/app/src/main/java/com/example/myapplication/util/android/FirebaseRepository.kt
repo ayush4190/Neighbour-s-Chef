@@ -7,8 +7,13 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * Singleton repository that handles all Firebase Realtime Database calls
+ * Explicitly meant for Repository layer in MVVM
+ */
 @ExperimentalCoroutinesApi
 object FirebaseRepository {
+    // Lazy instantiation so that the field is initialized only when needed
     private val databaseReference: DatabaseReference by lazy(LazyThreadSafetyMode.NONE) {
         Firebase.database.reference.child(PATH_DEV)
     }

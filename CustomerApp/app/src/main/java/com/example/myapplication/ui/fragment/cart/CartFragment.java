@@ -15,7 +15,7 @@ import com.example.myapplication.databinding.FragmentCartBinding;
 import com.example.myapplication.model.Product;
 import com.example.myapplication.ui.fragment.checkout.CheckOutFragment;
 import com.example.myapplication.util.android.base.BaseFragment;
-import com.example.myapplication.util.android.base.CartSwipeCallback;
+import com.example.myapplication.util.android.CartSwipeCallback;
 
 import java.util.ArrayList;
 import java.util.List;
