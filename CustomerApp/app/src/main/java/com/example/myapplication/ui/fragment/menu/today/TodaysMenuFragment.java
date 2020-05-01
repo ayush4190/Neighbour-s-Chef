@@ -44,9 +44,9 @@ public class TodaysMenuFragment extends BaseFragment<TodaysMenufragBinding> {
         viewModel = new ViewModelProvider(this).get(TodayMenuViewModel.class);
 
         adapter = new MenuAdapter(products, requireActivity().getSupportFragmentManager());
-        binding.recyclerviewAll.setAdapter(adapter);
-        binding.recyclerviewAll.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.recyclerviewAll.setHasFixedSize(false);
+        binding.recyclerviewTodaymenu.setAdapter(adapter);
+        binding.recyclerviewTodaymenu.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.recyclerviewTodaymenu.setHasFixedSize(false);
 
         observeChanges();
     }

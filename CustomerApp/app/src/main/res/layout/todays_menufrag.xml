@@ -8,7 +8,7 @@ tools:ignore="MissingDefaultResource">
 
 <!-- TODO: Update blank fragment layout -->
 <androidx.recyclerview.widget.RecyclerView
-    android:id="@+id/recyclerview_all"
+    android:id="@+id/recyclerview_todaymenu"
     android:layout_width="match_parent"
     android:layout_height="match_parent" />
 

@@ -44,9 +44,9 @@ public class TomorrowMenuFragment extends BaseFragment<FragmentTomorrowTabBindin
         viewModel = new ViewModelProvider(this).get(TomorrowMenuViewModel.class);
 
         adapter = new MenuAdapter(products, requireActivity().getSupportFragmentManager());
-        binding.recyclerviewVeg.setAdapter(adapter);
-        binding.recyclerviewVeg.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.recyclerviewVeg.setHasFixedSize(false);
+        binding.recyclerviewTomorrowmenu.setAdapter(adapter);
+        binding.recyclerviewTomorrowmenu.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.recyclerviewTomorrowmenu.setHasFixedSize(false);
 
         observeChanges();
     }

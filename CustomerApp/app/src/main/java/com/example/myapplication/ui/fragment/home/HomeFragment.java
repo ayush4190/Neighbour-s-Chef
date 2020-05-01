@@ -33,14 +33,14 @@ public class HomeFragment extends BaseFragment<FragmentHomeBinding> {
 
         SectionsPagerAdapter adapter = new SectionsPagerAdapter(getChildFragmentManager());
         binding.homeTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        binding.homePager.setAdapter(adapter);
-        binding.homeTabLayout.setupWithViewPager(binding.homePager);
-        binding.homePager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        binding.ViewPageHomePager.setAdapter(adapter);
+        binding.homeTabLayout.setupWithViewPager(binding.ViewPageHomePager);
+        binding.ViewPageHomePager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 binding.homeTabLayout.setScrollPosition(position, 0, true);
                 binding.homeTabLayout.setSelected(true);
-                binding.homePager.getParent().requestDisallowInterceptTouchEvent(true);
+                binding.ViewPageHomePager.getParent().requestDisallowInterceptTouchEvent(true);
             }
 
             @Override

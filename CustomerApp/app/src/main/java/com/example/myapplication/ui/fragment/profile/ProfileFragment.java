@@ -40,7 +40,7 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.profileUpdateMobile.setOnClickListener(new View.OnClickListener() {
+        binding.textProfileUpdateMobile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 LayoutInflater inflater = requireActivity().getLayoutInflater();
@@ -67,22 +67,22 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
             }
         });
 
-        binding.profileUpdateAddress.setOnClickListener(new View.OnClickListener() {
+        binding.textProfileUpdateAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                binding.profileTvPwd.setText("Mobile:");
-                binding.profileOldpwd.setHint("Phone Number");
-                binding.profileNewpwd.setText("Password:");
-                binding.profileNewpwd.setHint("Password");
-                binding.profileTvRepwd.setText("New Address");
-                binding.profileNewpwd2.setHint("Address");
-                binding.profilePwdLinear.setVisibility(View.VISIBLE);
-                binding.profileConfirmButton.setOnClickListener(new View.OnClickListener() {
+                binding.textProfileOldPassword.setText("Mobile:");
+                binding.editProfileOldPassword.setHint("Phone Number");
+                binding.textProfileNewPassword.setText("Password:");
+                binding.editProfileNewPassword.setHint("Password");
+                binding.textProfileRetypeNewPassword.setText("New Address");
+                binding.editProfileRetypeNewPassword.setHint("Address");
+                binding.linearLayoutProfilePasswordUpdation.setVisibility(View.VISIBLE);
+                binding.buttonProfileConfirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        String phone = binding.profileOldpwd.getText().toString();
-                        String password = binding.profileNewpwd.getText().toString();
-                        String address = binding.profileNewpwd2.getText().toString();
+                        String phone = binding.editProfileOldPassword.getText().toString();
+                        String password = binding.editProfileNewPassword.getText().toString();
+                        String address = binding.editProfileRetypeNewPassword.getText().toString();
 
                     }
                 });
@@ -90,32 +90,24 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
 
             }
         });
-        binding.profilePwdLinear.setVisibility(View.INVISIBLE);
-        binding.profileUpdatePwd.setOnClickListener(new View.OnClickListener() {
+        binding.linearLayoutProfilePasswordUpdation.setVisibility(View.INVISIBLE);
+        binding.textProfileUpdatePassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                binding.profileTvPwd.setText("Old Password:");
-                binding.profileOldpwd.setHint("Old Password");
-                binding.profileTvNewpwd.setText("New Password:");
-                binding.profileNewpwd.setHint("New Password");
-                binding.profileTvRepwd.setText("Retype:");
-                binding.profileNewpwd2.setHint("Retype Password");
-                binding.profilePwdLinear.setVisibility(View.VISIBLE);
-                binding.profileConfirmButton.setOnClickListener(new View.OnClickListener() {
+                binding.textProfileOldPassword.setText("Old Password:");
+                binding.editProfileOldPassword.setHint("Old Password");
+                binding.textProfileNewPassword.setText("New Password:");
+                binding.editProfileNewPassword.setHint("New Password");
+                binding.textProfileRetypeNewPassword.setText("Retype:");
+                binding.editProfileRetypeNewPassword.setHint("Retype Password");
+                binding.linearLayoutProfilePasswordUpdation.setVisibility(View.VISIBLE);
+                binding.buttonProfileConfirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        String oldPwd = binding.profileOldpwd.getText().toString();
-                        String newPwd = binding.profileNewpwd.getText().toString();
-                        String newPwd2 = binding.profileNewpwd2.getText().toString();
-                        /*------use checkOldPwd() to check old pwd--------*/
-//                        if (!checkMatch(newPwd, newPwd2)) {
-//                            Toast.makeText(getContext(), "New password does not match", Toast.LENGTH_LONG).show();
-//                            mEditNewPwd.setText("");
-//                            mEditOldPwd.setText("");
-//                            mEditNewPwd2.setText("");
-//                            return;
-//                        }
-//                        postUpdatePwd(oldPwd, newPwd);
+                        String oldPwd = binding.editProfileOldPassword.getText().toString();
+                        String newPwd = binding.editProfileNewPassword.getText().toString();
+                        String newPwd2 = binding.editProfileRetypeNewPassword.getText().toString();
+
                     }
                 });
 
@@ -123,13 +115,13 @@ public class ProfileFragment extends BaseFragment<FragmentProfileBinding> {
             }
         });
 
-        binding.profileCancelButton.setOnClickListener(new View.OnClickListener() {
+        binding.buttonProfileCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                binding.profilePwdLinear.setVisibility(View.INVISIBLE);
-                binding.profileOldpwd.setText("");
-                binding.profileNewpwd.setText("");
-                binding.profileNewpwd2.setText("");
+                binding.linearLayoutProfilePasswordUpdation.setVisibility(View.INVISIBLE);
+                binding.textProfileOldPassword.setText("");
+                binding.textProfileNewPassword.setText("");
+                binding.textProfileRetypeNewPassword.setText("");
             }
         });
     }

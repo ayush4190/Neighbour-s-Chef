@@ -50,13 +50,13 @@ public class ItemDetailFragment extends BaseFragment<FragmentItemDetailBinding> 
     }
 
     private void initFoodInfo() {
-        binding.foodDetailId.setText(product.getId());
-        binding.foodDetailPrice.setText(product.getPrice());
+        binding.textFoodId.setText(product.getId());
+        binding.textFoodPrice.setText(product.getPrice());
         binding.foodDetailCollapsingToolbar.setTitle(product.getName());
     }
 
     private void setButtonListener() {
-        binding.foodDetailAdd.setOnClickListener(view -> {
+        binding.buttonFoodAddtocart.setOnClickListener(view -> {
 
           //  ShoppingCartItem.getInstance(getContext()).addToCart(food);
             TextView cartNumber = requireActivity().findViewById(R.id.cart_item_number);

@@ -25,7 +25,7 @@
                 android:fitsSystemWindows="true">
 
             <ImageView
-                    android:id="@+id/food_detail_image"
+                    android:id="@+id/imageView_food_detail_image"
                     android:src="@drawable/food_sample"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -69,7 +69,7 @@
                         android:layout_height="match_parent"
                         android:text="ID :"/>
                 <TextView
-                        android:id="@+id/food_detail_id"
+                        android:id="@+id/text_food_id"
                         android:text="food id"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
@@ -85,7 +85,7 @@
                         android:layout_height="match_parent"
                         android:text="Category :"/>
                 <TextView
-                        android:id="@+id/food_detail_category"
+                        android:id="@+id/text_food_category"
                         android:text="Veg/ Non Veg"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
@@ -97,14 +97,14 @@
                     android:layout_height="0dp"
                     android:text="Recipe:"/>
             <TextView
-                    android:id="@+id/food_detail_recipe"
+                    android:id="@+id/text_food_recipe"
                     android:layout_marginLeft="@dimen/activity_horizontal_margin"
                     android:layout_width="match_parent"
                     android:layout_weight="1"
                     android:layout_height="0dp"
                     android:text="food recipe"/>
             <TextView
-                    android:id="@+id/food_detail_price"
+                    android:id="@+id/text_food_price"
                     android:textStyle="bold"
                     android:gravity="end"
                     android:textSize="26sp"
@@ -116,7 +116,7 @@
 
                 <Button
                     android:layout_margin="20dp"
-                        android:id="@+id/food_detail_add"
+                        android:id="@+id/button_food_addtocart"
                         android:layout_marginTop="@dimen/activity_vertical_margin"
                         android:text="Add to Cart"
                         android:textColor="@color/icons"

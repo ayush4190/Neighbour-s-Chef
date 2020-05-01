@@ -44,9 +44,9 @@ public class RestoftheWeekFragment extends BaseFragment<FragmentRestOfTheWeekTab
         viewModel = new ViewModelProvider(this).get(RestOfTheWeekViewModel.class);
 
         adapter = new MenuAdapter(products, requireActivity().getSupportFragmentManager());
-        binding.recyclerviewNonveg.setAdapter(adapter);
-        binding.recyclerviewNonveg.setLayoutManager(new LinearLayoutManager(getContext()));
-        binding.recyclerviewNonveg.setHasFixedSize(false);
+        binding.recyclerviewRestoftheWeekMenu.setAdapter(adapter);
+        binding.recyclerviewRestoftheWeekMenu.setLayoutManager(new LinearLayoutManager(getContext()));
+        binding.recyclerviewRestoftheWeekMenu.setHasFixedSize(false);
 
         observeChanges();
     }
