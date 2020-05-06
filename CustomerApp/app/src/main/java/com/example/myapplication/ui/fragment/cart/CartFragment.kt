@@ -15,6 +15,7 @@ import com.example.myapplication.ui.fragment.checkout.CheckOutFragment
 import com.example.myapplication.util.android.CartSwipeCallback
 import com.example.myapplication.util.android.base.BaseFragment
 import com.example.myapplication.util.common.EXTRA_PRODUCT
+import com.example.myapplication.util.common.PREFERENCE_CART
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
@@ -42,7 +43,7 @@ class CartFragment private constructor(): BaseFragment<FragmentCartBinding>(), K
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
-        Toast.makeText(requireContext(), sharedPreferences.getString(EXTRA_PRODUCT, "Empty"), Toast.LENGTH_LONG).show()
+        Toast.makeText(requireContext(), sharedPreferences.getString(PREFERENCE_CART, "Empty"), Toast.LENGTH_LONG).show()
     }
 
     private fun init() {
