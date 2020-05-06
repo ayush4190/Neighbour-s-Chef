@@ -7,8 +7,8 @@ import androidx.viewbinding.ViewBinding
  * Base class for RecyclerView adapters
  * @param <VH> type of RecyclerView.ViewHolder (must extend BaseViewHolder)
  * @param <T> type of item held by the adapter
-</T></VH> */
-abstract class BaseAdapter<VH: BaseViewHolder<out ViewBinding, T>, T> protected constructor(protected val items: MutableList<T>):
+ */
+abstract class BaseAdapter<VH: BaseViewHolder<out ViewBinding, T>, T>(protected val items: MutableList<T>):
     RecyclerView.Adapter<VH>() {
     override fun onBindViewHolder(holder: VH, position: Int) = holder.bindTo(items[position])
 
@@ -26,10 +26,10 @@ abstract class BaseAdapter<VH: BaseViewHolder<out ViewBinding, T>, T> protected 
         val size = items.size
         if (overwrite) {
             clear()
-            items.addAll(newItems)
+            items += newItems
             notifyItemRangeInserted(0, newItems.size)
         } else {
-            items.addAll(newItems)
+            items += newItems
             notifyItemRangeInserted(size - 1, newItems.size)
         }
     }
@@ -41,7 +41,7 @@ abstract class BaseAdapter<VH: BaseViewHolder<out ViewBinding, T>, T> protected 
      * @see BaseAdapter.submitList
      */
     fun addItem(item: T) {
-        items.add(item)
+        items += item
         notifyItemInserted(items.size - 1)
     }
 

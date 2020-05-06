@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.R
@@ -14,8 +13,7 @@ import com.example.myapplication.model.Cart
 import com.example.myapplication.ui.fragment.checkout.CheckOutFragment
 import com.example.myapplication.util.android.CartSwipeCallback
 import com.example.myapplication.util.android.base.BaseFragment
-import com.example.myapplication.util.common.EXTRA_PRODUCT
-import com.example.myapplication.util.common.PREFERENCE_CART
+import com.example.myapplication.util.android.log
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
@@ -43,12 +41,12 @@ class CartFragment private constructor(): BaseFragment<FragmentCartBinding>(), K
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         init()
-        Toast.makeText(requireContext(), sharedPreferences.getString(PREFERENCE_CART, "Empty"), Toast.LENGTH_LONG).show()
+        cart.log()
     }
 
     private fun init() {
 //         binding.textTotalPrice.setText(String.valueOf(ShoppingCartItem.getInstance(getContext()).getPrice()));
-        adapter = CartAdapter()
+        adapter = CartAdapter(cart.products)
         initSwipe()
         binding!!.recyclerCart.adapter = adapter
         binding!!.recyclerCart.setHasFixedSize(false)

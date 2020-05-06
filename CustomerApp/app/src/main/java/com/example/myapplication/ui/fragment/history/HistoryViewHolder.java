@@ -24,7 +24,7 @@ class HistoryViewHolder extends BaseViewHolder<CardviewHistoryBinding, Order> {
 //        holder.mTextDate.setText("" + orders.get(position).getDate());
 //        holder.mTextAddress.setText(orders.get(position).getAddress());
 
-        binding.historyTrack.setOnClickListener(new View.OnClickListener() {
+        getBinding().historyTrack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
@@ -40,7 +40,7 @@ class HistoryViewHolder extends BaseViewHolder<CardviewHistoryBinding, Order> {
             }
         });
 
-        binding.historyCancel.setOnClickListener(new View.OnClickListener() {
+        getBinding().historyCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 

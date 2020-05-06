@@ -16,7 +16,7 @@ public class CheckOutViewHolder extends BaseViewHolder<CardviewCheckoutBinding, 
 
     @Override
     public void bindTo(@Nullable Product item) {
-        binding.getRoot().setOnClickListener(v ->
+        getBinding().getRoot().setOnClickListener(v ->
                 Toast.makeText(v.getContext(), item != null ? item.toString() : "View clicked", Toast.LENGTH_SHORT).show());
     }
 }
