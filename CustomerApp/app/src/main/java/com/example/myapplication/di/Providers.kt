@@ -2,6 +2,7 @@ package com.example.myapplication.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.icu.text.UnicodeSet.EMPTY
 import com.example.myapplication.model.Cart
 import com.example.myapplication.util.common.JSON
 import com.example.myapplication.util.common.PREFERENCE_CART

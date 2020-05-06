@@ -31,4 +31,6 @@ data class Product(
     companion object {
         @JvmField val CREATOR = parcelableCreator(::Product)
     }
+
+
 }

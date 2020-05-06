@@ -19,7 +19,7 @@ class CartSwipeCallback(private val adapter: CartAdapter):
 
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         if (direction == ItemTouchHelper.LEFT) {
-            adapter.deleteData(viewHolder.adapterPosition)
+          //  adapter.deleteData(viewHolder.adapterPosition)
         }
     }
 
