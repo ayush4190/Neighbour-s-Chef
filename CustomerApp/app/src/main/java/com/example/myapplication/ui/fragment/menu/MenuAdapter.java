@@ -21,6 +21,11 @@ public class MenuAdapter extends BaseAdapter<MenuViewHolder, Product> {
         this.fragmentManager = fragmentManager;
     }
 
+    @Override
+    public long getItemId(int position) {
+        return getItems().get(position).hashCode();
+    }
+
     @NonNull
     @Override
     public MenuViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

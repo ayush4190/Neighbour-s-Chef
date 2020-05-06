@@ -2,7 +2,6 @@ package com.example.myapplication.ui.fragment.login;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +17,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
-import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -40,8 +38,8 @@ public class SignInFragment extends BaseFragment<FragmentSignInBinding> {
     private static final int RC_SIGN_IN = 1001;
     private GoogleSignInClient googleSignInClient;
     private FirebaseAuth firebaseAuth;
-    public SignInFragment() {
-    }
+
+    private SignInFragment() {}
 
     public static SignInFragment newInstance() {
         return new SignInFragment();
@@ -89,7 +87,7 @@ public class SignInFragment extends BaseFragment<FragmentSignInBinding> {
         if (currentUser != null) {
             Timber.d("Currently Signed in: %s", currentUser.getEmail());
             toast(Objects.requireNonNull(getContext()),"Currently Logged in: " + currentUser.getEmail());
-            startActivity(new Intent(getActivity(),MainActivity.class));
+            startActivity(new Intent(requireContext(), MainActivity.class));
         }
     }
 

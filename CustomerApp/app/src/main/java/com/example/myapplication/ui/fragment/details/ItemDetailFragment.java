@@ -21,7 +21,6 @@ import static com.example.myapplication.util.common.Constants.EXTRA_PRODUCT;
 
 public class ItemDetailFragment extends BaseFragment<FragmentItemDetailBinding> {
     private Product product;
-    final private String TAG = "FoodDetail";
 
     public ItemDetailFragment() {}
 
@@ -50,8 +49,8 @@ public class ItemDetailFragment extends BaseFragment<FragmentItemDetailBinding> 
     }
 
     private void initFoodInfo() {
-        binding.textFoodId.setText(product.getId());
-        binding.textFoodPrice.setText(product.getPrice());
+        binding.textFoodId.setText(product.getId().toString());
+        binding.textFoodPrice.setText(String.valueOf(product.getPrice()));
         binding.foodDetailCollapsingToolbar.setTitle(product.getName());
     }
 

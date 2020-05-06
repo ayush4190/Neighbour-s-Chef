@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HomepageFragment extends BaseFragment<FragmentHomepageBinding> {
-    private List<OrderDetail> mOrderList = new ArrayList<>();
+    private List<OrderDetail> orders = new ArrayList<>();
     private OrderAdapter adapter ;
 
     private HomepageFragment() {}
@@ -37,7 +37,7 @@ public class HomepageFragment extends BaseFragment<FragmentHomepageBinding> {
     public void onViewCreated(@NonNull final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        adapter = new OrderAdapter(mOrderList, requireActivity());
+        adapter = new OrderAdapter(orders, requireActivity());
         binding.recyclerviewOrder.setAdapter(adapter);
         binding.recyclerviewOrder.setLayoutManager(new LinearLayoutManager(getContext()));
 

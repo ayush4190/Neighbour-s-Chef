@@ -36,9 +36,9 @@ public class MenuViewHolder extends BaseViewHolder<CardviewFoodBinding, Product>
                         .commit();
             });
 
-            binding.foodId.setText(item.getId());
+            binding.foodId.setText(item.getId().toString());
             binding.foodName.setText(item.getName());
-            binding.foodPrice.setText(item.getPrice());
+            binding.foodPrice.setText(String.valueOf(item.getPrice()));
 
 //        binding.foodCategory.setText(foods.get(position).getCategory());
 //        binding.foodImg.setImageBitmap(foods.get(position).getImage());

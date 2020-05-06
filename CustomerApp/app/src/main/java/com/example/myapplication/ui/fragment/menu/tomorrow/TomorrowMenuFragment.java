@@ -44,6 +44,7 @@ public class TomorrowMenuFragment extends BaseFragment<FragmentTomorrowTabBindin
         viewModel = new ViewModelProvider(this).get(TomorrowMenuViewModel.class);
 
         adapter = new MenuAdapter(products, requireActivity().getSupportFragmentManager());
+        adapter.setHasStableIds(true);
         binding.recyclerviewTomorrowmenu.setAdapter(adapter);
         binding.recyclerviewTomorrowmenu.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerviewTomorrowmenu.setHasFixedSize(false);
@@ -57,7 +58,7 @@ public class TomorrowMenuFragment extends BaseFragment<FragmentTomorrowTabBindin
                 Toast.makeText(requireContext(), "Loading", Toast.LENGTH_SHORT).show();
             } else if (state instanceof State.Success) {
                 List<Product> data = (List<Product>) ((State.Success) state).getData();
-                adapter.submitList(data, false);
+                adapter.submitList(data, true);
             } else if (state instanceof State.Failure) {
                 Toast.makeText(requireContext(), ((State.Failure) state).getReason(), Toast.LENGTH_SHORT).show();
             }

@@ -46,8 +46,6 @@ public class TrackFragment extends BaseFragment<FragmentTrackBinding> {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        order = new Order();
-
         binding.trackSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

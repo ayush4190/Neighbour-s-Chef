@@ -44,6 +44,7 @@ public class RestoftheWeekFragment extends BaseFragment<FragmentRestOfTheWeekTab
         viewModel = new ViewModelProvider(this).get(RestOfTheWeekViewModel.class);
 
         adapter = new MenuAdapter(products, requireActivity().getSupportFragmentManager());
+        adapter.setHasStableIds(true);
         binding.recyclerviewRestoftheWeekMenu.setAdapter(adapter);
         binding.recyclerviewRestoftheWeekMenu.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerviewRestoftheWeekMenu.setHasFixedSize(false);
@@ -57,7 +58,7 @@ public class RestoftheWeekFragment extends BaseFragment<FragmentRestOfTheWeekTab
                 Toast.makeText(requireContext(), "Loading", Toast.LENGTH_SHORT).show();
             } else if (state instanceof State.Success) {
                 List<Product> data = (List<Product>) ((State.Success) state).getData();
-                adapter.submitList(data, false);
+                adapter.submitList(data, true);
             } else if (state instanceof State.Failure) {
                 Toast.makeText(requireContext(), ((State.Failure) state).getReason(), Toast.LENGTH_SHORT).show();
             }

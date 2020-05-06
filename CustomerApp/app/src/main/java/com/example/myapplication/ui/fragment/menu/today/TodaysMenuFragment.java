@@ -44,6 +44,7 @@ public class TodaysMenuFragment extends BaseFragment<TodaysMenufragBinding> {
         viewModel = new ViewModelProvider(this).get(TodayMenuViewModel.class);
 
         adapter = new MenuAdapter(products, requireActivity().getSupportFragmentManager());
+        adapter.setHasStableIds(true);
         binding.recyclerviewTodaymenu.setAdapter(adapter);
         binding.recyclerviewTodaymenu.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.recyclerviewTodaymenu.setHasFixedSize(false);
@@ -57,7 +58,7 @@ public class TodaysMenuFragment extends BaseFragment<TodaysMenufragBinding> {
                 Toast.makeText(requireContext(), "Loading", Toast.LENGTH_SHORT).show();
             } else if (state instanceof State.Success) {
                 List<Product> data = (List<Product>) ((State.Success) state).getData();
-                adapter.submitList(data, false);
+                adapter.submitList(data, true);
             } else if (state instanceof State.Failure) {
                 Toast.makeText(requireContext(), ((State.Failure) state).getReason(), Toast.LENGTH_SHORT).show();
             }
