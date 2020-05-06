@@ -27,4 +27,6 @@
     <string name="application_name">NeighBour\'s Chef</string>
     <string name="checkout">Checkout</string>
     <string name="back">Back</string>
+
+    <string name="set_price">\u20b9 %f</string>
 </resources>

@@ -1,10 +1,10 @@
 package com.example.myapplication.ui.fragment.cart
 
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.commit
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.R
@@ -22,54 +22,60 @@ import org.kodein.di.generic.kcontext
 class CartFragment private constructor(): BaseFragment<FragmentCartBinding>(), KodeinAware {
     override val kodein by closestKodein()
     override val kodeinContext = kcontext(requireContext())
-    private val sharedPreferences by kodein.instance<SharedPreferences>()
     private val cart by kodein.instance<Cart>()
 
-    private var adapter: CartAdapter? = null
+    private val adapter: CartAdapter by lazy(LazyThreadSafetyMode.NONE) {
+        CartAdapter(cart.products).also {
+            it.setHasStableIds(true)
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentCartBinding.inflate(
-            inflater,
-            container,
-            false
-        )
+        binding = FragmentCartBinding.inflate(inflater, container, false)
         return binding!!.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        init()
+
         cart.log()
+        setupViews()
     }
 
-    private fun init() {
-//         binding.textTotalPrice.setText(String.valueOf(ShoppingCartItem.getInstance(getContext()).getPrice()));
-        adapter = CartAdapter(cart.products)
+    private fun setupViews() {
+        binding.textTotalPrice.text = getString(R.string.set_price, cart.total())
+
         initSwipe()
-        binding!!.recyclerCart.adapter = adapter
-        binding!!.recyclerCart.setHasFixedSize(false)
-        binding!!.recyclerCart.layoutManager = LinearLayoutManager(context)
-        binding!!.btnBack.setOnClickListener { requireActivity().finish() }
-        binding!!.btnCheckout.setOnClickListener {
-            val checkOutFragment = CheckOutFragment.newInstance(null)
-            requireActivity().supportFragmentManager
-                .beginTransaction()
-                .setCustomAnimations(
-                    R.anim.fade_in,
-                    R.anim.fade_out,
-                    R.anim.fade_in,
-                    R.anim.fade_out
-                )
-                .replace(R.id.main_fragment_container, checkOutFragment)
-                .addToBackStack(CartFragment::class.java.name)
-                .commit()
+        with(binding) {
+            recyclerCart.apply {
+                adapter = this@CartFragment.adapter
+                setHasFixedSize(true)
+                layoutManager = LinearLayoutManager(requireContext())
+            }
+
+            btnBack.setOnClickListener { requireActivity().finish() }
+
+            btnCheckout.setOnClickListener {
+                requireActivity().supportFragmentManager
+                    .commit {
+                        setCustomAnimations(
+                            R.anim.fade_in,
+                            R.anim.fade_out,
+                            R.anim.fade_in,
+                            R.anim.fade_out
+                        )
+                        replace(R.id.main_fragment_container, CheckOutFragment.newInstance(cart))
+                        addToBackStack(CartFragment::class.java.name)
+                    }
+            }
         }
     }
 
     private fun initSwipe() {
-        val itemTouchHelper = ItemTouchHelper(CartSwipeCallback(adapter!!))
+        val itemTouchHelper = ItemTouchHelper(CartSwipeCallback(adapter))
         itemTouchHelper.attachToRecyclerView(binding!!.recyclerCart)
     }
 
