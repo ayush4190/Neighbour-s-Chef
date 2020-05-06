@@ -29,7 +29,6 @@ fun sendEmail(context: Context, subject: String, message: String) {
 
 }
 
-fun toast(context: Context,message: String)
-{
+fun toast(context: Context,message: String) {
     Toast.makeText(context, message,Toast.LENGTH_SHORT).show()
 }

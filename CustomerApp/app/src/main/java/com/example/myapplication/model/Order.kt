@@ -5,6 +5,7 @@ import android.os.ParcelUuid
 import com.example.myapplication.model.Order.OrderStatus.*
 import com.example.myapplication.util.android.*
 import org.threeten.bp.LocalDateTime
+import java.util.*
 
 val tempProducts: MutableList<Product> = mutableListOf()
 
@@ -64,5 +65,12 @@ data class Order(
 
     companion object {
         @JvmField val CREATOR = parcelableCreator(::Order)
+
+        @JvmStatic fun fromCart(cart: Cart): Order = Order(
+            ParcelUuid(UUID.randomUUID()),
+            cart.products,
+            PLACED,
+            LocalDateTime.now()
+        )
     }
 }

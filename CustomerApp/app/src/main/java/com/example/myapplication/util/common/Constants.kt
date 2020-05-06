@@ -15,6 +15,9 @@ const val PREFERENCE_FILE_KEY = "$PACKAGE_NAME.customer_prefs"
 const val PREFERENCE_CART = "$PACKAGE_NAME.PREFERENCE_CART"
 const val PREFERENCE_USER = "$PACKAGE_NAME.PREFERENCE_USER"
 
+// Request codes
+const val RC_SIGN_IN = 1001
+
 // Firebase constants
 const val PATH_DEV = "Development"
 const val PATH_TODAY = "Today's menu"

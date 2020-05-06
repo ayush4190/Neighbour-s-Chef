@@ -1,26 +1,24 @@
 package com.example.myapplication.ui.activity.cart
 
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.commit
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityCartBinding
-import com.example.myapplication.ui.fragment.cart.CartFragment.Companion.newInstance
+import com.example.myapplication.ui.fragment.cart.CartFragment
 
-class CartActivity : AppCompatActivity() {
+class CartActivity: AppCompatActivity() {
     private lateinit var binding: ActivityCartBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding =
-            ActivityCartBinding.inflate(layoutInflater)
-        setContentView(binding.getRoot())
-        if (findViewById<View?>(R.id.cart_container) != null) {
-            supportFragmentManager.beginTransaction()
-                .replace(
-                    R.id.cart_container,
-                    newInstance()
-                )
-                .commit()
+
+        binding = ActivityCartBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        supportFragmentManager.commit {
+            replace(R.id.cart_container, CartFragment.newInstance())
         }
+
     }
 }

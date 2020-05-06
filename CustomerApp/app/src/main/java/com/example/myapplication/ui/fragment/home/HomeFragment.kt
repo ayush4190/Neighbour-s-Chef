@@ -8,40 +8,35 @@ import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import com.example.myapplication.databinding.FragmentHomeBinding
 import com.example.myapplication.util.android.base.BaseFragment
 import com.google.android.material.tabs.TabLayout
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-class HomeFragment :
-    BaseFragment<FragmentHomeBinding?>() {
+@ExperimentalCoroutinesApi
+class HomeFragment: BaseFragment<FragmentHomeBinding>() {
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentHomeBinding.inflate(
-            inflater,
-            container,
-            false
-        )
-        return binding!!.getRoot()
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    override fun onViewCreated(
-        view: View,
-        savedInstanceState: Bundle?
-    ) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter =
-            SectionsPagerAdapter(childFragmentManager)
-        binding!!.homeTabLayout.tabGravity = TabLayout.GRAVITY_FILL
-        binding!!.ViewPageHomePager.adapter = adapter
-        binding!!.homeTabLayout.setupWithViewPager(binding!!.ViewPageHomePager)
-        binding!!.ViewPageHomePager.addOnPageChangeListener(object : OnPageChangeListener {
+
+        val adapter = SectionsPagerAdapter(childFragmentManager)
+        binding.homeTabLayout.tabGravity = TabLayout.GRAVITY_FILL
+        binding.ViewPageHomePager.adapter = adapter
+        binding.homeTabLayout.setupWithViewPager(binding.ViewPageHomePager)
+        binding.ViewPageHomePager.addOnPageChangeListener(object : OnPageChangeListener {
             override fun onPageScrolled(
                 position: Int,
                 positionOffset: Float,
                 positionOffsetPixels: Int
             ) {
-                binding!!.homeTabLayout.setScrollPosition(position, 0f, true)
-                binding!!.homeTabLayout.isSelected = true
-                binding!!.ViewPageHomePager.parent.requestDisallowInterceptTouchEvent(true)
+                binding.homeTabLayout.setScrollPosition(position, 0f, true)
+                binding.homeTabLayout.isSelected = true
+                binding.ViewPageHomePager.parent.requestDisallowInterceptTouchEvent(true)
             }
 
             override fun onPageSelected(position: Int) {}
@@ -50,8 +45,6 @@ class HomeFragment :
     }
 
     companion object {
-        fun newInstance(): HomeFragment {
-            return HomeFragment()
-        }
+        fun newInstance(): HomeFragment = HomeFragment()
     }
 }

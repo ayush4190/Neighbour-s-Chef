@@ -15,6 +15,8 @@ data class Cart(
         source.readParcelableListCompat<Product>(tempProducts, Product::class.java.classLoader).toMutableList()
     )
 
+    constructor(): this(mutableListOf())
+
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
         writeParcelableListCompat(products, flags)
     }
@@ -33,7 +35,11 @@ data class Cart(
         }
     }
 
+    infix operator fun plusAssign(product: Product) = plus(product)
+
     fun total(): Double = products.sumByDouble { it.price }
+
+    fun size(): Int = products.size
 
     companion object {
         @JvmField val CREATOR = parcelableCreator(::Cart)

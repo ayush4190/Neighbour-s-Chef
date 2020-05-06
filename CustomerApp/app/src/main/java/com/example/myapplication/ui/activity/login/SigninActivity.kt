@@ -8,23 +8,21 @@ import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivitySigninBinding
 
 class SigninActivity : AppCompatActivity() {
-    private var binding: ActivitySigninBinding? = null
+    private lateinit var binding: ActivitySigninBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding =
-            ActivitySigninBinding.inflate(layoutInflater)
-        setContentView(binding!!.getRoot())
+
+        binding = ActivitySigninBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        val mSectionsPagerAdapter =
-            SectionsPagerAdapter(
-                supportFragmentManager
-            )
+        val mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
 
         // Set up the ViewPager with the sections adapter.
-        binding!!.container.adapter = mSectionsPagerAdapter
-        binding!!.tabs.setupWithViewPager(binding!!.container)
+        binding.container.adapter = mSectionsPagerAdapter
+        binding.tabs.setupWithViewPager(binding.container)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -33,13 +31,12 @@ class SigninActivity : AppCompatActivity() {
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        val id = item.itemId
-        return if (id == R.id.action_settings) {
-            true
-        } else super.onOptionsItemSelected(item)
-    }
+    // Handle action bar item clicks here. The action bar will
+    // automatically handle clicks on the Home/Up button, so long
+    // as you specify a parent activity in AndroidManifest.xml.
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =
+        when (item.itemId) {
+            R.id.action_settings -> true
+            else -> super.onOptionsItemSelected(item)
+        }
 }

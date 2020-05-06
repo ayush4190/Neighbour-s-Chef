@@ -1,24 +1,70 @@
 package com.example.myapplication.model
 
-import java.io.Serializable
+import android.os.Parcel
+import com.example.myapplication.util.android.KParcelable
+import com.example.myapplication.util.android.parcelableCreator
+import kotlinx.serialization.Serializable
 
-class UserProfile : Serializable {
-    var user_name: String? = null
-    var email: String? = null
-    var mobile: String? = null
-    var address: String? = null
+@Serializable
+data class UserProfile(
+    val name: String,
+    val email: String,
+    val phoneNumber: String,
+    val address: Address
+): KParcelable {
+    @Serializable
+    data class Address(
+        val name: String,
+        val latitude: Double,
+        val longitude: Double,
+        val flatNo: String?,
+        val building: String,
+        val locality: String,
+        val city: String,
+        val pinCode: String
+    ): KParcelable {
+        private constructor(parcel: Parcel): this(
+            parcel.readString()!!,
+            parcel.readDouble(),
+            parcel.readDouble(),
+            parcel.readString(),
+            parcel.readString()!!,
+            parcel.readString()!!,
+            parcel.readString()!!,
+            parcel.readString()!!
+        )
 
-    constructor() {}
-    constructor(
-        user_name: String?,
-        email: String?,
-        mobile: String?,
-        address: String?
-    ) {
-        this.user_name = user_name
-        this.email = email
-        this.mobile = mobile
-        this.address = address
+        override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
+            writeString(name)
+            writeDouble(latitude)
+            writeDouble(longitude)
+            writeString(flatNo)
+            writeString(building)
+            writeString(locality)
+            writeString(city)
+            writeString(pinCode)
+        }
+
+        companion object {
+            @JvmField val CREATOR = parcelableCreator(::Address)
+        }
     }
 
+    private constructor(parcel: Parcel): this(
+        parcel.readString()!!,
+        parcel.readString()!!,
+        parcel.readString()!!,
+        parcel.readParcelable<Address>(Address::class.java.classLoader)!!
+    )
+
+    override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
+        writeString(name)
+        writeString(email)
+        writeString(phoneNumber)
+        writeParcelable(address, flags)
+    }
+
+    companion object {
+        @JvmField val CREATOR = parcelableCreator(::UserProfile)
+    }
 }

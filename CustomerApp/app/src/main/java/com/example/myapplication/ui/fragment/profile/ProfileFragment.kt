@@ -13,8 +13,7 @@ import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentProfileBinding
 import com.example.myapplication.util.android.base.BaseFragment
 
-class ProfileFragment private constructor() :
-    BaseFragment<FragmentProfileBinding?>() {
+class ProfileFragment: BaseFragment<FragmentProfileBinding>() {
     override fun onResume() {
         super.onResume()
         requireActivity().title = "Profile"
@@ -24,12 +23,8 @@ class ProfileFragment private constructor() :
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentProfileBinding.inflate(
-            inflater,
-            container,
-            false
-        )
-        return binding!!.getRoot()
+        _binding = FragmentProfileBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(
@@ -37,18 +32,18 @@ class ProfileFragment private constructor() :
         savedInstanceState: Bundle?
     ) {
         super.onViewCreated(view, savedInstanceState)
-        binding!!.textProfileUpdateMobile.setOnClickListener(View.OnClickListener { view ->
+        binding.textProfileUpdateMobile.setOnClickListener {
             val inflater = requireActivity().layoutInflater
             val layout = inflater.inflate(
                 R.layout.dialog_set_mobile,
-                view.findViewById<View>(R.id.dialog_mobile) as ViewGroup
+                it.findViewById<View>(R.id.dialog_mobile) as ViewGroup
             )
             AlertDialog.Builder(activity)
                 .setTitle("Please Input Contact Information").setIcon(
                     android.R.drawable.ic_dialog_dialer
                 ).setView(
                     layout
-                ).setPositiveButton("OK", DialogInterface.OnClickListener { dialogInterface, i ->
+                ).setPositiveButton("OK", DialogInterface.OnClickListener { dialogInterface, _ ->
                     val dialog = dialogInterface as Dialog
                     val inputMobile =
                         dialog.findViewById<EditText>(R.id.dialog_et_mobile)
@@ -65,53 +60,52 @@ class ProfileFragment private constructor() :
                         ).show()
                     }
                 }).setNegativeButton("Cancel", null).show()
-        })
-        binding!!.textProfileUpdateAddress.setOnClickListener {
-            binding!!.textProfileOldPassword.text = "Mobile:"
-            binding!!.editProfileOldPassword.hint = "Phone Number"
-            binding!!.textProfileNewPassword.text = "Password:"
-            binding!!.editProfileNewPassword.hint = "Password"
-            binding!!.textProfileRetypeNewPassword.text = "New Address"
-            binding!!.editProfileRetypeNewPassword.hint = "Address"
-            binding!!.linearLayoutProfilePasswordUpdation.visibility = View.VISIBLE
-            binding!!.buttonProfileConfirm.setOnClickListener {
+        }
+        
+        binding.textProfileUpdateAddress.setOnClickListener {
+            binding.textProfileOldPassword.text = "Mobile:"
+            binding.editProfileOldPassword.hint = "Phone Number"
+            binding.textProfileNewPassword.text = "Password:"
+            binding.editProfileNewPassword.hint = "Password"
+            binding.textProfileRetypeNewPassword.text = "New Address"
+            binding.editProfileRetypeNewPassword.hint = "Address"
+            binding.linearLayoutProfilePasswordUpdation.visibility = View.VISIBLE
+            binding.buttonProfileConfirm.setOnClickListener {
                 val phone =
-                    binding!!.editProfileOldPassword.text.toString()
+                    binding.editProfileOldPassword.text.toString()
                 val password =
-                    binding!!.editProfileNewPassword.text.toString()
+                    binding.editProfileNewPassword.text.toString()
                 val address =
-                    binding!!.editProfileRetypeNewPassword.text.toString()
+                    binding.editProfileRetypeNewPassword.text.toString()
             }
         }
-        binding!!.linearLayoutProfilePasswordUpdation.visibility = View.INVISIBLE
-        binding!!.textProfileUpdatePassword.setOnClickListener {
-            binding!!.textProfileOldPassword.text = "Old Password:"
-            binding!!.editProfileOldPassword.hint = "Old Password"
-            binding!!.textProfileNewPassword.text = "New Password:"
-            binding!!.editProfileNewPassword.hint = "New Password"
-            binding!!.textProfileRetypeNewPassword.text = "Retype:"
-            binding!!.editProfileRetypeNewPassword.hint = "Retype Password"
-            binding!!.linearLayoutProfilePasswordUpdation.visibility = View.VISIBLE
-            binding!!.buttonProfileConfirm.setOnClickListener {
+        binding.linearLayoutProfilePasswordUpdation.visibility = View.INVISIBLE
+        binding.textProfileUpdatePassword.setOnClickListener {
+            binding.textProfileOldPassword.text = "Old Password:"
+            binding.editProfileOldPassword.hint = "Old Password"
+            binding.textProfileNewPassword.text = "New Password:"
+            binding.editProfileNewPassword.hint = "New Password"
+            binding.textProfileRetypeNewPassword.text = "Retype:"
+            binding.editProfileRetypeNewPassword.hint = "Retype Password"
+            binding.linearLayoutProfilePasswordUpdation.visibility = View.VISIBLE
+            binding.buttonProfileConfirm.setOnClickListener {
                 val oldPwd =
-                    binding!!.editProfileOldPassword.text.toString()
+                    binding.editProfileOldPassword.text.toString()
                 val newPwd =
-                    binding!!.editProfileNewPassword.text.toString()
+                    binding.editProfileNewPassword.text.toString()
                 val newPwd2 =
-                    binding!!.editProfileRetypeNewPassword.text.toString()
+                    binding.editProfileRetypeNewPassword.text.toString()
             }
         }
-        binding!!.buttonProfileCancel.setOnClickListener {
-            binding!!.linearLayoutProfilePasswordUpdation.visibility = View.INVISIBLE
-            binding!!.textProfileOldPassword.text = ""
-            binding!!.textProfileNewPassword.text = ""
-            binding!!.textProfileRetypeNewPassword.text = ""
+        binding.buttonProfileCancel.setOnClickListener {
+            binding.linearLayoutProfilePasswordUpdation.visibility = View.INVISIBLE
+            binding.textProfileOldPassword.text = ""
+            binding.textProfileNewPassword.text = ""
+            binding.textProfileRetypeNewPassword.text = ""
         }
     }
 
     companion object {
-        fun newInstance(): ProfileFragment {
-            return ProfileFragment()
-        }
+        fun newInstance(): ProfileFragment = ProfileFragment()
     }
 }

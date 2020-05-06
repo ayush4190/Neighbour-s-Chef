@@ -1,6 +1,7 @@
 @file:JvmName("Extensions")
 package com.example.myapplication.util.android
 
+import android.widget.EditText
 import com.example.myapplication.model.Product
 import com.example.myapplication.util.common.State
 import com.google.firebase.database.*
@@ -52,3 +53,8 @@ fun Query.listen(): Flow<State> = callbackFlow {
     addValueEventListener(valueListener)
     awaitClose { removeEventListener(valueListener) }
 }
+
+/**
+ * Retrieve the [EditText] value as a [String]
+ */
+fun EditText.asString(): String = text.toString()

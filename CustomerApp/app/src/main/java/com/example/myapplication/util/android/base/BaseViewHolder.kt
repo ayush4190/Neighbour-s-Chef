@@ -9,5 +9,5 @@ import androidx.viewbinding.ViewBinding
  * @param <T> type of item being held
 </T></VB> */
 abstract class BaseViewHolder<VB : ViewBinding, T>(protected val binding: VB): RecyclerView.ViewHolder(binding.root) {
-    abstract fun bindTo(item: T?)
+    abstract fun bindTo(item: T)
 }

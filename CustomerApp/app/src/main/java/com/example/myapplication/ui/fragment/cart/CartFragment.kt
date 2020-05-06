@@ -15,14 +15,12 @@ import com.example.myapplication.util.android.CartSwipeCallback
 import com.example.myapplication.util.android.base.BaseFragment
 import com.example.myapplication.util.android.log
 import org.kodein.di.KodeinAware
-import org.kodein.di.android.x.closestKodein
+import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
-import org.kodein.di.generic.kcontext
 
-class CartFragment private constructor(): BaseFragment<FragmentCartBinding>(), KodeinAware {
-    override val kodein by closestKodein()
-    override val kodeinContext = kcontext(requireContext())
-    private val cart by kodein.instance<Cart>()
+class CartFragment: BaseFragment<FragmentCartBinding>(), KodeinAware {
+    override val kodein by kodein()
+    val cart by instance<Cart>()
 
     private val adapter: CartAdapter by lazy(LazyThreadSafetyMode.NONE) {
         CartAdapter(cart.products).also {
@@ -34,8 +32,8 @@ class CartFragment private constructor(): BaseFragment<FragmentCartBinding>(), K
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentCartBinding.inflate(inflater, container, false)
-        return binding!!.root
+        _binding = FragmentCartBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -76,7 +74,7 @@ class CartFragment private constructor(): BaseFragment<FragmentCartBinding>(), K
 
     private fun initSwipe() {
         val itemTouchHelper = ItemTouchHelper(CartSwipeCallback(adapter))
-        itemTouchHelper.attachToRecyclerView(binding!!.recyclerCart)
+        itemTouchHelper.attachToRecyclerView(binding.recyclerCart)
     }
 
     companion object {

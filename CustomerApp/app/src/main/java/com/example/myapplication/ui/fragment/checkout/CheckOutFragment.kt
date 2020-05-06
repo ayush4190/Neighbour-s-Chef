@@ -11,7 +11,7 @@ import com.example.myapplication.model.Cart
 import com.example.myapplication.util.android.base.BaseFragment
 import com.example.myapplication.util.common.EXTRA_CART
 
-class CheckOutFragment private constructor(): BaseFragment<FragmentCheckoutBinding>() {
+class CheckOutFragment: BaseFragment<FragmentCheckoutBinding>() {
     private val cart: Cart by lazy(LazyThreadSafetyMode.NONE) { requireArguments()[EXTRA_CART] as Cart }
     private val adapter: CheckOutAdapter by lazy(LazyThreadSafetyMode.NONE) {
         CheckOutAdapter(cart.products).also {
@@ -24,7 +24,7 @@ class CheckOutFragment private constructor(): BaseFragment<FragmentCheckoutBindi
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentCheckoutBinding.inflate(inflater, container, false)
+        _binding = FragmentCheckoutBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -34,7 +34,7 @@ class CheckOutFragment private constructor(): BaseFragment<FragmentCheckoutBindi
     ) {
         super.onViewCreated(view, savedInstanceState)
 
-        with(binding!!.recyclerCheckout) {
+        with(binding.recyclerCheckout) {
             adapter = this@CheckOutFragment.adapter
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)

@@ -4,73 +4,68 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.fragment.app.commit
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityMainBinding
+import com.example.myapplication.model.Cart
 import com.example.myapplication.ui.activity.cart.CartActivity
-import com.example.myapplication.ui.activity.main.MainActivity
 import com.example.myapplication.ui.fragment.help.HelpFragment
-
 import com.example.myapplication.ui.fragment.home.HomeFragment
 import com.example.myapplication.ui.fragment.profile.ProfileFragment
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.navigation.NavigationView
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.closestKodein
+import org.kodein.di.generic.instance
 
-class MainActivity : AppCompatActivity(),
-    NavigationView.OnNavigationItemSelectedListener {
-    private var binding: ActivityMainBinding? = null
-    var cartNumber: TextView? = null
+@ExperimentalCoroutinesApi
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, KodeinAware {
+    override val kodein by closestKodein()
+    val cart: Cart by instance<Cart>()
+
+    lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding =
-            ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding!!.root)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
         init()
     }
 
     private fun init() {
         city = "Hyderabad"
-        val toolbar =
-            findViewById<Toolbar>(R.id.toolbar)
-        setSupportActionBar(toolbar)
-        val fab = findViewById<FloatingActionButton>(R.id.fab)
-        cartNumber = findViewById(R.id.cart_item_number)
-        //        cartNumber.setText(String.valueOf(ShoppingCartItem.getInstance(this).getSize()));
-        fab.setOnClickListener {
-            startActivity(
-                Intent(
-                    this@MainActivity,
-                    CartActivity::class.java
-                )
-            )
+
+        setSupportActionBar(binding.layoutAppbar.toolbar)
+
+        binding.layoutAppbar.cartItemNumber.text = cart.size().toString()
+        binding.layoutAppbar.fab.setOnClickListener {
+            startActivity(Intent(this, CartActivity::class.java))
         }
-        val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
+
         val toggle = ActionBarDrawerToggle(
             this@MainActivity,
-            drawer,
-            toolbar,
+            binding.drawerLayout,
+            binding.layoutAppbar.toolbar,
             R.string.navigation_drawer_open,
             R.string.navigation_drawer_close
         )
-        drawer.addDrawerListener(toggle)
+        binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
-        val navigationView = findViewById<NavigationView>(R.id.nav_view)
-        navigationView.setNavigationItemSelectedListener(this)
-        val navHeaderView =
-            navigationView.inflateHeaderView(R.layout.nav_header_main)
+
+        binding.navView.setNavigationItemSelectedListener(this)
+        val navHeaderView = binding.navView.inflateHeaderView(R.layout.nav_header_main)
         val header_mobile = navHeaderView.findViewById<TextView>(R.id.nav_mobile)
         val header_name = navHeaderView.findViewById<TextView>(R.id.nav_name)
-        if (findViewById<View?>(R.id.main_fragment_container) != null) {
-            val homeFragment = HomeFragment.newInstance()
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.main_fragment_container, homeFragment).commit()
+
+        supportFragmentManager.commit {
+            replace(R.id.main_fragment_container, HomeFragment.newInstance())
         }
     }
 
@@ -89,22 +84,18 @@ class MainActivity : AppCompatActivity(),
         return true
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        val id = item.itemId
-        return if (id == R.id.action_settings) {
-            true
-        } else super.onOptionsItemSelected(item)
-    }
+    // Handle action bar item clicks here. The action bar will
+    // automatically handle clicks on the Home/Up button, so long
+    // as you specify a parent activity in AndroidManifest.xml.
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =
+        when (item.itemId) {
+            R.id.action_settings -> true
+            else -> super.onOptionsItemSelected(item)
+        }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
-        val id = item.itemId
-        val transaction =
-            supportFragmentManager.beginTransaction()
-        when (id) {
+        val transaction = supportFragmentManager.beginTransaction()
+        when (item.itemId) {
             R.id.nav_home -> {
                 val homeFragment = HomeFragment.newInstance()
                 transaction.replace(R.id.main_fragment_container, homeFragment).commit()
@@ -127,15 +118,11 @@ class MainActivity : AppCompatActivity(),
                 val helpFragment = HelpFragment.newInstance()
                 transaction.replace(R.id.main_fragment_container, helpFragment).commit()
             }
-            R.id.nav_rate -> {
-            }
-            R.id.nav_logout -> {
-            }
-            else -> {
-            }
+            R.id.nav_rate -> {}
+            R.id.nav_logout -> {}
+            else -> {}
         }
-        val drawer = findViewById<DrawerLayout>(R.id.drawer_layout)
-        drawer.closeDrawer(GravityCompat.START)
+        binding.drawerLayout.closeDrawer(GravityCompat.START)
         return true
     }
 

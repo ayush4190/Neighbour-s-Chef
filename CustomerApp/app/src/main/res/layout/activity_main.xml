@@ -9,6 +9,7 @@
     tools:context=".ui.activity.main.MainActivity">
 
     <include
+        android:id="@+id/layout_appbar"
         layout="@layout/app_bar_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
