@@ -5,7 +5,9 @@ import com.example.myapplication.util.android.KParcelable
 import com.example.myapplication.util.android.parcelableCreator
 import com.example.myapplication.util.android.readParcelableListCompat
 import com.example.myapplication.util.android.writeParcelableListCompat
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Cart(
     val products: MutableList<Product>
 ): KParcelable {
@@ -35,5 +37,7 @@ data class Cart(
 
     companion object {
         @JvmField val CREATOR = parcelableCreator(::Cart)
+
+        @JvmField val EMPTY = Cart(mutableListOf())
     }
 }

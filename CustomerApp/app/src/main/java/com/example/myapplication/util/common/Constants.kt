@@ -1,6 +1,9 @@
 @file:JvmName("Constants")
 package com.example.myapplication.util.common
 
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonConfiguration
+
 private const val PACKAGE_NAME = "com.example.myapplication"
 
 // Extras
@@ -20,3 +23,4 @@ const val PATH_REST_OF_THE_WEEK = "Rest of the week"
 
 // Misc
 const val DEV_EMAIL = "a.ayushkumar1997@gmail.com"
+val JSON = Json(JsonConfiguration.Stable.copy(encodeDefaults = true, isLenient = true, prettyPrint = true))

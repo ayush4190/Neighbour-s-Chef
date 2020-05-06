@@ -3,10 +3,13 @@ package com.example.myapplication.model
 import android.os.Parcel
 import android.os.ParcelUuid
 import com.example.myapplication.util.android.KParcelable
+import com.example.myapplication.util.android.ParcelUuidSerializer
 import com.example.myapplication.util.android.parcelableCreator
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Product(
-    val id: ParcelUuid,
+    @Serializable(with = ParcelUuidSerializer::class) val id: ParcelUuid,
     val name: String,
     val price: Double,
     var quantity: Int = 0

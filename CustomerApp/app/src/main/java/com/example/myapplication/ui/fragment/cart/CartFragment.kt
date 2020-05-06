@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentCartBinding
+import com.example.myapplication.model.Cart
 import com.example.myapplication.ui.fragment.checkout.CheckOutFragment
 import com.example.myapplication.util.android.CartSwipeCallback
 import com.example.myapplication.util.android.base.BaseFragment
@@ -23,6 +24,7 @@ class CartFragment private constructor(): BaseFragment<FragmentCartBinding>(), K
     override val kodein by closestKodein()
     override val kodeinContext = kcontext(requireContext())
     private val sharedPreferences by kodein.instance<SharedPreferences>()
+    private val cart by kodein.instance<Cart>()
 
     private var adapter: CartAdapter? = null
     override fun onCreateView(
