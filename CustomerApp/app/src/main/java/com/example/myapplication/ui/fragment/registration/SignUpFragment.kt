@@ -1,4 +1,4 @@
-package com.example.myapplication.ui.fragment.register
+package com.example.myapplication.ui.fragment.registration
 
 import android.os.Bundle
 import android.view.LayoutInflater

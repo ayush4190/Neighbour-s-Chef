@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.databinding.FragmentRestOfTheWeekTabBinding
 import com.example.myapplication.model.Product
@@ -19,7 +20,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalCoroutinesApi
 class RestoftheWeekFragment: BaseFragment<FragmentRestOfTheWeekTabBinding>() {
     private val adapter: MenuAdapter by lazy(LazyThreadSafetyMode.NONE) {
-        MenuAdapter(mutableListOf(), requireActivity().supportFragmentManager).also {
+        MenuAdapter(mutableListOf(), findNavController()).also {
             it.setHasStableIds(true)
         }
     }

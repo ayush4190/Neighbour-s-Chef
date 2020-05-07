@@ -3,14 +3,18 @@ package com.example.myapplication.model
 import android.os.Parcel
 import com.example.myapplication.util.android.KParcelable
 import com.example.myapplication.util.android.parcelableCreator
+import com.example.myapplication.util.android.readParcelableListCompat
+import com.example.myapplication.util.android.writeParcelableListCompat
 import kotlinx.serialization.Serializable
+
+private val tempAddresses: MutableList<UserProfile.Address> = mutableListOf()
 
 @Serializable
 data class UserProfile(
     val name: String,
     val email: String,
     val phoneNumber: String,
-    val address: Address
+    val addresses: List<Address>
 ): KParcelable {
     @Serializable
     data class Address(
@@ -54,14 +58,14 @@ data class UserProfile(
         parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString()!!,
-        parcel.readParcelable<Address>(Address::class.java.classLoader)!!
+        parcel.readParcelableListCompat(tempAddresses, Address::class.java.classLoader)
     )
 
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
         writeString(name)
         writeString(email)
         writeString(phoneNumber)
-        writeParcelable(address, flags)
+        writeParcelableListCompat(addresses, flags)
     }
 
     companion object {

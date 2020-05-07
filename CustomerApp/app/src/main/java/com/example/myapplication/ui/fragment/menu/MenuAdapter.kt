@@ -3,6 +3,7 @@ package com.example.myapplication.ui.fragment.menu
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
+import androidx.navigation.NavController
 import com.example.myapplication.databinding.CardviewFoodBinding
 import com.example.myapplication.model.Product
 import com.example.myapplication.util.android.base.BaseAdapter
@@ -11,7 +12,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalCoroutinesApi
 class MenuAdapter(
     items: MutableList<Product>,
-    private val fragmentManager: FragmentManager
+    private val navController: NavController
 ): BaseAdapter<MenuViewHolder, Product>(items) {
     private val s: List<String>? = null
 
@@ -24,7 +25,7 @@ class MenuAdapter(
                 parent,
                 false
             ),
-            fragmentManager
+            navController
         )
 
 }

@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.databinding.FragmentCheckoutBinding
 import com.example.myapplication.model.Cart
@@ -14,9 +13,7 @@ import com.example.myapplication.util.common.EXTRA_CART
 class CheckOutFragment: BaseFragment<FragmentCheckoutBinding>() {
     private val cart: Cart by lazy(LazyThreadSafetyMode.NONE) { requireArguments()[EXTRA_CART] as Cart }
     private val adapter: CheckOutAdapter by lazy(LazyThreadSafetyMode.NONE) {
-        CheckOutAdapter(cart.products).also {
-            it.setHasStableIds(true)
-        }
+        CheckOutAdapter(cart.products)
     }
 
     override fun onCreateView(
@@ -38,14 +35,6 @@ class CheckOutFragment: BaseFragment<FragmentCheckoutBinding>() {
             adapter = this@CheckOutFragment.adapter
             layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
-        }
-    }
-
-    companion object {
-        fun newInstance(cart: Cart): CheckOutFragment = CheckOutFragment().apply {
-            arguments = bundleOf(
-                EXTRA_CART to cart
-            )
         }
     }
 }

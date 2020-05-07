@@ -30,17 +30,12 @@ fun Query.listen(): Flow<State> = callbackFlow {
         override fun onDataChange(dataSnapshot: DataSnapshot) {
             // Exception caught is most likely a deserialization exception
             try {
-                // Data is received as a map with {id, product}
-                val data = dataSnapshot.getValue<Map<String, @JvmSuppressWildcards Product>>()
+                // Data is received as a list of products
+                val data = dataSnapshot.getValue<List<@JvmSuppressWildcards Product>>()
                 if (data == null) {
                     offer(State.Failure("No data found"))
                 } else {
-                    val products: MutableList<Product> = mutableListOf()
-                    for ((_, value) in data) {
-                        value.log()
-                        products.add(value)
-                    }
-                    offer(State.Success(products))
+                    offer(State.Success(data.toMutableList()))
                 }
             } catch (e: Exception) {
                 // Exception is forwarded only if offer or send is called and the channel is not closed

@@ -29,13 +29,6 @@
         android:textColor="@color/icons"
         android:backgroundTint="@color/colorPrimary"
         android:text="@string/checkout"
-        app:layout_constraintBottom_toTopOf="@id/btn_back"/>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_back"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/back"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

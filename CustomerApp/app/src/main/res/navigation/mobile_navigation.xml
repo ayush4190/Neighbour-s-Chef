@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_registration"
+    tools:ignore="UnusedNavigation">
+
+    <action
+        android:id="@+id/navigate_to_cart"
+        app:destination="@id/nav_cart"/>
+
+    <action
+        android:id="@+id/navigate_to_home"
+        app:destination="@id/nav_home"/>
+
+    <action
+        android:id="@+id/navigate_to_help"
+        app:destination="@id/nav_help"/>
+
+    <action
+        android:id="@+id/navigate_to_profile"
+        app:destination="@id/nav_profile"/>
+
+    <action
+        android:id="@+id/navigate_to_item_detail"
+        app:destination="@id/nav_item_detail"
+        app:enterAnim="@android:anim/fade_in"
+        app:exitAnim="@android:anim/fade_out"
+        app:popEnterAnim="@android:anim/fade_in"
+        app:popExitAnim="@android:anim/fade_out" />
+
+    <fragment
+        android:id="@+id/nav_registration"
+        android:name="com.example.myapplication.ui.fragment.registration.RegistrationFragment"
+        tools:layout="@layout/fragment_registration"/>
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.myapplication.ui.fragment.home.HomeFragment"
+        tools:layout="@layout/fragment_home"/>
+
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.example.myapplication.ui.fragment.profile.ProfileFragment"
+        tools:layout="@layout/fragment_profile"/>
+
+    <fragment
+        android:id="@+id/nav_help"
+        android:name="com.example.myapplication.ui.fragment.help.HelpFragment"
+        tools:layout="@layout/fragment_help"/>
+
+    <fragment
+        android:id="@+id/nav_checkout"
+        android:name="com.example.myapplication.ui.fragment.checkout.CheckOutFragment"
+        tools:layout="@layout/fragment_checkout"/>
+
+    <fragment
+        android:id="@+id/nav_item_detail"
+        android:name="com.example.myapplication.ui.fragment.details.ItemDetailFragment"
+        tools:layout="@layout/fragment_item_detail"/>
+
+    <fragment
+        android:id="@+id/nav_cart"
+        android:name="com.example.myapplication.ui.fragment.cart.CartFragment"
+        tools:layout="@layout/fragment_cart">
+
+        <action
+            android:id="@+id/navigate_to_check_out"
+            app:destination="@id/nav_checkout"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out"/>
+
+    </fragment>
+
+</navigation>

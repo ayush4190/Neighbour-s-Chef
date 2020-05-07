@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.databinding.FragmentTomorrowTabBinding
 import com.example.myapplication.model.Product
@@ -18,7 +19,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalCoroutinesApi
 class TomorrowMenuFragment: BaseFragment<FragmentTomorrowTabBinding>() {
     private val adapter: MenuAdapter by lazy(LazyThreadSafetyMode.NONE) {
-        MenuAdapter(mutableListOf(), requireActivity().supportFragmentManager).also {
+        MenuAdapter(mutableListOf(), findNavController()).also {
             it.setHasStableIds(true)
         }
     }
@@ -53,7 +54,7 @@ class TomorrowMenuFragment: BaseFragment<FragmentTomorrowTabBinding>() {
                 is State.Loading -> Toast.makeText(requireContext(), "Loading", Toast.LENGTH_SHORT).show()
                 is State.Success<*> -> {
                     it.data as List<Product>
-                    adapter.submitList(it.data, true)
+                    adapter.submitList(it.data)
                 }
                 is State.Failure -> Toast.makeText(requireContext(), it.reason, Toast.LENGTH_SHORT).show()
             }

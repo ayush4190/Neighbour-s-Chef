@@ -9,8 +9,6 @@ import com.example.myapplication.util.android.base.BaseAdapter
 internal class CheckOutAdapter(items: MutableList<Product>): BaseAdapter<CheckOutViewHolder, Product>(items) {
     private val s: List<String>? = null
 
-    override fun getItemId(position: Int): Long = items[position].hashCode().toLong()
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CheckOutViewHolder =
         CheckOutViewHolder(
             CardviewCheckoutBinding.inflate(

@@ -1,36 +1,25 @@
 package com.example.myapplication.ui.fragment.menu
 
-import androidx.fragment.app.FragmentManager
+import androidx.core.os.bundleOf
+import androidx.navigation.NavController
 import com.example.myapplication.R
 import com.example.myapplication.databinding.CardviewFoodBinding
 import com.example.myapplication.model.Product
-import com.example.myapplication.ui.fragment.details.ItemDetailFragment
-import com.example.myapplication.ui.fragment.menu.restoftheweek.RestoftheWeekFragment
 import com.example.myapplication.util.android.base.BaseViewHolder
-import com.example.myapplication.util.android.log
+import com.example.myapplication.util.common.EXTRA_PRODUCT
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 class MenuViewHolder(
     binding: CardviewFoodBinding,
-    private val fragmentManager: FragmentManager
+    private val navController: NavController
 ): BaseViewHolder<CardviewFoodBinding, Product>(binding) {
     override fun bindTo(item: Product) {
-        item.log()
         binding.root.setOnClickListener {
-            fragmentManager.beginTransaction()
-                .setCustomAnimations(
-                    R.anim.fade_in,
-                    R.anim.fade_out,
-                    R.anim.fade_in,
-                    R.anim.fade_out
-                )
-                .replace(
-                    R.id.main_fragment_container,
-                    ItemDetailFragment.newInstance(item)
-                )
-                .addToBackStack(RestoftheWeekFragment::class.java.name)
-                .commit()
+            navController.navigate(
+                R.id.navigate_to_item_detail,
+                bundleOf(EXTRA_PRODUCT to item)
+            )
         }
         binding.foodId.text = item.id
         binding.foodName.text = item.name

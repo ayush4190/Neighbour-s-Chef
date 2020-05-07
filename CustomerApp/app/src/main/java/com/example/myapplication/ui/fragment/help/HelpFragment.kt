@@ -34,8 +34,4 @@ class HelpFragment: BaseFragment<FragmentHelpBinding>() {
             )
         }
     }
-
-    companion object {
-        fun newInstance(): HelpFragment = HelpFragment()
-    }
 }

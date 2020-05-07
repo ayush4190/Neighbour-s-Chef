@@ -104,8 +104,4 @@ class ProfileFragment: BaseFragment<FragmentProfileBinding>() {
             binding.textProfileRetypeNewPassword.text = ""
         }
     }
-
-    companion object {
-        fun newInstance(): ProfileFragment = ProfileFragment()
-    }
 }
