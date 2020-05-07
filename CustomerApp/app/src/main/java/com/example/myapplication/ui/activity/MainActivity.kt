@@ -1,8 +1,6 @@
 package com.example.myapplication.ui.activity
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
@@ -26,7 +24,7 @@ import org.kodein.di.generic.instance
 @ExperimentalCoroutinesApi
 class MainActivity : AppCompatActivity(), KodeinAware {
     override val kodein by closestKodein()
-    val cart: Cart by instance<Cart>()
+    val cart by instance<Cart>()
 
     lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
@@ -41,7 +39,7 @@ class MainActivity : AppCompatActivity(), KodeinAware {
 
         navController = findNavController(R.id.nav_host_fragment)
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.nav_home, R.id.nav_help, R.id.nav_profile),
+            setOf(R.id.nav_home, R.id.nav_help, R.id.nav_profile, R.id.nav_registration),
             binding.drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -49,36 +47,6 @@ class MainActivity : AppCompatActivity(), KodeinAware {
 //        binding.navView.setNavigationItemSelectedListener(this)
 
         initViews()
-    }
-
-    private fun initViews() {
-        city = "Hyderabad"
-
-        binding.layoutAppBar.fab.text = getString(
-            R.string.set_items,
-            cart.size(),
-            resources.getQuantityString(R.plurals.items, cart.size())
-        )
-        binding.layoutAppBar.fab.setOnClickListener {
-            navController.navigate(MobileNavigationDirections.navigateToCart())
-        }
-
-        navController.addOnDestinationChangedListener { _, destination, arguments ->
-            when(destination.id) {
-                R.id.nav_home -> {
-                    supportActionBar?.title = getString(R.string.app_name)
-                    binding.layoutAppBar.fab.visibility = View.VISIBLE
-                }
-                R.id.nav_item_detail -> {
-                    supportActionBar?.title = arguments?.getParcelable<Product>(EXTRA_PRODUCT)?.name
-                    binding.layoutAppBar.fab.visibility = View.VISIBLE
-                }
-                R.id.nav_cart -> {
-                    supportActionBar?.title = getString(R.string.title_cart)
-                    binding.layoutAppBar.fab.visibility = View.GONE
-                }
-            }
-        }
     }
 
     override fun onSupportNavigateUp(): Boolean =
@@ -91,17 +59,6 @@ class MainActivity : AppCompatActivity(), KodeinAware {
             super.onBackPressed();
         }
     }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean =
-        when (item.itemId) {
-            R.id.action_settings -> true
-            else -> super.onOptionsItemSelected(item)
-        }
 
 //    override fun onNavigationItemSelected(item: MenuItem): Boolean {
 //        item.isChecked = true
@@ -120,6 +77,52 @@ class MainActivity : AppCompatActivity(), KodeinAware {
 //        binding.drawerLayout.closeDrawer(GravityCompat.START)
 //        return true
 //    }
+
+    private fun initViews() {
+        city = "Hyderabad"
+
+        binding.layoutAppBar.fab.text = if (cart.isEmpty()) {
+            ""
+        } else {
+            getString(
+                R.string.set_items,
+                cart.size(),
+                resources.getQuantityString(R.plurals.items, cart.size())
+            )
+        }
+        binding.layoutAppBar.fab.setOnClickListener {
+            navController.navigate(MobileNavigationDirections.navigateToCart())
+        }
+
+        navController.addOnDestinationChangedListener { _, destination, arguments ->
+            when(destination.id) {
+                R.id.nav_home -> {
+                    supportActionBar?.title = getString(R.string.app_name)
+                    binding.layoutAppBar.fab.visibility = View.VISIBLE
+                    binding.navView.visibility = View.VISIBLE
+                    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                }
+                R.id.nav_item_detail -> {
+                    supportActionBar?.title = arguments?.getParcelable<Product>(EXTRA_PRODUCT)?.name
+                    binding.layoutAppBar.fab.visibility = View.VISIBLE
+                    binding.navView.visibility = View.VISIBLE
+                    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                }
+                R.id.nav_cart -> {
+                    supportActionBar?.title = getString(R.string.title_cart)
+                    binding.layoutAppBar.fab.visibility = View.GONE
+                    binding.navView.visibility = View.VISIBLE
+                    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                }
+                R.id.nav_registration -> {
+                    supportActionBar?.title = getString(R.string.app_name)
+                    binding.layoutAppBar.fab.visibility = View.GONE
+                    binding.navView.visibility = View.GONE
+                    supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                }
+            }
+        }
+    }
 
     companion object {
         var city: String? = null

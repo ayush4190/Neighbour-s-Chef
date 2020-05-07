@@ -58,6 +58,8 @@ data class Cart(
 
     fun size(): Int = products.size
 
+    fun isEmpty(): Boolean = size() == 0
+
     companion object {
         @JvmField val CREATOR = parcelableCreator(::Cart)
 

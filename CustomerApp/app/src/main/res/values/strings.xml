@@ -25,6 +25,8 @@
     <string name="set_price">\u20b9 %.2f</string>
     <string name="set_items">%d %s</string>
     <string name="title_cart">Cart</string>
+    <string name="action_logout">Log Out</string>
+    <string name="sign_in">Sign In</string>
 
     <plurals name="items">
         <item quantity="one">Item</item>

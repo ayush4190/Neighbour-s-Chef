@@ -2,8 +2,6 @@ package com.example.myapplication.ui.fragment.registration
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.example.myapplication.ui.fragment.registration.SignInFragment
-import com.example.myapplication.ui.fragment.registration.SignUpFragment
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi

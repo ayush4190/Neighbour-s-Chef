@@ -2,6 +2,7 @@ package com.example.myapplication.di
 
 import android.content.Context
 import android.content.SharedPreferences
+import com.example.myapplication.CustomerApp
 import com.example.myapplication.model.Cart
 import org.kodein.di.Kodein
 import org.kodein.di.generic.bind
@@ -16,6 +17,8 @@ fun appModule(context: Context): Kodein.Module = Kodein.Module("AppModule") {
     bind<SharedPreferences>() with singleton { sharedPreferences }
 
     bind<Cart>() with singleton { provideCart(sharedPreferences) }
+
+    bind<CustomerApp>() with singleton { context as CustomerApp }
 }
 
 /**

@@ -57,7 +57,7 @@ class ItemDetailFragment: BaseFragment<FragmentItemDetailBinding>(), KodeinAware
 
     private fun setButtonListener() {
         binding.buttonFoodAddtocart.setOnClickListener {
-            cart += product
+            cart += product.copy(quantity = 1)
             (requireActivity() as MainActivity).binding.layoutAppBar.fab.text = getString(
                 R.string.set_items,
                 cart.size(),
