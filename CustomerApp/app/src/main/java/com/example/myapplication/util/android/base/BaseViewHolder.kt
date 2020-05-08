@@ -1,5 +1,6 @@
 package com.example.myapplication.util.android.base
 
+import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
 
@@ -10,4 +11,6 @@ import androidx.viewbinding.ViewBinding
 </T></VB> */
 abstract class BaseViewHolder<VB : ViewBinding, T>(protected val binding: VB): RecyclerView.ViewHolder(binding.root) {
     abstract fun bindTo(item: T)
+
+    fun setOnClickListener(listener: ((View) -> Unit)?) = binding.root.setOnClickListener(listener)
 }

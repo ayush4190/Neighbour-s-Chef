@@ -1,32 +1,23 @@
 package com.example.myapplication.ui.fragment.menu
 
-import androidx.core.os.bundleOf
-import androidx.navigation.NavController
+import coil.api.load
 import com.example.myapplication.R
-import com.example.myapplication.databinding.CardviewFoodBinding
+import com.example.myapplication.databinding.CardFoodBinding
 import com.example.myapplication.model.Product
 import com.example.myapplication.util.android.base.BaseViewHolder
-import com.example.myapplication.util.common.EXTRA_PRODUCT
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 class MenuViewHolder(
-    binding: CardviewFoodBinding,
-    private val navController: NavController
-): BaseViewHolder<CardviewFoodBinding, Product>(binding) {
+    binding: CardFoodBinding
+): BaseViewHolder<CardFoodBinding, Product>(binding) {
     override fun bindTo(item: Product) {
-        binding.root.setOnClickListener {
-            navController.navigate(
-                R.id.navigate_to_item_detail,
-                bundleOf(EXTRA_PRODUCT to item)
-            )
-        }
-        binding.foodId.text = item.id
-        binding.foodName.text = item.name
-        binding.foodPrice.text = item.price.toString()
+        binding.textFoodName.text = item.name
+        binding.textFoodPrice.text = binding.root.context.getString(R.string.set_price, item.price)
 
-//        binding.foodCategory.setText(foods.get(position).getCategory());
-//        binding.foodImg.setImageBitmap(foods.get(position).getImage());
-        binding.foodImg.tag = item.id
+        // To be changed eventually
+        binding.imgFood.load(R.drawable.food_sample)
+        binding.textFoodDescription.text = binding.root.context.getString(R.string.food_description_placeholder)
+        binding.imgFoodVegNonVeg.load(R.color.green_veg)
     }
 }

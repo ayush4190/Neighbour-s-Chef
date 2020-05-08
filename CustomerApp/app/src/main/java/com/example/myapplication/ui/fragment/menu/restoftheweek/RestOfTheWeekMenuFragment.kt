@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.myapplication.databinding.FragmentRestOfTheWeekTabBinding
+import com.example.myapplication.databinding.FragmentRestOfTheWeekMenuBinding
 import com.example.myapplication.model.Product
 import com.example.myapplication.ui.fragment.menu.MenuAdapter
 import com.example.myapplication.util.android.base.BaseFragment
@@ -18,7 +18,7 @@ import com.example.myapplication.util.common.State.Loading
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
-class RestoftheWeekFragment: BaseFragment<FragmentRestOfTheWeekTabBinding>() {
+class RestOfTheWeekMenuFragment: BaseFragment<FragmentRestOfTheWeekMenuBinding>() {
     private val adapter: MenuAdapter by lazy(LazyThreadSafetyMode.NONE) {
         MenuAdapter(mutableListOf(), findNavController()).also {
             it.setHasStableIds(true)
@@ -31,7 +31,7 @@ class RestoftheWeekFragment: BaseFragment<FragmentRestOfTheWeekTabBinding>() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentRestOfTheWeekTabBinding.inflate(inflater, container, false)
+        _binding = FragmentRestOfTheWeekMenuBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -41,30 +41,35 @@ class RestoftheWeekFragment: BaseFragment<FragmentRestOfTheWeekTabBinding>() {
     ) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.recyclerviewRestoftheWeekMenu.apply {
-            adapter = this@RestoftheWeekFragment.adapter
-            layoutManager = LinearLayoutManager(requireContext())
-            setHasFixedSize(true)
+        binding.recyclerMenu.apply {
+            setAdapter(adapter)
+            setLayoutManager(LinearLayoutManager(requireContext()))
+            addVeiledItems(10)
+            getRecyclerView().setHasFixedSize(true)
         }
         observeChanges()
     }
 
+    @Suppress("UNCHECKED_CAST")
     private fun observeChanges() {
         viewModel.products.observe(viewLifecycleOwner) {
             when (it) {
-                is Loading -> Toast.makeText(requireContext(), "Loading", Toast.LENGTH_SHORT).show()
+                is Loading -> binding.recyclerMenu.veil()
                 is State.Success<*> -> {
-                    it.data as List<Product>
-                    adapter.submitList(it.data, true)
+                    binding.recyclerMenu.unVeil()
+                    adapter.submitList(it.data as List<Product>)
                 }
-                is State.Failure -> Toast.makeText(requireContext(), it.reason, Toast.LENGTH_SHORT).show()
+                is State.Failure -> {
+                    binding.recyclerMenu.unVeil()
+                    Toast.makeText(requireContext(), it.reason, Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
 
     companion object {
-        fun newInstance(): RestoftheWeekFragment {
-            return RestoftheWeekFragment()
+        fun newInstance(): RestOfTheWeekMenuFragment {
+            return RestOfTheWeekMenuFragment()
         }
     }
 }

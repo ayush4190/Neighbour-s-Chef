@@ -4,6 +4,7 @@ buildscript {
     ext.kodein_version = "6.5.5"
     ext.lifecycle_version = "2.2.0"
     ext.navigation_version = "2.2.2"
+    ext.room_version = "2.2.5"
 
     repositories {
         google()

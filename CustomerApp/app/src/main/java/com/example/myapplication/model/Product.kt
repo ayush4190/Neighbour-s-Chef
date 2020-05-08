@@ -32,3 +32,5 @@ data class Product(
         @JvmField val CREATOR = parcelableCreator(::Product)
     }
 }
+
+fun List<Product>.total(): Double = sumByDouble { (it.price * it.quantity) }

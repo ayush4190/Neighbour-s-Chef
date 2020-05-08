@@ -8,7 +8,7 @@ import androidx.viewbinding.ViewBinding
  * @param <VH> type of RecyclerView.ViewHolder (must extend BaseViewHolder)
  * @param <T> type of item held by the adapter
  */
-abstract class BaseAdapter<VH: BaseViewHolder<out ViewBinding, T>, T>(protected val items: MutableList<T>):
+abstract class BaseAdapter<VH: BaseViewHolder<out ViewBinding, T>, T>(val items: MutableList<T>):
     RecyclerView.Adapter<VH>() {
     override fun onBindViewHolder(holder: VH, position: Int) = holder.bindTo(items[position])
 

@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.observe
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.myapplication.databinding.TodaysMenufragBinding
+import com.example.myapplication.databinding.FragmentTodayMenuBinding
 import com.example.myapplication.model.Product
 import com.example.myapplication.ui.fragment.menu.MenuAdapter
 import com.example.myapplication.util.android.base.BaseFragment
@@ -18,7 +18,7 @@ import com.example.myapplication.util.common.State.Loading
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
-class TodaysMenuFragment: BaseFragment<TodaysMenufragBinding>() {
+class TodayMenuFragment: BaseFragment<FragmentTodayMenuBinding>() {
     private val adapter: MenuAdapter by lazy(LazyThreadSafetyMode.NONE) {
         MenuAdapter(mutableListOf(), findNavController()).also {
             it.setHasStableIds(true)
@@ -30,7 +30,7 @@ class TodaysMenuFragment: BaseFragment<TodaysMenufragBinding>() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = TodaysMenufragBinding.inflate(inflater, container, false)
+        _binding = FragmentTodayMenuBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -38,29 +38,33 @@ class TodaysMenuFragment: BaseFragment<TodaysMenufragBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.recyclerviewTodaymenu.apply {
-            adapter = this@TodaysMenuFragment.adapter
-            layoutManager = LinearLayoutManager(requireContext())
-            setHasFixedSize(true)
+        binding.recyclerMenu.apply {
+            setAdapter(adapter)
+            setLayoutManager(LinearLayoutManager(requireContext()))
+            addVeiledItems(10)
+            getRecyclerView().setHasFixedSize(true)
         }
         observeChanges()
     }
 
-    @ExperimentalCoroutinesApi
+    @Suppress("UNCHECKED_CAST")
     private fun observeChanges() {
         viewModel.products.observe(viewLifecycleOwner) {
             when (it) {
-                is Loading -> Toast.makeText(requireContext(), "Loading", Toast.LENGTH_SHORT).show()
+                is Loading -> binding.recyclerMenu.veil()
                 is State.Success<*> -> {
-                    it.data as List<Product>
-                    adapter.submitList(it.data, true)
+                    binding.recyclerMenu.unVeil()
+                    adapter.submitList(it.data as List<Product>)
                 }
-                is State.Failure -> Toast.makeText(requireContext(), it.reason, Toast.LENGTH_SHORT).show()
+                is State.Failure -> {
+                    binding.recyclerMenu.unVeil()
+                    Toast.makeText(requireContext(), it.reason, Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
 
     companion object {
-        fun newInstance(): TodaysMenuFragment = TodaysMenuFragment()
+        fun newInstance(): TodayMenuFragment = TodayMenuFragment()
     }
 }
