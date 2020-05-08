@@ -19,7 +19,6 @@
     <string name="btn_logout_from_google">Logout from Google</string>
     <string name="btn_revoke_access">Revoke Access</string>
     <string name="title_activity_test_maps">Map</string>
-    <string name="checkout">Checkout</string>
     <string name="back">Back</string>
 
     <string name="set_price">\u20b9 %.2f</string>
@@ -27,6 +26,23 @@
     <string name="title_cart">Cart</string>
     <string name="action_logout">Log Out</string>
     <string name="sign_in">Sign In</string>
+
+    <string name="food_description_placeholder">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nascetur ridiculus mus mauris vitae ultricies leo integer.</string>
+    <string name="title_profile">Profile</string>
+    <string name="title_help">Help</string>
+    <string name="title_checkout">Checkout</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="empty_address">Add an address to enjoy delicious food</string>
+    <string name="name">Name</string>
+    <string name="flat">Flat #</string>
+    <string name="building">Building</string>
+    <string name="street">Street</string>
+    <string name="locality">Locality</string>
+    <string name="city">City</string>
+    <string name="pin_code">Pin Code</string>
+    <string name="landmark">Landmark</string>
+    <string name="done">Done</string>
+    <string name="title_home">Home</string>
 
     <plurals name="items">
         <item quantity="one">Item</item>

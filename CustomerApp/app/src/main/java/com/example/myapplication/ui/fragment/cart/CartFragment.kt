@@ -1,29 +1,31 @@
 package com.example.myapplication.ui.fragment.cart
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
+import androidx.core.content.edit
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentCartBinding
 import com.example.myapplication.model.Cart
-import com.example.myapplication.util.android.CartSwipeCallback
 import com.example.myapplication.util.android.base.BaseFragment
-import com.example.myapplication.util.android.log
-import com.example.myapplication.util.common.EXTRA_CART
+import com.example.myapplication.util.common.JSON
+import com.example.myapplication.util.common.PREFERENCE_CART
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
 
 class CartFragment: BaseFragment<FragmentCartBinding>(), KodeinAware {
     override val kodein by kodein()
+    val sharedPreferences by instance<SharedPreferences>()
     val cart by instance<Cart>()
 
-    private val adapter: CartAdapter by lazy(LazyThreadSafetyMode.NONE) { CartAdapter(cart.products) }
+    private val adapter: CartAdapter by lazy(LazyThreadSafetyMode.NONE) {
+        CartAdapter(cart.products, sharedPreferences, binding.textTotalPrice)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,14 +38,12 @@ class CartFragment: BaseFragment<FragmentCartBinding>(), KodeinAware {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        cart.log()
         setupViews()
     }
 
     private fun setupViews() {
         binding.textTotalPrice.text = getString(R.string.set_price, cart.total())
 
-        initSwipe()
         with(binding) {
             recyclerCart.apply {
                 adapter = this@CartFragment.adapter
@@ -52,20 +52,11 @@ class CartFragment: BaseFragment<FragmentCartBinding>(), KodeinAware {
             }
 
             btnCheckout.setOnClickListener {
-                findNavController().navigate(
-                    R.id.navigate_to_check_out,
-                    bundleOf(EXTRA_CART to cart)
-                )
+                sharedPreferences.edit {
+                    putString(PREFERENCE_CART, JSON.stringify(Cart.serializer(), Cart(adapter.items)))
+                }
+                findNavController().navigate(CartFragmentDirections.navigateToCheckOut())
             }
         }
-    }
-
-    private fun initSwipe() {
-        val itemTouchHelper = ItemTouchHelper(CartSwipeCallback(adapter))
-        itemTouchHelper.attachToRecyclerView(binding.recyclerCart)
-    }
-
-    companion object {
-        @JvmStatic fun newInstance(): CartFragment = CartFragment()
     }
 }

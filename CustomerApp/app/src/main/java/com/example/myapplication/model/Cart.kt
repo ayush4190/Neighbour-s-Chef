@@ -54,7 +54,7 @@ data class Cart(
     infix operator fun contains(product: Product): Boolean =
         products.indexOfFirst { it.id == product.id } != -1
 
-    fun total(): Double = products.sumByDouble { (it.price * it.quantity) }
+    fun total(): Double = products.total()
 
     fun size(): Int = products.size
 

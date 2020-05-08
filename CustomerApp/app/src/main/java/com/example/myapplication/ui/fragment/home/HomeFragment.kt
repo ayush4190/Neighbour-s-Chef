@@ -1,14 +1,16 @@
 package com.example.myapplication.ui.fragment.home
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.*
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navOptions
 import com.example.myapplication.CustomerApp
 import com.example.myapplication.MobileNavigationDirections
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentHomeBinding
+import com.example.myapplication.ui.activity.MainActivity
 import com.example.myapplication.util.android.base.BaseFragment
+import com.example.myapplication.util.android.getCart
 import com.example.myapplication.util.android.toast
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -20,6 +22,7 @@ import org.kodein.di.generic.instance
 class HomeFragment: BaseFragment<FragmentHomeBinding>(), KodeinAware {
     override val kodein by kodein()
     val app by instance<CustomerApp>()
+    val sharedPreferences by instance<SharedPreferences>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +47,21 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>(), KodeinAware {
             val titles = arrayOf("Today's Menu", "Tomorrow's Menu", "Rest of the Week")
             tab.text = titles[position]
         }.attach()
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val cart = getCart(sharedPreferences)
+        (requireActivity() as MainActivity).binding.layoutAppBar.fab.text = if (cart.isEmpty()) {
+            ""
+        } else {
+            getString(
+                R.string.set_items,
+                cart.size(),
+                resources.getQuantityString(R.plurals.items, cart.size())
+            )
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) =
