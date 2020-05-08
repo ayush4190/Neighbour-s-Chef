@@ -5,23 +5,23 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/menu_home"
-            android:title="Home" />
+            android:title="@string/title_home" />
         <item
             android:id="@+id/nav_profile"
             android:icon="@drawable/menu_profile"
-            android:title="Profile" />
-        <item
-            android:id="@+id/nav_history"
-            android:icon="@drawable/menu_history"
-            android:title="History" />
-        <item
-            android:id="@+id/nav_track"
-            android:icon="@drawable/menu_track"
-            android:title="Track" />
-        <item
-            android:id="@+id/nav_addr"
-            android:icon="@drawable/menu_addr"
-            android:title="Location" />
+            android:title="@string/title_profile" />
+<!--        <item-->
+<!--            android:id="@+id/nav_history"-->
+<!--            android:icon="@drawable/menu_history"-->
+<!--            android:title="History" />-->
+<!--        <item-->
+<!--            android:id="@+id/nav_track"-->
+<!--            android:icon="@drawable/menu_track"-->
+<!--            android:title="Track" />-->
+<!--        <item-->
+<!--            android:id="@+id/nav_addr"-->
+<!--            android:icon="@drawable/menu_addr"-->
+<!--            android:title="Location" />-->
     </group>
 
     <item android:title="Communicate">
@@ -30,18 +30,12 @@
                 android:id="@+id/nav_help"
                 android:icon="@drawable/menu_help"
                 android:title="Help" />
-            <item
-                android:id="@+id/nav_rate"
-                android:icon="@drawable/menu_rate"
-                android:title="Rate" />
+<!--            <item-->
+<!--                android:id="@+id/nav_rate"-->
+<!--                android:icon="@drawable/menu_rate"-->
+<!--                android:title="Rate" />-->
 
         </menu>
-    </item>
-
-    <item
-        android:id="@+id/nav_logout"
-        android:icon="@drawable/ic_menu_logout"
-        android:title="Logout">
     </item>
 
 </menu>

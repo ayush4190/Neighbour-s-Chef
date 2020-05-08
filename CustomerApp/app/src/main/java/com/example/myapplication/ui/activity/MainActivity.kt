@@ -44,7 +44,26 @@ class MainActivity : AppCompatActivity(), KodeinAware {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         binding.navView.setupWithNavController(navController)
-//        binding.navView.setNavigationItemSelectedListener(this)
+
+        binding.navView.setNavigationItemSelectedListener {
+            binding.drawerLayout.closeDrawers()
+            it.isChecked = true
+            when(it.itemId) {
+                R.id.nav_home -> {
+                    navController.navigate(MobileNavigationDirections.navigateToHome())
+                    true
+                }
+                R.id.nav_profile -> {
+                    navController.navigate(MobileNavigationDirections.navigateToProfile())
+                    true
+                }
+                R.id.nav_help -> {
+                    navController.navigate(MobileNavigationDirections.navigateToHelp())
+                    true
+                }
+                else -> false
+            }
+        }
 
         initViews()
     }
@@ -60,27 +79,7 @@ class MainActivity : AppCompatActivity(), KodeinAware {
         }
     }
 
-//    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-//        item.isChecked = true
-//
-//        when (item.itemId) {
-//            R.id.home -> navController.navigate(MobileNavigationDirections.navigateToHome())
-//            R.id.profile -> navController.navigate(MobileNavigationDirections.navigateToProfile())
-//            R.id.history -> toast(this, "Coming Soon")
-//            R.id.track -> toast(this, "Coming Soon")
-//            R.id.addr -> toast(this, "Coming Soon")
-//            R.id.help -> navController.navigate(MobileNavigationDirections.navigateToHelp())
-//            R.id.rate -> toast(this, "Coming Soon")
-//            R.id.logout -> toast(this, "Coming Soon")
-//            else -> throw IllegalArgumentException("Unknown item: $item")
-//        }
-//        binding.drawerLayout.closeDrawer(GravityCompat.START)
-//        return true
-//    }
-
     private fun initViews() {
-        city = "Hyderabad"
-
         binding.layoutAppBar.fab.text = if (cart.isEmpty()) {
             ""
         } else {
@@ -97,7 +96,6 @@ class MainActivity : AppCompatActivity(), KodeinAware {
         navController.addOnDestinationChangedListener { _, destination, arguments ->
             when(destination.id) {
                 R.id.nav_home -> {
-                    supportActionBar?.title = getString(R.string.app_name)
                     binding.layoutAppBar.fab.visibility = View.VISIBLE
                     binding.navView.visibility = View.VISIBLE
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -109,22 +107,21 @@ class MainActivity : AppCompatActivity(), KodeinAware {
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
                 }
                 R.id.nav_cart -> {
-                    supportActionBar?.title = getString(R.string.title_cart)
                     binding.layoutAppBar.fab.visibility = View.GONE
                     binding.navView.visibility = View.VISIBLE
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
                 }
                 R.id.nav_registration -> {
-                    supportActionBar?.title = getString(R.string.app_name)
                     binding.layoutAppBar.fab.visibility = View.GONE
                     binding.navView.visibility = View.GONE
                     supportActionBar?.setDisplayHomeAsUpEnabled(false)
                 }
+                R.id.nav_profile -> {
+                    binding.layoutAppBar.fab.visibility = View.GONE
+                    binding.navView.visibility = View.VISIBLE
+                    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                }
             }
         }
-    }
-
-    companion object {
-        var city: String? = null
     }
 }
