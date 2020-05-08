@@ -2,7 +2,9 @@ package com.example.myapplication.di
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.icu.text.UnicodeSet.EMPTY
+import androidx.room.Room
+import com.example.myapplication.R
+import com.example.myapplication.db.CustomerDatabase
 import com.example.myapplication.model.Cart
 import com.example.myapplication.util.common.JSON
 import com.example.myapplication.util.common.PREFERENCE_CART
@@ -22,3 +24,10 @@ fun provideCart(sharedPreferences: SharedPreferences): Cart =
             )
         )!!
     )
+
+fun provideCustomerDatabase(context: Context): CustomerDatabase =
+    Room.databaseBuilder(
+        context,
+        CustomerDatabase::class.java,
+        "${context.getString(R.string.app_name)}_customer.db"
+    ).build()

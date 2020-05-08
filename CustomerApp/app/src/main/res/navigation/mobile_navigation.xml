@@ -40,26 +40,37 @@
     <fragment
         android:id="@+id/nav_registration"
         android:name="com.example.myapplication.ui.fragment.registration.RegistrationFragment"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_registration"/>
 
     <fragment
         android:id="@+id/nav_home"
         android:name="com.example.myapplication.ui.fragment.home.HomeFragment"
+        android:label="@string/app_name"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_profile"
         android:name="com.example.myapplication.ui.fragment.profile.ProfileFragment"
-        tools:layout="@layout/fragment_profile"/>
+        android:label="@string/title_profile"
+        tools:layout="@layout/fragment_profile">
+
+        <action
+            android:id="@+id/navigate_to_address_dialog"
+            app:destination="@id/nav_address"/>
+
+    </fragment>
 
     <fragment
         android:id="@+id/nav_help"
         android:name="com.example.myapplication.ui.fragment.help.HelpFragment"
+        android:label="@string/title_help"
         tools:layout="@layout/fragment_help"/>
 
     <fragment
         android:id="@+id/nav_checkout"
-        android:name="com.example.myapplication.ui.fragment.checkout.CheckOutFragment"
+        android:name="com.example.myapplication.ui.fragment.checkout.CheckoutFragment"
+        android:label="@string/title_checkout"
         tools:layout="@layout/fragment_checkout"/>
 
     <fragment
@@ -70,6 +81,7 @@
     <fragment
         android:id="@+id/nav_cart"
         android:name="com.example.myapplication.ui.fragment.cart.CartFragment"
+        android:label="@string/title_cart"
         tools:layout="@layout/fragment_cart">
 
         <action
@@ -81,5 +93,10 @@
             app:popExitAnim="@android:anim/fade_out"/>
 
     </fragment>
+
+    <dialog
+        android:id="@+id/nav_address"
+        android:name="com.example.myapplication.ui.fragment.profile.AddressFragment"
+        tools:layout="@layout/fragment_address"/>
 
 </navigation>

@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import com.example.myapplication.di.appModule
+import com.example.myapplication.di.roomModule
 import com.example.myapplication.model.Cart
 import com.example.myapplication.util.android.HyperlinkedDebugTree
 import com.example.myapplication.util.common.JSON
@@ -21,7 +22,11 @@ import timber.log.Timber
 
 class CustomerApp: Application(), KodeinAware {
     override val kodein: Kodein = Kodein.lazy {
-        importAll(androidXModule(this@CustomerApp), appModule(this@CustomerApp))
+        importAll(
+            androidXModule(this@CustomerApp),
+            appModule(this@CustomerApp),
+            roomModule(this@CustomerApp)
+        )
     }
     var account: GoogleSignInAccount? = null
     lateinit var googleSignInClient: GoogleSignInClient

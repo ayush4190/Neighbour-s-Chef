@@ -1,6 +1,7 @@
 package com.example.myapplication.ui.fragment.registration
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,7 @@ import com.example.myapplication.databinding.NavHeaderMainBinding
 import com.example.myapplication.ui.activity.MainActivity
 import com.example.myapplication.util.android.CircleBorderTransformation
 import com.example.myapplication.util.android.base.BaseFragment
+import com.example.myapplication.util.android.isProfileSetup
 import com.example.myapplication.util.common.RC_SIGN_IN
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -32,6 +34,7 @@ import timber.log.Timber
 class RegistrationFragment: BaseFragment<FragmentRegistrationBinding>(), KodeinAware {
     override val kodein by kodein()
     val app by instance<CustomerApp>()
+    val sharedPreferences by instance<SharedPreferences>()
 
     private var _navHeaderMainBinding: NavHeaderMainBinding? = null
     private val navHeaderMainBinding: NavHeaderMainBinding
@@ -79,14 +82,26 @@ class RegistrationFragment: BaseFragment<FragmentRegistrationBinding>(), KodeinA
                 try {
                     app.account = task.result
                     updateNavHeader()
-                    findNavController().navigate(
-                        MobileNavigationDirections.navigateToHome(),
-                        navOptions {
-                            popUpTo(R.id.nav_registration) {
-                                inclusive = true
+
+                    if (isProfileSetup(sharedPreferences)) {
+                        findNavController().navigate(
+                            MobileNavigationDirections.navigateToHome(),
+                            navOptions {
+                                popUpTo(R.id.nav_registration) {
+                                    inclusive = true
+                                }
                             }
-                        }
-                    )
+                        )
+                    } else {
+                        findNavController().navigate(
+                            MobileNavigationDirections.navigateToProfile(),
+                            navOptions {
+                                popUpTo(R.id.nav_registration) {
+                                    inclusive = true
+                                }
+                            }
+                        )
+                    }
                 } catch (e: ApiException) {
                     Timber.w(e, "signInResult:failed code=${e.statusCode}")
                 }
