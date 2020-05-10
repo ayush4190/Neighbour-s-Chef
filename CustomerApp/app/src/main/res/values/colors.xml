@@ -11,6 +11,6 @@
 
     <color name="black_overlay">#66000000</color>
 
-    <color name="green_veg">#40ff00</color>
+    <color name="green_veg">#32cd32</color>
     <color name="red_non_veg">#ff3232</color>
 </resources>

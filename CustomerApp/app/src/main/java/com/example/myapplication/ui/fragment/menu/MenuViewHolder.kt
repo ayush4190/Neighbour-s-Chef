@@ -1,6 +1,7 @@
 package com.example.myapplication.ui.fragment.menu
 
 import coil.api.load
+import coil.transform.CircleCropTransformation
 import com.example.myapplication.R
 import com.example.myapplication.databinding.CardFoodBinding
 import com.example.myapplication.model.Product
@@ -18,6 +19,8 @@ class MenuViewHolder(
         // To be changed eventually
         binding.imgFood.load(R.drawable.food_sample)
         binding.textFoodDescription.text = binding.root.context.getString(R.string.food_description_placeholder)
-        binding.imgFoodVegNonVeg.load(R.color.green_veg)
+        binding.imgFoodVegNonVeg.load(R.drawable.green_veg) {
+            transformations(CircleCropTransformation())
+        }
     }
 }

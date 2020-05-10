@@ -54,7 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:background="@color/colorPrimary"
-            android:src="@drawable/ic_remove_black_24dp"
+            android:src="@drawable/ic_remove_24dp"
             app:layout_constraintStart_toEndOf="@id/img_food"
             app:layout_constraintTop_toBottomOf="@id/text_food_description"
             app:layout_constraintBottom_toTopOf="@id/text_food_price"

@@ -24,12 +24,12 @@
 <!--            android:title="Location" />-->
     </group>
 
-    <item android:title="Communicate">
+    <item android:title="@string/communicate">
         <menu>
             <item
                 android:id="@+id/nav_help"
                 android:icon="@drawable/menu_help"
-                android:title="Help" />
+                android:title="@string/title_help" />
 <!--            <item-->
 <!--                android:id="@+id/nav_rate"-->
 <!--                android:icon="@drawable/menu_rate"-->

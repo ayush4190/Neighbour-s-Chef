@@ -42,8 +42,8 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>(), KodeinAware {
         super.onViewCreated(view, savedInstanceState)
 
         val adapter = SectionsPagerAdapter(this)
-        binding.ViewPageHomePager.adapter = adapter
-        TabLayoutMediator(binding.homeTabLayout, binding.ViewPageHomePager) { tab, position ->
+        binding.viewPager.adapter = adapter
+        TabLayoutMediator(binding.tabs, binding.viewPager) { tab, position ->
             val titles = arrayOf("Today's Menu", "Tomorrow's Menu", "Rest of the Week")
             tab.text = titles[position]
         }.attach()

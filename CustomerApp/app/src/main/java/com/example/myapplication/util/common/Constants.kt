@@ -29,4 +29,5 @@ const val PATH_REST_OF_THE_WEEK = "Rest of the week"
 
 // Misc
 const val DEV_EMAIL = "a.ayushkumar1997@gmail.com"
+const val DEV_NUMBER = ""
 val JSON = Json(JsonConfiguration.Stable.copy(encodeDefaults = true, isLenient = true, prettyPrint = true))

@@ -7,11 +7,7 @@ import android.view.View
 
 fun View.rotate(shouldRotate: Boolean): Boolean {
     animate().setDuration(200)
-        .setListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator) {
-                super.onAnimationEnd(animation)
-            }
-        })
+        .setListener(object : AnimatorListenerAdapter() {})
         .rotation(if (shouldRotate) 135f else 0f)
     return shouldRotate
 }
@@ -22,11 +18,7 @@ fun View.showIn() {
     translationY = height.toFloat()
     animate().setDuration(200)
         .translationY(0f)
-        .setListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator) {
-                super.onAnimationEnd(animation)
-            }
-        })
+        .setListener(object : AnimatorListenerAdapter() {})
         .alpha(1f)
         .start()
 }

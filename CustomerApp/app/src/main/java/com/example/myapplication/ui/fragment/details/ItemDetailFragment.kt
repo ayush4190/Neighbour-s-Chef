@@ -7,6 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.edit
 import androidx.navigation.fragment.findNavController
+import coil.api.load
+import coil.transform.CircleCropTransformation
 import com.example.myapplication.MobileNavigationDirections
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentItemDetailBinding
@@ -50,13 +52,20 @@ class ItemDetailFragment: BaseFragment<FragmentItemDetailBinding>(), KodeinAware
     }
 
     private fun initFoodInfo() {
-        binding.textFoodId.text = product.id
-        binding.textFoodPrice.text = product.price.toString()
-        binding.foodDetailCollapsingToolbar.title = product.name
+        binding.collapsingToolbar.title = product.name
+
+        binding.textFoodPrice.text = binding.root.context.getString(R.string.set_price, product.price)
+
+        // To be changed eventually
+        binding.imgFood.load(R.drawable.food_sample)
+        binding.textFoodDescription.text = binding.root.context.getString(R.string.food_description_placeholder)
+        binding.imgFoodVegNonVeg.load(R.drawable.green_veg) {
+            transformations(CircleCropTransformation())
+        }
     }
 
     private fun setButtonListener() {
-        binding.buttonFoodAddtocart.setOnClickListener {
+        binding.btnAdd.setOnClickListener {
             cart += product.copy(quantity = 1)
             (requireActivity() as MainActivity).binding.layoutAppBar.fab.text = getString(
                 R.string.set_items,
@@ -69,7 +78,6 @@ class ItemDetailFragment: BaseFragment<FragmentItemDetailBinding>(), KodeinAware
 
             MaterialAlertDialogBuilder(requireContext())
                 .setTitle("Item added")
-                .setIcon(android.R.drawable.ic_dialog_info)
                 .setPositiveButton("Go to cart") { dialog, _ ->
                     dialog.dismiss()
                     findNavController().navigate(MobileNavigationDirections.navigateToCart())

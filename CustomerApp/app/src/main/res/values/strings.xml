@@ -44,6 +44,12 @@
     <string name="done">Done</string>
     <string name="title_home">Home</string>
     <string name="title_address">Address</string>
+    <string name="call_us">Call US @ %s</string>
+    <string name="email_us">Email Us @ %s</string>
+    <string name="subject">Subject</string>
+    <string name="send">Send</string>
+    <string name="add_to_cart">Add to Cart</string>
+    <string name="communicate">Communicate</string>
 
     <plurals name="items">
         <item quantity="one">Item</item>
