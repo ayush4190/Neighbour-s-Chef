@@ -1,11 +1,10 @@
 package com.example.myapplication.ui.fragment.home
 
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.*
-import androidx.navigation.fragment.findNavController
 import com.example.myapplication.CustomerApp
-import com.example.myapplication.MobileNavigationDirections
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentHomeBinding
 import com.example.myapplication.ui.activity.MainActivity
@@ -17,6 +16,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
+
 
 @ExperimentalCoroutinesApi
 class HomeFragment: BaseFragment<FragmentHomeBinding>(), KodeinAware {
@@ -79,7 +79,7 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>(), KodeinAware {
             }
             R.id.action_logout -> {
                 signOut()
-                findNavController().navigate(MobileNavigationDirections.navigateToRegistration())
+                restartApp()
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -93,5 +93,15 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>(), KodeinAware {
             .addOnFailureListener {
                 toast(requireContext(), "Unable to sign out. error=${it.message}")
             }
+    }
+
+    private fun restartApp() {
+        val intent = requireContext().packageManager
+            .getLaunchIntentForPackage(requireActivity().baseContext.packageName)!!.apply {
+                addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
+        startActivity(intent)
+        requireActivity().finish()
     }
 }
