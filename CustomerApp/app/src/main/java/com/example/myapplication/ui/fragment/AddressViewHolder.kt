@@ -6,7 +6,7 @@ import com.example.myapplication.util.android.base.BaseViewHolder
 
 class AddressViewHolder(binding: CardAddressBinding): BaseViewHolder<CardAddressBinding, Address>(binding) {
     override fun bindTo(item: Address) {
-        binding.textAddressName.text = item.name
+        binding.textAddressName.text = item.addressName
         binding.textAddress.text = item.formattedString()
         binding.textAddressLandmark.text = item.landmark
     }

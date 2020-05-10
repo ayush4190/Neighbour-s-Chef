@@ -9,20 +9,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/text_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/title_address"
+            android:gravity="center_horizontal"
+            android:textColor="@android:color/black"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/layout_address_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:hint="@string/name"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_title"
             app:layout_constraintStart_toStartOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_address_name"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:inputType="text"/>
+                android:inputType="text|textCapSentences" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -39,7 +50,7 @@
                 android:id="@+id/edit_address_flat"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:inputType="text"/>
+                android:inputType="text|textCapSentences"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -56,7 +67,7 @@
                 android:id="@+id/edit_address_building"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:inputType="text"/>
+                android:inputType="text|textCapSentences"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -73,7 +84,7 @@
                 android:id="@+id/edit_address_street"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:inputType="text"/>
+                android:inputType="text|textCapSentences"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -90,7 +101,7 @@
                 android:id="@+id/edit_address_locality"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:inputType="text"/>
+                android:inputType="text|textCapSentences"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -141,7 +152,7 @@
                 android:id="@+id/edit_address_landmark"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:inputType="text"/>
+                android:inputType="text|textCapSentences"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 

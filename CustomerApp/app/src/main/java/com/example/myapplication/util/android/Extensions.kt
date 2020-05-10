@@ -1,6 +1,10 @@
 @file:JvmName("Extensions")
 package com.example.myapplication.util.android
 
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.os.Build
+import android.view.View
 import android.widget.EditText
 import com.example.myapplication.model.Product
 import com.example.myapplication.util.common.State
@@ -10,6 +14,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+
 
 /**
  * Attaches a [ValueEventListener] to a [Query] and sends data into a flow
@@ -53,3 +58,25 @@ fun Query.listen(): Flow<State> = callbackFlow {
  * Retrieve the [EditText] value as a [String]
  */
 fun EditText.asString(): String = text.toString()
+
+fun View.showIf(constraint: Boolean) {
+    visibility = if (constraint) View.VISIBLE else View.GONE
+}
+
+/**
+ * Check if the device is connected to any internet source (mobile data, WiFi or ethernet)
+ */
+fun ConnectivityManager.isNetworkAvailable(): Boolean =
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        val network = this.activeNetwork
+        getNetworkCapabilities(network)?.run {
+            when {
+                hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                        hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ||
+                        hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+                else -> false
+            }
+        } ?: false
+    } else {
+        activeNetworkInfo?.isConnectedOrConnecting ?: false
+    }

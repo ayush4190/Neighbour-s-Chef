@@ -43,6 +43,7 @@
     <string name="landmark">Landmark</string>
     <string name="done">Done</string>
     <string name="title_home">Home</string>
+    <string name="title_address">Address</string>
 
     <plurals name="items">
         <item quantity="one">Item</item>

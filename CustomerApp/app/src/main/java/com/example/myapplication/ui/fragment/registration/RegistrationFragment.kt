@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
 import coil.api.load
@@ -15,6 +16,9 @@ import com.example.myapplication.MobileNavigationDirections
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentRegistrationBinding
 import com.example.myapplication.databinding.NavHeaderMainBinding
+import com.example.myapplication.db.CustomerDatabase
+import com.example.myapplication.model.Address
+import com.example.myapplication.model.User
 import com.example.myapplication.ui.activity.MainActivity
 import com.example.myapplication.util.android.CircleBorderTransformation
 import com.example.myapplication.util.android.base.BaseFragment
@@ -24,7 +28,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
@@ -34,6 +40,7 @@ import timber.log.Timber
 class RegistrationFragment: BaseFragment<FragmentRegistrationBinding>(), KodeinAware {
     override val kodein by kodein()
     val app by instance<CustomerApp>()
+    val database by instance<CustomerDatabase>()
     val sharedPreferences by instance<SharedPreferences>()
 
     private var _navHeaderMainBinding: NavHeaderMainBinding? = null
@@ -64,13 +71,6 @@ class RegistrationFragment: BaseFragment<FragmentRegistrationBinding>(), KodeinA
             user: aayush
             date: 7/5/20
         */
-
-//        val adapter = SectionsPagerAdapter(this)
-//        binding.container.adapter = adapter
-//        TabLayoutMediator(binding.tabs, binding.container) { tab, position ->
-//            val titles = arrayOf("Sign In", "Sign Up")
-//            tab.text = titles[position]
-//        }.attach()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -93,6 +93,14 @@ class RegistrationFragment: BaseFragment<FragmentRegistrationBinding>(), KodeinA
                             }
                         )
                     } else {
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            database.userDao().insert(User(
+                                app.account!!.displayName!!,
+                                app.account!!.email!!,
+                                "",
+                                Address.EMPTY
+                            ))
+                        }
                         findNavController().navigate(
                             MobileNavigationDirections.navigateToProfile(),
                             navOptions {

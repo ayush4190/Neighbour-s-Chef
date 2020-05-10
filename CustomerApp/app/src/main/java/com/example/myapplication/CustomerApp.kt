@@ -2,11 +2,15 @@ package com.example.myapplication
 
 import android.app.Application
 import android.content.SharedPreferences
+import android.net.ConnectivityManager
+import android.widget.Toast
 import androidx.core.content.edit
+import androidx.core.content.getSystemService
 import com.example.myapplication.di.appModule
 import com.example.myapplication.di.roomModule
 import com.example.myapplication.model.Cart
 import com.example.myapplication.util.android.HyperlinkedDebugTree
+import com.example.myapplication.util.android.isNetworkAvailable
 import com.example.myapplication.util.common.JSON
 import com.example.myapplication.util.common.PREFERENCE_CART
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -43,6 +47,10 @@ class CustomerApp: Application(), KodeinAware {
             sharedPreferences.edit {
                 putString(PREFERENCE_CART, JSON.stringify(Cart.serializer(), Cart.EMPTY))
             }
+        }
+
+        if ((getSystemService<ConnectivityManager>())?.isNetworkAvailable() == false) {
+            Toast.makeText(this, "Check your internet connection", Toast.LENGTH_LONG).show()
         }
 
         val gso: GoogleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

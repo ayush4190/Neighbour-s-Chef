@@ -97,6 +97,7 @@
     <dialog
         android:id="@+id/nav_address"
         android:name="com.example.myapplication.ui.fragment.profile.AddressFragment"
+        android:label="@string/title_address"
         tools:layout="@layout/fragment_address"/>
 
 </navigation>

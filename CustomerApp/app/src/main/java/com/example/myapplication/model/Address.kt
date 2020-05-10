@@ -10,8 +10,7 @@ import kotlinx.serialization.Serializable
 @Entity
 @Serializable
 data class Address(
-    @PrimaryKey val name: String,
-    val userEmail: String,
+    @PrimaryKey val addressName: String,
     val flatNo: String?,
     val building: String,
     val street: String,
@@ -21,7 +20,6 @@ data class Address(
     val landmark: String?
 ): KParcelable {
     private constructor(parcel: Parcel): this(
-        parcel.readString()!!,
         parcel.readString()!!,
         parcel.readString(),
         parcel.readString()!!,
@@ -33,8 +31,7 @@ data class Address(
     )
 
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
-        writeString(name)
-        writeString(userEmail)
+        writeString(addressName)
         writeString(flatNo)
         writeString(building)
         writeString(street)
@@ -47,10 +44,12 @@ data class Address(
     fun formattedString(): String = buildString {
         flatNo?.let { append("$it, ") }
         append(building).append(", ").append(street).append(", ").appendln(locality)
-        appendln(city).append("-").append(pinCode)
+        append(city).append("-").append(pinCode)
     }
 
     companion object {
         @JvmField val CREATOR = parcelableCreator(::Address)
+
+        @JvmField val EMPTY = Address("", null, "", "", "", "", "", null)
     }
 }

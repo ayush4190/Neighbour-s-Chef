@@ -6,12 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navOptions
+import com.example.myapplication.MobileNavigationDirections
+import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentAddressBinding
 import com.example.myapplication.db.CustomerDatabase
 import com.example.myapplication.model.Address
+import com.example.myapplication.model.User
 import com.example.myapplication.util.android.asString
-import com.example.myapplication.util.common.EXTRA_ADDRESS
-import com.example.myapplication.util.common.EXTRA_EMAIL
+import com.example.myapplication.util.common.EXTRA_USER
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -27,11 +30,8 @@ class AddressFragment: BottomSheetDialogFragment(), KodeinAware {
     private val binding: FragmentAddressBinding
         get() = _binding!!
 
-    private val email by lazy(LazyThreadSafetyMode.NONE) {
-        requireArguments()[EXTRA_EMAIL] as String
-    }
-    private val address by lazy(LazyThreadSafetyMode.NONE) {
-        arguments?.getParcelable<Address>(EXTRA_ADDRESS)
+    private val user by lazy(LazyThreadSafetyMode.NONE) {
+        requireArguments()[EXTRA_USER] as User
     }
 
     override fun onCreateView(
@@ -52,9 +52,17 @@ class AddressFragment: BottomSheetDialogFragment(), KodeinAware {
             val newAddress = validateInput()
             if (newAddress != null) {
                 lifecycleScope.launch(Dispatchers.IO) {
-                    database.addressDao().insert(newAddress)
+                    user.address = newAddress
+                    database.userDao().update(user)
                 }
-                findNavController().navigateUp()
+                findNavController().navigate(
+                    MobileNavigationDirections.navigateToProfile(),
+                    navOptions {
+                        popUpTo(R.id.nav_profile) {
+                            inclusive = true
+                        }
+                    }
+                )
             }
         }
     }
@@ -65,16 +73,16 @@ class AddressFragment: BottomSheetDialogFragment(), KodeinAware {
     }
 
     private fun loadViews() {
-        address?.let {
+        if (user.address != Address.EMPTY) {
             with(binding) {
-                editAddressName.setText(it.name)
-                editAddressFlat.setText(it.flatNo)
-                editAddressBuilding.setText(it.building)
-                editAddressStreet.setText(it.street)
-                editAddressLocality.setText(it.locality)
-                editAddressCity.setText(it.city)
-                editAddressPinCode.setText(it.pinCode)
-                editAddressLandmark.setText(it.landmark)
+                editAddressName.setText(user.address.addressName)
+                editAddressFlat.setText(user.address.flatNo)
+                editAddressBuilding.setText(user.address.building)
+                editAddressStreet.setText(user.address.street)
+                editAddressLocality.setText(user.address.locality)
+                editAddressCity.setText(user.address.city)
+                editAddressPinCode.setText(user.address.pinCode)
+                editAddressLandmark.setText(user.address.landmark)
             }
         }
     }
@@ -100,13 +108,17 @@ class AddressFragment: BottomSheetDialogFragment(), KodeinAware {
         binding.layoutAddressCity.error = if (city.isEmpty()) "Required" else null
 
         val pinCode = binding.editAddressPinCode.asString().trim()
-        binding.layoutAddressPinCode.error = if (pinCode.isEmpty()) "Required" else {
-            isValid = true
-            null
-        }
+        binding.layoutAddressPinCode.error = when {
+                pinCode.isEmpty() -> "Required"
+                pinCode.length != 6 -> "Must be 6 digits"
+                else -> {
+                    isValid = true
+                    null
+                }
+            }
 
-        val landmark = binding.editAddressFlat.asString().trim().let { if (it.isEmpty()) null else it }
+        val landmark = binding.editAddressLandmark.asString().trim().let { if (it.isEmpty()) null else it }
 
-        return if (isValid) Address(name, email, flat, building, street, locality, city, pinCode, landmark) else null
+        return if (isValid) Address(name, flat, building, street, locality, city, pinCode, landmark) else null
     }
 }

@@ -10,7 +10,7 @@ private const val PACKAGE_NAME = "com.example.myapplication"
 const val EXTRA_PRODUCT = "${PACKAGE_NAME}.EXTRA_PRODUCT"
 const val EXTRA_CART = "${PACKAGE_NAME}.EXTRA_CART"
 const val EXTRA_ADDRESS = "${PACKAGE_NAME}.EXTRA_ADDRESS"
-const val EXTRA_EMAIL = "${PACKAGE_NAME}.EXTRA_EMAIL"
+const val EXTRA_USER = "${PACKAGE_NAME}.EXTRA_USER"
 
 // Preferences
 const val PREFERENCE_FILE_KEY = "$PACKAGE_NAME.customer_prefs"
