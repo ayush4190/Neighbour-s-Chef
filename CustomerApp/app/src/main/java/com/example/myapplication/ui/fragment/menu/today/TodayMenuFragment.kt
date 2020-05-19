@@ -20,9 +20,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalCoroutinesApi
 class TodayMenuFragment: BaseFragment<FragmentTodayMenuBinding>() {
     private val adapter: MenuAdapter by lazy(LazyThreadSafetyMode.NONE) {
-        MenuAdapter(mutableListOf(), findNavController()).also {
-            it.setHasStableIds(true)
-        }
+        MenuAdapter(mutableListOf(), findNavController())
     }
     private val viewModel: TodayMenuViewModel by viewModels()
 

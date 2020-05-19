@@ -1,13 +1,16 @@
 package com.example.myapplication.model
 
 import android.os.Parcel
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.example.myapplication.util.android.KParcelable
 import com.example.myapplication.util.android.parcelableCreator
 import kotlinx.serialization.Serializable
 
+@Entity
 @Serializable
 data class Product(
-    val id: String,
+    @PrimaryKey val id: String,
     val name: String,
     val price: Double,
     var quantity: Int = 0

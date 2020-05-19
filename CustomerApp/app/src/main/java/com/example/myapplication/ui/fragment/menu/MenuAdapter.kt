@@ -15,7 +15,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 class MenuAdapter(
     items: MutableList<Product>,
     private val navController: NavController
-): BaseAdapter<MenuViewHolder, Product>(items) {
+): BaseAdapter<MenuViewHolder, Product>(items, true) {
     override fun getItemId(position: Int): Long = items[position].hashCode().toLong()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MenuViewHolder =

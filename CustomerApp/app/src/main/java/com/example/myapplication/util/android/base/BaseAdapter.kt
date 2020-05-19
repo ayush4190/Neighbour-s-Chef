@@ -8,8 +8,14 @@ import androidx.viewbinding.ViewBinding
  * @param <VH> type of RecyclerView.ViewHolder (must extend BaseViewHolder)
  * @param <T> type of item held by the adapter
  */
-abstract class BaseAdapter<VH: BaseViewHolder<out ViewBinding, T>, T>(val items: MutableList<T>):
-    RecyclerView.Adapter<VH>() {
+abstract class BaseAdapter<VH: BaseViewHolder<out ViewBinding, T>, T>(
+    val items: MutableList<T>,
+    stableIds: Boolean
+): RecyclerView.Adapter<VH>() {
+    init {
+        super.setHasStableIds(stableIds)
+    }
+
     override fun onBindViewHolder(holder: VH, position: Int) = holder.bindTo(items[position])
 
     override fun getItemCount(): Int = items.size

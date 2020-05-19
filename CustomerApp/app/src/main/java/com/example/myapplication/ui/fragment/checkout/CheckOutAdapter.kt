@@ -7,7 +7,7 @@ import com.example.myapplication.model.Address
 import com.example.myapplication.ui.fragment.AddressViewHolder
 import com.example.myapplication.util.android.base.BaseAdapter
 
-class CheckOutAdapter(items: MutableList<Address>): BaseAdapter<AddressViewHolder, Address>(items) {
+class CheckOutAdapter(items: MutableList<Address>): BaseAdapter<AddressViewHolder, Address>(items, true) {
     override fun getItemId(position: Int): Long = items[position].hashCode().toLong()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddressViewHolder =

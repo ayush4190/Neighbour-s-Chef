@@ -39,7 +39,7 @@ class MainActivity : AppCompatActivity(), KodeinAware {
 
         navController = findNavController(R.id.nav_host_fragment)
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.nav_home, R.id.nav_help, R.id.nav_profile, R.id.nav_registration),
+            setOf(R.id.nav_home, R.id.nav_help, R.id.nav_profile, R.id.nav_registration, R.id.nav_history),
             binding.drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -59,6 +59,10 @@ class MainActivity : AppCompatActivity(), KodeinAware {
                 }
                 R.id.nav_help -> {
                     navController.navigate(MobileNavigationDirections.navigateToHelp())
+                    true
+                }
+                R.id.nav_history -> {
+                    navController.navigate(MobileNavigationDirections.navigateToHistory())
                     true
                 }
                 else -> false

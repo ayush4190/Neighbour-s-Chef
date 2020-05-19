@@ -50,6 +50,9 @@
     <string name="send">Send</string>
     <string name="add_to_cart">Add to Cart</string>
     <string name="communicate">Communicate</string>
+    <string name="title_history">History</string>
+    <string name="empty_orders">See your past orders here!</string>
+    <string name="action_cancel">Cancel</string>
 
     <plurals name="items">
         <item quantity="one">Item</item>

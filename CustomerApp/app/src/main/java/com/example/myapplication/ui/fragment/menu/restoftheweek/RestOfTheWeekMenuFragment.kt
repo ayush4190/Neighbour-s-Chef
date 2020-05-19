@@ -20,9 +20,7 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalCoroutinesApi
 class RestOfTheWeekMenuFragment: BaseFragment<FragmentRestOfTheWeekMenuBinding>() {
     private val adapter: MenuAdapter by lazy(LazyThreadSafetyMode.NONE) {
-        MenuAdapter(mutableListOf(), findNavController()).also {
-            it.setHasStableIds(true)
-        }
+        MenuAdapter(mutableListOf(), findNavController())
     }
     private val viewModel: RestOfTheWeekViewModel by viewModels()
 

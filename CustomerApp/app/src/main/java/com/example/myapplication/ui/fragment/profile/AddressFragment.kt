@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
@@ -91,26 +92,47 @@ class AddressFragment: BottomSheetDialogFragment(), KodeinAware {
         var isValid = false
 
         val name = binding.editAddressName.asString().trim()
-        binding.layoutAddressName.error = if (name.isEmpty()) "Required" else null
+        binding.layoutAddressName.error = if (name.isEmpty()) {
+            binding.layoutAddressName.animation = AnimationUtils.loadAnimation(requireContext(), R.anim.shake)
+            "Required"
+        } else null
 
         val flat = binding.editAddressFlat.asString().trim().let { if (it.isEmpty()) null else it }
 
         val building = binding.editAddressBuilding.asString().trim()
-        binding.layoutAddressBuilding.error = if (building.isEmpty()) "Required" else null
+        binding.layoutAddressBuilding.error = if (building.isEmpty()) {
+            binding.layoutAddressBuilding.animation = AnimationUtils.loadAnimation(requireContext(), R.anim.shake)
+            "Required"
+        } else null
 
         val street = binding.editAddressStreet.asString().trim()
-        binding.layoutAddressStreet.error = if (street.isEmpty()) "Required" else null
+        binding.layoutAddressStreet.error = if (street.isEmpty()) {
+            binding.layoutAddressStreet.animation = AnimationUtils.loadAnimation(requireContext(), R.anim.shake)
+            "Required"
+        } else null
 
         val locality = binding.editAddressLocality.asString().trim()
-        binding.layoutAddressLocality.error = if (locality.isEmpty()) "Required" else null
+        binding.layoutAddressLocality.error = if (locality.isEmpty()) {
+            binding.layoutAddressLocality.animation = AnimationUtils.loadAnimation(requireContext(), R.anim.shake)
+            "Required"
+        } else null
 
         val city = binding.editAddressCity.asString().trim()
-        binding.layoutAddressCity.error = if (city.isEmpty()) "Required" else null
+        binding.layoutAddressCity.error = if (city.isEmpty()) {
+            binding.layoutAddressCity.animation = AnimationUtils.loadAnimation(requireContext(), R.anim.shake)
+            "Required"
+        } else null
 
         val pinCode = binding.editAddressPinCode.asString().trim()
         binding.layoutAddressPinCode.error = when {
-                pinCode.isEmpty() -> "Required"
-                pinCode.length != 6 -> "Must be 6 digits"
+                pinCode.isEmpty() -> {
+                    binding.layoutAddressPinCode.animation = AnimationUtils.loadAnimation(requireContext(), R.anim.shake)
+                    "Required"
+                }
+                pinCode.length != 6 -> {
+                    binding.layoutAddressPinCode.animation = AnimationUtils.loadAnimation(requireContext(), R.anim.shake)
+                    "Must be 6 digits"
+                }
                 else -> {
                     isValid = true
                     null

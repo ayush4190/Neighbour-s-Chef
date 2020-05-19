@@ -16,7 +16,7 @@ class CartAdapter(
     items: MutableList<Product>,
     private val sharedPreferences: SharedPreferences,
     private val priceTextView: MaterialTextView
-): BaseAdapter<CartViewHolder, Product>(items) {
+): BaseAdapter<CartViewHolder, Product>(items, false) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder =
         CartViewHolder(
             CardCartBinding.inflate(

@@ -2,6 +2,8 @@ package com.example.myapplication.model
 
 import android.os.Parcel
 import android.os.ParcelUuid
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.example.myapplication.model.Order.OrderStatus.*
 import com.example.myapplication.util.android.*
 import org.threeten.bp.LocalDateTime
@@ -12,10 +14,11 @@ val tempProducts: MutableList<Product> = mutableListOf()
 // NOTE: ParcelUuid is a parcelable wrapper around UUID. UUIDs generated are unique and so are good
 // for primary identifiers
 
+@Entity
 data class Order(
-    val id: ParcelUuid,
+    @PrimaryKey val id: ParcelUuid,
     val products: List<Product>,
-    val status: OrderStatus,
+    var status: OrderStatus,
     val timestamp: LocalDateTime
 ): KParcelable {
     /**
@@ -62,6 +65,20 @@ data class Order(
     fun totalQuantity(): Int = products.sumBy { it.quantity }
 
     fun totalPrice(): Double = products.sumByDouble { it.price }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is Order) return false
+
+        if (id != other.id) return false
+        if (products != other.products) return false
+        if (status != other.status) return false
+        if (timestamp != other.timestamp) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int = id.hashCode()
 
     companion object {
         @JvmField val CREATOR = parcelableCreator(::Order)

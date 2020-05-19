@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
+        android:id="@+id/linear_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/text_title"
@@ -16,18 +17,14 @@
             android:text="@string/title_address"
             android:gravity="center_horizontal"
             android:textColor="@android:color/black"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/layout_address_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:hint="@string/name"
-            app:layout_constraintTop_toBottomOf="@id/text_title"
-            app:layout_constraintStart_toStartOf="parent">
+            android:hint="@string/name">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_address_name"
@@ -42,9 +39,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:hint="@string/flat"
-            app:layout_constraintTop_toBottomOf="@id/layout_address_name"
-            app:layout_constraintStart_toStartOf="parent">
+            android:hint="@string/flat">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_address_flat"
@@ -59,9 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:hint="@string/building"
-            app:layout_constraintTop_toBottomOf="@id/layout_address_flat"
-            app:layout_constraintStart_toStartOf="parent">
+            android:hint="@string/building">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_address_building"
@@ -76,9 +69,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:hint="@string/street"
-            app:layout_constraintTop_toBottomOf="@id/layout_address_building"
-            app:layout_constraintStart_toStartOf="parent">
+            android:hint="@string/street">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_address_street"
@@ -93,9 +84,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:hint="@string/locality"
-            app:layout_constraintTop_toBottomOf="@id/layout_address_street"
-            app:layout_constraintStart_toStartOf="parent">
+            android:hint="@string/locality">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_address_locality"
@@ -110,9 +99,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:hint="@string/city"
-            app:layout_constraintTop_toBottomOf="@id/layout_address_locality"
-            app:layout_constraintStart_toStartOf="parent">
+            android:hint="@string/city">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_address_city"
@@ -127,9 +114,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:hint="@string/pin_code"
-            app:layout_constraintTop_toBottomOf="@id/layout_address_city"
-            app:layout_constraintStart_toStartOf="parent">
+            android:hint="@string/pin_code">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_address_pin_code"
@@ -144,9 +129,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:hint="@string/landmark"
-            app:layout_constraintTop_toBottomOf="@id/layout_address_pin_code"
-            app:layout_constraintStart_toStartOf="parent">
+            android:hint="@string/landmark">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/edit_address_landmark"
@@ -161,11 +144,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:text="@string/done"
-            app:layout_constraintTop_toBottomOf="@id/layout_address_landmark"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            android:layout_gravity="center_horizontal"
+            android:text="@string/done"/>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 </ScrollView>

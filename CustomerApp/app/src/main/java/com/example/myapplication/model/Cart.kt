@@ -37,6 +37,12 @@ data class Cart(
 
     infix operator fun plusAssign(product: Product) = plus(product)
 
+    infix operator fun plus(newProducts: List<Product>) {
+        products.addAll(newProducts)
+    }
+
+    infix operator fun plusAssign(newProducts: List<Product>) = plus(newProducts)
+
     infix operator fun minus(product: Product) {
         val index = products.indexOfFirst { it.id == product.id }
 
@@ -59,6 +65,8 @@ data class Cart(
     fun size(): Int = products.size
 
     fun isEmpty(): Boolean = size() == 0
+
+    fun clear() = products.clear()
 
     companion object {
         @JvmField val CREATOR = parcelableCreator(::Cart)
