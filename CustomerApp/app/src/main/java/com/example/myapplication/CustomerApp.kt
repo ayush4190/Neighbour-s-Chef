@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.edit
 import androidx.core.content.getSystemService
 import com.example.myapplication.di.appModule
@@ -11,8 +12,10 @@ import com.example.myapplication.di.roomModule
 import com.example.myapplication.model.Cart
 import com.example.myapplication.util.android.HyperlinkedDebugTree
 import com.example.myapplication.util.android.isNetworkAvailable
+import com.example.myapplication.util.android.toast
 import com.example.myapplication.util.common.JSON
 import com.example.myapplication.util.common.PREFERENCE_CART
+import com.example.myapplication.util.common.PREFERENCE_THEME
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -48,6 +51,9 @@ class CustomerApp: Application(), KodeinAware {
                 putString(PREFERENCE_CART, JSON.stringify(Cart.serializer(), Cart.EMPTY))
             }
         }
+        AppCompatDelegate.setDefaultNightMode(
+            sharedPreferences.getInt(PREFERENCE_THEME, AppCompatDelegate.MODE_NIGHT_NO)
+        )
 
         if ((getSystemService<ConnectivityManager>())?.isNetworkAvailable() == false) {
             Toast.makeText(this, "Check your internet connection", Toast.LENGTH_LONG).show()
@@ -59,5 +65,15 @@ class CustomerApp: Application(), KodeinAware {
             .build()
         googleSignInClient = GoogleSignIn.getClient(this, gso)
         account = GoogleSignIn.getLastSignedInAccount(this)
+    }
+
+    fun signOut() {
+        googleSignInClient.signOut()
+            .addOnCompleteListener {
+                account = null
+            }
+            .addOnFailureListener {
+                toast(this, "Unable to sign out. error=${it.message}")
+            }
     }
 }

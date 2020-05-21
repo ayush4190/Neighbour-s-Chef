@@ -1,6 +1,7 @@
 @file:JvmName("Utility")
 package com.example.myapplication.util.android
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -31,4 +32,14 @@ fun sendEmail(context: Context, subject: String, message: String) {
 
 fun toast(context: Context,message: String) {
     Toast.makeText(context, message,Toast.LENGTH_SHORT).show()
+}
+
+fun restartApp(activity: Activity) {
+    val intent = activity.packageManager
+        .getLaunchIntentForPackage(activity.baseContext.packageName)!!.apply {
+            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+    activity.startActivity(intent)
+    activity.finish()
 }

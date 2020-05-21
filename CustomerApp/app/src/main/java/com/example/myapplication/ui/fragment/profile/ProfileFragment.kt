@@ -2,9 +2,7 @@ package com.example.myapplication.ui.fragment.profile
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.core.content.edit
 import androidx.core.os.bundleOf
 import androidx.lifecycle.lifecycleScope
@@ -12,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import coil.api.load
 import coil.transform.CircleCropTransformation
 import com.example.myapplication.CustomerApp
+import com.example.myapplication.MobileNavigationDirections
 import com.example.myapplication.R
 import com.example.myapplication.databinding.DialogSetPhoneBinding
 import com.example.myapplication.databinding.FragmentProfileBinding
@@ -37,6 +36,11 @@ class ProfileFragment: BaseFragment<FragmentProfileBinding>(), KodeinAware {
 
     private lateinit var user: User
     private var shouldRotate = false
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -110,4 +114,21 @@ class ProfileFragment: BaseFragment<FragmentProfileBinding>(), KodeinAware {
             putBoolean(PREFERENCE_PROFILE_SET_UP, true)
         }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) =
+        inflater.inflate(R.menu.menu_main, menu)
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =
+        when(item.itemId) {
+            R.id.action_settings -> {
+                findNavController().navigate(MobileNavigationDirections.navigateToSettings())
+                true
+            }
+            R.id.action_logout -> {
+                app.signOut()
+                restartApp(requireActivity())
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
 }

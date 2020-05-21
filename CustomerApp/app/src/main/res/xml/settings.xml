@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:title="@string/title_settings">
+
+    <PreferenceCategory
+        android:title="Account"
+        app:iconSpaceReserved="false">
+
+        <Preference
+            android:key="@string/pref_account"
+            android:title="@string/no_user"
+            android:icon="@drawable/ic_person_outline_60dp"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Look and Feel"
+        app:iconSpaceReserved="false">
+
+        <ListPreference
+            android:key="@string/pref_theme"
+            android:title="@string/settings_theme"
+            android:summary="Set app theme (light, dark or system)"
+            android:icon="@drawable/ic_color_lens_60dp"
+            android:entries="@array/theme_labels"
+            android:entryValues="@array/theme_values"
+            android:defaultValue="1"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>

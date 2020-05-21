@@ -34,6 +34,10 @@
         app:destination="@id/nav_history"/>
 
     <action
+        android:id="@+id/navigate_to_settings"
+        app:destination="@id/nav_settings"/>
+
+    <action
         android:id="@+id/navigate_to_item_detail"
         app:destination="@id/nav_item_detail"
         app:enterAnim="@android:anim/fade_in"
@@ -76,6 +80,12 @@
         android:name="com.example.myapplication.ui.fragment.help.HelpFragment"
         android:label="@string/title_help"
         tools:layout="@layout/fragment_help"/>
+
+    <fragment
+        android:id="@+id/nav_settings"
+        android:name="com.example.myapplication.ui.fragment.settings.SettingsFragment"
+        android:label="@string/title_settings"
+        tools:layout="@layout/fragment_settings" />
 
 <!--    <fragment-->
 <!--        android:id="@+id/nav_checkout"-->
