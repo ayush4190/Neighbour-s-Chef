@@ -11,10 +11,12 @@ import androidx.navigation.navOptions
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.MobileNavigationDirections
 import com.example.myapplication.R
+import com.example.myapplication.databinding.DialogCommentsBinding
 import com.example.myapplication.databinding.FragmentCartBinding
 import com.example.myapplication.db.CustomerDatabase
 import com.example.myapplication.model.Cart
 import com.example.myapplication.model.Order
+import com.example.myapplication.util.android.asString
 import com.example.myapplication.util.android.base.BaseFragment
 import com.example.myapplication.util.android.getCart
 import com.example.myapplication.util.android.saveCart
@@ -34,8 +36,6 @@ class CartFragment: BaseFragment<FragmentCartBinding>(), KodeinAware {
     private val adapter: CartAdapter by lazy(LazyThreadSafetyMode.NONE) {
         CartAdapter(cart.products, sharedPreferences, binding.textTotalPrice)
     }
-
-    private var firstClick = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -62,36 +62,37 @@ class CartFragment: BaseFragment<FragmentCartBinding>(), KodeinAware {
             }
 
             btnCheckout.setOnClickListener {
-                if (firstClick) {
-                    firstClick = false
-                    MaterialAlertDialogBuilder(requireContext())
-                        .setTitle("Verify your cart")
-                        .setMessage("Confirm the contents of your cart before placing the order!")
-                        .setNeutralButton("OK") { dialog, _ -> dialog.dismiss() }
-                        .show()
-                } else {
-                    firstClick = true
-                    val order = Order.fromCart(getCart(sharedPreferences))
-                    lifecycleScope.launch(Dispatchers.IO) {
-                        database.orderDao().insert(order)
-                    }
-                    saveCart(sharedPreferences, Cart.EMPTY)
-
-                    MaterialAlertDialogBuilder(requireContext())
-                        .setTitle("Order placed")
-                        .setMessage("Order ID: ${order.id}\nOrder Status: ${order.status}")
-                        .setNeutralButton("OK") { dialog, _ -> dialog.dismiss() }
-                        .show()
-
-                    findNavController().navigate(
-                        MobileNavigationDirections.navigateToHome(),
-                        navOptions {
-                            popUpTo(R.id.nav_cart) {
-                                inclusive = true
-                            }
+                val dialogBinding = DialogCommentsBinding.inflate(LayoutInflater.from(requireContext()))
+                MaterialAlertDialogBuilder(requireContext())
+                    .setTitle("Confirm order")
+                    .setView(dialogBinding.root)
+                    .setMessage("Add comments")
+                    .setPositiveButton("Place order") { dialog, _ ->
+                        val order = Order.fromCart(getCart(sharedPreferences))
+                        order.comments = dialogBinding.editComments.asString()
+                        lifecycleScope.launch(Dispatchers.IO) {
+                            database.orderDao().insert(order)
                         }
-                    )
-                }
+                        saveCart(sharedPreferences, Cart.EMPTY)
+                        dialog.dismiss()
+
+                        MaterialAlertDialogBuilder(requireContext())
+                            .setTitle("Order placed")
+                            .setMessage("Order ID: ${order.id}\nOrder Status: ${order.status}")
+                            .setNeutralButton("OK") { d, _ -> d.dismiss() }
+                            .show()
+
+                        findNavController().navigate(
+                            MobileNavigationDirections.navigateToHome(),
+                            navOptions {
+                                popUpTo(R.id.nav_cart) {
+                                    inclusive = true
+                                }
+                            }
+                        )
+                    }
+                    .setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss()}
+                    .show()
             }
         }
     }

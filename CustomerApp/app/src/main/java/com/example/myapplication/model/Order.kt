@@ -19,8 +19,10 @@ data class Order(
     @PrimaryKey val id: ParcelUuid,
     val products: List<Product>,
     var status: OrderStatus,
-    val timestamp: LocalDateTime
+    val timestamp: LocalDateTime,
+    var comments: String
 ): KParcelable {
+
     /**
      * Models the current status of the order
      * The user can place an order which results in [PLACED]. After an order is [PLACED], it may be
@@ -52,7 +54,8 @@ data class Order(
         source.readParcelable<ParcelUuid>(ParcelUuid::class.java.classLoader)!!,
         source.readParcelableListCompat<Product>(tempProducts, Product::class.java.classLoader),
         source.readEnum<OrderStatus>(),
-        source.readLocalDateTime()
+        source.readLocalDateTime(),
+        source.readString()!!
     )
 
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
@@ -60,6 +63,7 @@ data class Order(
         writeParcelableListCompat(products, flags)
         writeEnum(status)
         writeLocalDateTime(timestamp)
+        writeString(comments)
     }
 
     fun totalQuantity(): Int = products.sumBy { it.quantity }
@@ -87,7 +91,8 @@ data class Order(
             ParcelUuid(UUID.randomUUID()),
             cart.products,
             PLACED,
-            LocalDateTime.now()
+            LocalDateTime.now(),
+            ""
         )
     }
 }
