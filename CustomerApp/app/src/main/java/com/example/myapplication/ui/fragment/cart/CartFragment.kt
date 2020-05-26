@@ -21,6 +21,12 @@ import com.example.myapplication.util.android.base.BaseFragment
 import com.example.myapplication.util.android.getCart
 import com.example.myapplication.util.android.saveCart
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
@@ -32,6 +38,9 @@ class CartFragment: BaseFragment<FragmentCartBinding>(), KodeinAware {
     val sharedPreferences by instance<SharedPreferences>()
     val cart by instance<Cart>()
     val database by instance<CustomerDatabase>()
+    private val firebaseAuth: FirebaseAuth by lazy(LazyThreadSafetyMode.NONE) {
+        FirebaseAuth.getInstance()
+    }
 
     private val adapter: CartAdapter by lazy(LazyThreadSafetyMode.NONE) {
         CartAdapter(cart.products, sharedPreferences, binding.textTotalPrice)
@@ -71,7 +80,9 @@ class CartFragment: BaseFragment<FragmentCartBinding>(), KodeinAware {
                         val order = Order.fromCart(getCart(sharedPreferences))
                         order.comments = dialogBinding.editComments.asString()
                         lifecycleScope.launch(Dispatchers.IO) {
+
                             database.orderDao().insert(order)
+                            update_order(order)
                         }
                         saveCart(sharedPreferences, Cart.EMPTY)
                         dialog.dismiss()
@@ -95,5 +106,16 @@ class CartFragment: BaseFragment<FragmentCartBinding>(), KodeinAware {
                     .show()
             }
         }
+    }
+
+    private fun update_order(order: Order)
+    {
+        val currentUser = firebaseAuth.currentUser
+
+
+
+       lateinit var database: DatabaseReference
+        database = Firebase.database.reference.child("ORDER").child(currentUser.toString())
+        database.setValue(order)
     }
 }

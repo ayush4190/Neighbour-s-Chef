@@ -17,11 +17,24 @@
 
     <string name="facebook_app_id">349410092108752</string>
     <string name="fb_login_protocol_scheme">fb1832756210295590</string>
-    <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">AIzaSyBsmvVVXBT1Gk_gC3uObsSPSZwZXwMPwp0</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBsmvVVXBT1Gk_gC3uObsSPSZwZXwMPwp0</string>
     <string name="title_activity_maps">Map</string>
 
     <!-- Button text -->
     <string name="btn_logout_from_google">Logout from Google</string>
     <string name="btn_revoke_access">Revoke Access</string>
     <string name="title_activity_test_maps">Map</string>
+    <string name="success">Item added successfully</string>
+    <string name="error">Error: %1$</string>
+    <string name="name_required">Item Name Is Required</string>
+    <string name="price_required">Price is required</string>
+    <string name="quantity_required">Quantity is required</string>
+    <string-array name="menuarray">
+        <item>Select</item>
+        <item>Today menu</item>
+        <item>Tomorrows menu</item>
+        <item>Rest of the week</item>
+
+    </string-array>
+
 </resources>

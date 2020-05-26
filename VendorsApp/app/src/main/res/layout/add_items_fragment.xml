@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.fragments.additems.addItems">
+
+    <LinearLayout
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:src="@mipmap/food"
+            android:scaleType="fitCenter"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+        <TextView
+            android:fontFamily="serif-monospace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/divider"
+            android:textSize="30sp"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:text="Item Detail"/>
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <ImageView
+                android:layout_margin="@dimen/activity_vertical_margin"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/item_image"
+                android:src="@drawable/food_sample"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:id="@+id/text_input_itemname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:id="@+id/edittext_item_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:windowSoftInputMode="adjustResize|stateHidden"
+                    android:nextFocusForward="@id/edittext_quantity"
+                    android:hint="Item Name" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_width="match_parent"
+                android:id="@+id/text_input_quantity"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edittext_quantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:windowSoftInputMode="adjustResize|stateHidden"
+                    android:inputType="numberDecimal"
+                    android:nextFocusForward="@id/edittext_price"
+                    android:hint="Quantity" />
+            </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_width="match_parent"
+                android:id="@+id/text_input_price"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edittext_price"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:windowSoftInputMode="adjustResize|stateHidden"
+                    android:inputType="numberDecimal"
+                    android:hint="Price"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:layout_width="match_parent"
+                android:id="@+id/textinput_id"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/Food_Id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textAutoComplete"
+                    android:windowSoftInputMode="adjustResize|stateHidden"
+                    android:hint="Food_Id"
+                    android:enabled="false"
+                    tools:ignore="TextViewEdits" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/spinner"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:windowSoftInputMode="adjustResize|stateHidden"
+                />
+
+
+
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_gravity="center"
+                android:text="Add Item"
+                android:fontFamily="sans-serif-black"
+                android:textColor="@color/icons"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:layout_marginLeft="@dimen/activity_horizontal_margin"
+                android:layout_marginRight="@dimen/activity_horizontal_margin"
+                android:backgroundTint="@color/colorPrimary"
+                android:layout_width="match_parent"
+                android:id="@+id/materialbutton_additem"
+                android:layout_height="60dp"/>
+        </LinearLayout>
+    </ScrollView>
+
+
+
+</FrameLayout>
