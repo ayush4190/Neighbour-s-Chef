@@ -2,6 +2,7 @@ package com.example.myapplication.ui.fragment.cart
 
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,17 +10,23 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.myapplication.CustomerApp
 import com.example.myapplication.MobileNavigationDirections
 import com.example.myapplication.R
 import com.example.myapplication.databinding.DialogCommentsBinding
 import com.example.myapplication.databinding.FragmentCartBinding
 import com.example.myapplication.db.CustomerDatabase
+import com.example.myapplication.di.appModule
+import com.example.myapplication.entities.CURRENT_USER_ID
 import com.example.myapplication.model.Cart
 import com.example.myapplication.model.Order
+import com.example.myapplication.model.OrderList
+import com.example.myapplication.model.User
 import com.example.myapplication.util.android.asString
 import com.example.myapplication.util.android.base.BaseFragment
 import com.example.myapplication.util.android.getCart
 import com.example.myapplication.util.android.saveCart
+import com.example.myapplication.util.common.USER_ID
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -32,15 +39,16 @@ import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
+import java.util.*
 
 class CartFragment: BaseFragment<FragmentCartBinding>(), KodeinAware {
     override val kodein by kodein()
     val sharedPreferences by instance<SharedPreferences>()
     val cart by instance<Cart>()
     val database by instance<CustomerDatabase>()
-    private val firebaseAuth: FirebaseAuth by lazy(LazyThreadSafetyMode.NONE) {
-        FirebaseAuth.getInstance()
-    }
+    val app by instance<CustomerApp>()
+    val user by instance<User>()
+
 
     private val adapter: CartAdapter by lazy(LazyThreadSafetyMode.NONE) {
         CartAdapter(cart.products, sharedPreferences, binding.textTotalPrice)
@@ -108,14 +116,19 @@ class CartFragment: BaseFragment<FragmentCartBinding>(), KodeinAware {
         }
     }
 
-    private fun update_order(order: Order)
+    suspend fun  update_order(order: Order)
     {
-        val currentUser = firebaseAuth.currentUser
 
+        var currentuser= app.account!!.email?.let { database.userDao().getUserById(it).toString() }
 
+        var database: DatabaseReference =
+            Firebase.database.reference.child("Development")
 
-       lateinit var database: DatabaseReference
-        database = Firebase.database.reference.child("ORDER").child(currentUser.toString())
-        database.setValue(order)
+        /** TODO implement appending feature to the existing add feature to the order database
+
+         **/
+        
+        database.child("USERS").child(app.account!!.id.toString()).setValue(currentuser)
+        database.child("ORDER").child(app.account!!.id.toString()).setValue(order)
     }
 }

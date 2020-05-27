@@ -3,17 +3,23 @@ package com.example.myapplication.ui.fragment.home
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.*
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.myapplication.CustomerApp
 import com.example.myapplication.MobileNavigationDirections
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentHomeBinding
+import com.example.myapplication.model.User
 import com.example.myapplication.ui.activity.MainActivity
 import com.example.myapplication.util.android.base.BaseFragment
 import com.example.myapplication.util.android.getCart
 import com.example.myapplication.util.android.restartApp
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.kodein
 import org.kodein.di.generic.instance
@@ -24,6 +30,7 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>(), KodeinAware {
     override val kodein by kodein()
     val app by instance<CustomerApp>()
     val sharedPreferences by instance<SharedPreferences>()
+    val user by instance<User>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +65,9 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>(), KodeinAware {
             val titles = arrayOf("Today's Menu", "Tomorrow's Menu", "Rest of the Week")
             tab.text = titles[position]
         }.attach()
+
+
+
     }
 
     override fun onResume() {
@@ -91,4 +101,6 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>(), KodeinAware {
             }
             else -> super.onOptionsItemSelected(item)
         }
+
+
 }

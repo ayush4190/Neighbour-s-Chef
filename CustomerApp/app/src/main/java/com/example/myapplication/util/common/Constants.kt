@@ -5,6 +5,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonConfiguration
 
 private const val PACKAGE_NAME = "com.example.myapplication"
+var USER_ID = "null"
 
 // Extras
 const val EXTRA_PRODUCT = "${PACKAGE_NAME}.EXTRA_PRODUCT"

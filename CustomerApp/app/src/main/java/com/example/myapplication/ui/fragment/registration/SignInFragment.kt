@@ -19,6 +19,7 @@ import com.example.myapplication.util.android.base.BaseFragment
 import com.example.myapplication.util.android.log
 import com.example.myapplication.util.android.toast
 import com.example.myapplication.util.common.RC_SIGN_IN
+import com.example.myapplication.util.common.USER_ID
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
