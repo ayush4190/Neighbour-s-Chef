@@ -47,19 +47,19 @@
 
     <fragment
         android:id="@+id/nav_registration"
-        android:name="com.example.myapplication.ui.fragment.registration.RegistrationFragment"
+        android:name="com.neighbourschef.customer.ui.fragment.registration.RegistrationFragment"
         android:label="@string/app_name"
         tools:layout="@layout/fragment_registration"/>
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.example.myapplication.ui.fragment.home.HomeFragment"
+        android:name="com.neighbourschef.customer.ui.fragment.home.HomeFragment"
         android:label="@string/app_name"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_profile"
-        android:name="com.example.myapplication.ui.fragment.profile.ProfileFragment"
+        android:name="com.neighbourschef.customer.ui.fragment.profile.ProfileFragment"
         android:label="@string/title_profile"
         tools:layout="@layout/fragment_profile">
 
@@ -71,19 +71,19 @@
 
     <fragment
         android:id="@+id/nav_history"
-        android:name="com.example.myapplication.ui.fragment.history.HistoryFragment"
+        android:name="com.neighbourschef.customer.ui.fragment.history.HistoryFragment"
         android:label="@string/title_history"
         tools:layout="@layout/fragment_history"/>
 
     <fragment
         android:id="@+id/nav_help"
-        android:name="com.example.myapplication.ui.fragment.help.HelpFragment"
+        android:name="com.neighbourschef.customer.ui.fragment.help.HelpFragment"
         android:label="@string/title_help"
         tools:layout="@layout/fragment_help"/>
 
     <fragment
         android:id="@+id/nav_settings"
-        android:name="com.example.myapplication.ui.fragment.settings.SettingsFragment"
+        android:name="com.neighbourschef.customer.ui.fragment.settings.SettingsFragment"
         android:label="@string/title_settings"
         tools:layout="@layout/fragment_settings" />
 
@@ -95,18 +95,18 @@
 
     <fragment
         android:id="@+id/nav_item_detail"
-        android:name="com.example.myapplication.ui.fragment.details.ItemDetailFragment"
+        android:name="com.neighbourschef.customer.ui.fragment.details.ItemDetailFragment"
         tools:layout="@layout/fragment_item_detail"/>
 
     <fragment
         android:id="@+id/nav_cart"
-        android:name="com.example.myapplication.ui.fragment.cart.CartFragment"
+        android:name="com.neighbourschef.customer.ui.fragment.cart.CartFragment"
         android:label="@string/title_cart"
         tools:layout="@layout/fragment_cart" />
 
     <dialog
         android:id="@+id/nav_address"
-        android:name="com.example.myapplication.ui.fragment.profile.AddressFragment"
+        android:name="com.neighbourschef.customer.ui.fragment.profile.AddressFragment"
         android:label="@string/title_address"
         tools:layout="@layout/fragment_address"/>
 
