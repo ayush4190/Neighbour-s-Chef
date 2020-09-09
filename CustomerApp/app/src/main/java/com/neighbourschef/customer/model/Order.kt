@@ -4,10 +4,20 @@ import android.os.Parcel
 import android.os.ParcelUuid
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.neighbourschef.customer.model.Order.OrderStatus.*
-import com.neighbourschef.customer.util.android.*
+import com.neighbourschef.customer.model.Order.OrderStatus.CANCELLED
+import com.neighbourschef.customer.model.Order.OrderStatus.DELIVERED
+import com.neighbourschef.customer.model.Order.OrderStatus.PLACED
+import com.neighbourschef.customer.model.Order.OrderStatus.READY
+import com.neighbourschef.customer.util.android.KParcelable
+import com.neighbourschef.customer.util.android.parcelableCreator
+import com.neighbourschef.customer.util.android.readEnum
+import com.neighbourschef.customer.util.android.readLocalDateTime
+import com.neighbourschef.customer.util.android.readParcelableListCompat
+import com.neighbourschef.customer.util.android.writeEnum
+import com.neighbourschef.customer.util.android.writeLocalDateTime
+import com.neighbourschef.customer.util.android.writeParcelableListCompat
 import org.threeten.bp.LocalDateTime
-import java.util.*
+import java.util.UUID
 
 val tempProducts: MutableList<Product> = mutableListOf()
 

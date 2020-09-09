@@ -1,11 +1,19 @@
 @file:JvmName("Extensions")
 package com.neighbourschef.customer.util.android
 
+import android.app.Application
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
+import android.view.View
 import android.widget.EditText
-import com.google.firebase.database.*
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.Query
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
 import com.neighbourschef.customer.model.Product
 import com.neighbourschef.customer.util.common.State
@@ -13,7 +21,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
-
 
 /**
  * Attaches a [ValueEventListener] to a [Query] and sends data into a flow
@@ -75,3 +82,9 @@ fun ConnectivityManager.isNetworkAvailable(): Boolean =
     } else {
         activeNetworkInfo?.isConnectedOrConnecting ?: false
     }
+
+fun Fragment.toast(message: String) = Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+
+fun View.toast(message: String) = Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+
+fun Application.toast(message: String) = Toast.makeText(this, message, Toast.LENGTH_SHORT).show()

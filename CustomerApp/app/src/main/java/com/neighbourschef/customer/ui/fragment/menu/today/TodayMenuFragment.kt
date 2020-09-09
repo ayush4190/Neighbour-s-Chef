@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,8 +11,10 @@ import com.neighbourschef.customer.databinding.FragmentTodayMenuBinding
 import com.neighbourschef.customer.model.Product
 import com.neighbourschef.customer.ui.fragment.menu.MenuAdapter
 import com.neighbourschef.customer.util.android.base.BaseFragment
+import com.neighbourschef.customer.util.android.toast
 import com.neighbourschef.customer.util.common.State
 import com.neighbourschef.customer.util.common.State.Loading
+import com.neighbourschef.customer.util.common.VEILED_ITEM_COUNT
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
@@ -31,14 +32,13 @@ class TodayMenuFragment: BaseFragment<FragmentTodayMenuBinding>() {
         return binding.root
     }
 
-    @ExperimentalCoroutinesApi
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         binding.recyclerMenu.apply {
             setAdapter(adapter)
             setLayoutManager(LinearLayoutManager(requireContext()))
-            addVeiledItems(10)
+            addVeiledItems(VEILED_ITEM_COUNT)
             getRecyclerView().setHasFixedSize(true)
         }
         observeChanges()
@@ -55,7 +55,7 @@ class TodayMenuFragment: BaseFragment<FragmentTodayMenuBinding>() {
                 }
                 is State.Failure -> {
                     binding.recyclerMenu.unVeil()
-                    Toast.makeText(requireContext(), it.reason, Toast.LENGTH_SHORT).show()
+                    toast(it.reason)
                 }
             }
         }

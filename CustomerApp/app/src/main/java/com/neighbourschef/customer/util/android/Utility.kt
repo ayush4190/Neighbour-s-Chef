@@ -4,8 +4,8 @@ package com.neighbourschef.customer.util.android
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.widget.Toast
+import androidx.core.net.toUri
 import com.neighbourschef.customer.util.common.DEV_EMAIL
 
 /**
@@ -17,7 +17,7 @@ import com.neighbourschef.customer.util.common.DEV_EMAIL
 fun sendEmail(context: Context, subject: String, message: String) {
     // ACTION_SENDTO and "mailto:" ensure that only email clients can receive this intent
     val intent = Intent(Intent.ACTION_SENDTO).apply {
-        data = Uri.parse("mailto:")
+        data = "mailto:".toUri()
         putExtra(Intent.EXTRA_EMAIL, arrayOf(DEV_EMAIL))
         putExtra(Intent.EXTRA_SUBJECT, subject)
         putExtra(Intent.EXTRA_TEXT, message)
@@ -28,10 +28,6 @@ fun sendEmail(context: Context, subject: String, message: String) {
         Toast.makeText(context, "No email clients found", Toast.LENGTH_SHORT).show()
     }
 
-}
-
-fun toast(context: Context,message: String) {
-    Toast.makeText(context, message,Toast.LENGTH_SHORT).show()
 }
 
 fun restartApp(activity: Activity) {

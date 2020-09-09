@@ -2,7 +2,12 @@ package com.neighbourschef.customer.ui.fragment.home
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import com.neighbourschef.customer.CustomerApp
@@ -17,7 +22,6 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.kodein.di.DIAware
 import org.kodein.di.android.x.di
 import org.kodein.di.instance
-
 
 @ExperimentalCoroutinesApi
 class HomeFragment: BaseFragment<FragmentHomeBinding>(), DIAware {
@@ -55,7 +59,7 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>(), DIAware {
         val adapter = SectionsPagerAdapter(this)
         binding.viewPager.adapter = adapter
         TabLayoutMediator(binding.tabs, binding.viewPager) { tab, position ->
-            val titles = arrayOf("Today's Menu", "Tomorrow's Menu", "Rest of the Week")
+            val titles = arrayOf("Today", "Tomorrow", "Rest of the Week")
             tab.text = titles[position]
         }.attach()
     }

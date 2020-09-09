@@ -31,7 +31,7 @@
 
     <action
         android:id="@+id/navigate_to_history"
-        app:destination="@id/nav_history"/>
+        app:destination="@id/nav_orders"/>
 
     <action
         android:id="@+id/navigate_to_settings"
@@ -70,10 +70,10 @@
     </fragment>
 
     <fragment
-        android:id="@+id/nav_history"
-        android:name="com.neighbourschef.customer.ui.fragment.history.HistoryFragment"
-        android:label="@string/title_history"
-        tools:layout="@layout/fragment_history"/>
+        android:id="@+id/nav_orders"
+        android:name="com.neighbourschef.customer.ui.fragment.orders.OrdersFragment"
+        android:label="@string/title_orders"
+        tools:layout="@layout/fragment_orders"/>
 
     <fragment
         android:id="@+id/nav_help"
@@ -86,12 +86,6 @@
         android:name="com.neighbourschef.customer.ui.fragment.settings.SettingsFragment"
         android:label="@string/title_settings"
         tools:layout="@layout/fragment_settings" />
-
-<!--    <fragment-->
-<!--        android:id="@+id/nav_checkout"-->
-<!--        android:name="com.example.myapplication.ui.fragment.checkout.CheckoutFragment"-->
-<!--        android:label="@string/title_checkout"-->
-<!--        tools:layout="@layout/fragment_checkout"/>-->
 
     <fragment
         android:id="@+id/nav_item_detail"

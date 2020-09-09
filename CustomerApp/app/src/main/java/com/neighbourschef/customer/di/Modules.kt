@@ -12,7 +12,7 @@ import org.kodein.di.singleton
 /**
  * Contains common app-level components like [SharedPreferences]
  */
-fun appModule(context: Context): DI.Module = DI.Module("AppModule") {
+fun appModule(context: Context) = DI.Module("AppModule") {
     val sharedPreferences = provideSharedPreferences(context)
 
     bind<SharedPreferences>() with singleton { sharedPreferences }
@@ -25,6 +25,6 @@ fun appModule(context: Context): DI.Module = DI.Module("AppModule") {
 /**
  * Contains Room DB-specific components like [androidx.room.Dao] and [androidx.room.RoomDatabase]
  */
-fun roomModule(context: Context): DI.Module = DI.Module("RoomModule") {
+fun roomModule(context: Context) = DI.Module("RoomModule") {
     bind<CustomerDatabase>() with singleton { provideCustomerDatabase(context) }
 }

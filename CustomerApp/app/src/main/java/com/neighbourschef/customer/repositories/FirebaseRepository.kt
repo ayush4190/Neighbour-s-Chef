@@ -4,7 +4,11 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.neighbourschef.customer.util.android.listen
-import com.neighbourschef.customer.util.common.*
+import com.neighbourschef.customer.util.common.PATH_DEV
+import com.neighbourschef.customer.util.common.PATH_REST_OF_THE_WEEK
+import com.neighbourschef.customer.util.common.PATH_TODAY
+import com.neighbourschef.customer.util.common.PATH_TOMORROW
+import com.neighbourschef.customer.util.common.State
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 
@@ -18,6 +22,8 @@ object FirebaseRepository {
     private val databaseReference: DatabaseReference by lazy(LazyThreadSafetyMode.NONE) {
         Firebase.database.reference.child(PATH_DEV)
     }
+
+    fun getMenu(day: String): Flow<State> = databaseReference.child(day).listen()
 
     fun getTodaysMenu(): Flow<State> = databaseReference.child(PATH_TODAY).listen()
 

@@ -122,12 +122,12 @@ class SettingsFragment: PreferenceFragmentCompat(), DIAware {
     private fun removeAccount() {
         app.googleSignInClient.revokeAccess()
             .addOnCompleteListener {
-                toast(requireContext(), "Account removed!")
+                toast("Account removed!")
                 app.account = null
                 restartApp(requireActivity())
             }
             .addOnFailureListener {
-                toast(requireContext(), "Unable to revoke access. error=${it.message}")
+                toast("Unable to revoke access. error=${it.message}")
             }
     }
 }

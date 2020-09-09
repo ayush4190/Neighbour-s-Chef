@@ -28,7 +28,7 @@ import org.kodein.di.instance
 import timber.log.Timber
 
 class CustomerApp: Application(), DIAware {
-    override val di: DI = DI.lazy {
+    override val di = DI.lazy {
         importAll(
             androidXModule(this@CustomerApp),
             appModule(this@CustomerApp),
@@ -59,7 +59,7 @@ class CustomerApp: Application(), DIAware {
             Toast.makeText(this, "Check your internet connection", Toast.LENGTH_LONG).show()
         }
 
-        val gso: GoogleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
@@ -69,11 +69,7 @@ class CustomerApp: Application(), DIAware {
 
     fun signOut() {
         googleSignInClient.signOut()
-            .addOnCompleteListener {
-                account = null
-            }
-            .addOnFailureListener {
-                toast(this, "Unable to sign out. error=${it.message}")
-            }
+            .addOnCompleteListener { account = null }
+            .addOnFailureListener { toast("Unable to sign out. error=${it.message}") }
     }
 }

@@ -2,17 +2,18 @@ package com.neighbourschef.customer.ui.fragment.home
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.neighbourschef.customer.ui.fragment.menu.restoftheweek.RestOfTheWeekMenuFragment
-import com.neighbourschef.customer.ui.fragment.menu.today.TodayMenuFragment
-import com.neighbourschef.customer.ui.fragment.menu.tomorrow.TomorrowMenuFragment
+import com.neighbourschef.customer.ui.fragment.menu.MenuFragment
+import com.neighbourschef.customer.util.common.PATH_REST_OF_THE_WEEK
+import com.neighbourschef.customer.util.common.PATH_TODAY
+import com.neighbourschef.customer.util.common.PATH_TOMORROW
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 internal class SectionsPagerAdapter(fragment: Fragment): FragmentStateAdapter(fragment) {
     override fun createFragment(position: Int): Fragment = when (position) {
-        0 -> TodayMenuFragment.newInstance()
-        1 -> TomorrowMenuFragment.newInstance()
-        2 -> RestOfTheWeekMenuFragment.newInstance()
+        0 -> MenuFragment.newInstance(PATH_TODAY)
+        1 -> MenuFragment.newInstance(PATH_TOMORROW)
+        2 -> MenuFragment.newInstance(PATH_REST_OF_THE_WEEK)
         else -> throw IllegalArgumentException("Position $position is out of bounds!")
     }
 

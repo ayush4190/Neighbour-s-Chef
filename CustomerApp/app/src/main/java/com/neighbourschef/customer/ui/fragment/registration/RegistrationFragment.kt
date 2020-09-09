@@ -65,12 +65,6 @@ class RegistrationFragment: BaseFragment<FragmentRegistrationBinding>(), DIAware
         binding.btnSignIn.setOnClickListener { signIn() }
 
         updateNavHeader()
-
-        /*
-            TODO: Request permissions
-            user: aayush
-            date: 7/5/20
-        */
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -127,7 +121,7 @@ class RegistrationFragment: BaseFragment<FragmentRegistrationBinding>(), DIAware
             navHeaderMainBinding.textUserName.text = app.account!!.displayName
             navHeaderMainBinding.textUserEmail.text = app.account!!.email
             navHeaderMainBinding.imgUser.load(app.account!!.photoUrl) {
-                fallback(R.drawable.ic_action_name)
+                fallback(R.drawable.ic_profile_placeholder)
                 transformations(CircleCropTransformation(), CircleBorderTransformation())
             }
             findNavController().navigate(
@@ -139,7 +133,7 @@ class RegistrationFragment: BaseFragment<FragmentRegistrationBinding>(), DIAware
                 }
             )
         } else {
-            navHeaderMainBinding.imgUser.load(R.drawable.ic_action_name)
+            navHeaderMainBinding.imgUser.load(R.drawable.ic_profile_placeholder)
             navHeaderMainBinding.textUserName.text = getString(R.string.sign_in)
         }
     }

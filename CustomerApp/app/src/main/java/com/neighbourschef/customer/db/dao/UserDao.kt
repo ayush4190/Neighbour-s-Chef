@@ -9,5 +9,5 @@ import com.neighbourschef.customer.model.User
 interface UserDao: BaseDao<User> {
     @Transaction
     @Query("SELECT * FROM User WHERE email = :email")
-    suspend fun getUserById(email: String): User
+    suspend fun getUserByEmail(email: String): User
 }

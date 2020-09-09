@@ -2,7 +2,12 @@ package com.neighbourschef.customer.ui.fragment.profile
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
 import androidx.core.content.edit
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
@@ -19,8 +24,13 @@ import com.neighbourschef.customer.databinding.FragmentProfileBinding
 import com.neighbourschef.customer.db.CustomerDatabase
 import com.neighbourschef.customer.model.Address
 import com.neighbourschef.customer.model.User
-import com.neighbourschef.customer.util.android.*
+import com.neighbourschef.customer.util.android.asString
 import com.neighbourschef.customer.util.android.base.BaseFragment
+import com.neighbourschef.customer.util.android.init
+import com.neighbourschef.customer.util.android.restartApp
+import com.neighbourschef.customer.util.android.rotate
+import com.neighbourschef.customer.util.android.showIn
+import com.neighbourschef.customer.util.android.showOut
 import com.neighbourschef.customer.util.common.EXTRA_USER
 import com.neighbourschef.customer.util.common.PREFERENCE_PROFILE_SET_UP
 import kotlinx.coroutines.Dispatchers
@@ -58,7 +68,7 @@ class ProfileFragment: BaseFragment<FragmentProfileBinding>(), DIAware {
         binding.fabPhone.init()
 
         lifecycleScope.launch {
-            user = database.userDao().getUserById(app.account!!.email!!)
+            user = database.userDao().getUserByEmail(app.account!!.email!!)
 
             binding.textUserPhone.text = user.phoneNumber
             binding.cardAddress.isVisible = (user.address != Address.EMPTY).also {
@@ -69,7 +79,7 @@ class ProfileFragment: BaseFragment<FragmentProfileBinding>(), DIAware {
             binding.textEmptyState.isVisible = user.address == Address.EMPTY
         }
         binding.imgUser.load(app.account?.photoUrl) {
-            placeholder(R.drawable.ic_action_name)
+            placeholder(R.drawable.ic_profile_placeholder)
             transformations(CircleCropTransformation())
         }
         binding.textUserName.text = app.account?.displayName

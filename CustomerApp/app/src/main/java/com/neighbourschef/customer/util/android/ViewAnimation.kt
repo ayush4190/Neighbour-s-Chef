@@ -3,10 +3,10 @@ package com.neighbourschef.customer.util.android
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.view.View
-
+import com.neighbourschef.customer.util.common.ANIM_DURATION
 
 fun View.rotate(shouldRotate: Boolean): Boolean {
-    animate().setDuration(200)
+    animate().setDuration(ANIM_DURATION)
         .setListener(object : AnimatorListenerAdapter() {})
         .rotation(if (shouldRotate) 135f else 0f)
     return shouldRotate
@@ -16,7 +16,7 @@ fun View.showIn() {
     visibility = View.VISIBLE
     alpha = 0f
     translationY = height.toFloat()
-    animate().setDuration(200)
+    animate().setDuration(ANIM_DURATION)
         .translationY(0f)
         .setListener(object : AnimatorListenerAdapter() {})
         .alpha(1f)
@@ -27,7 +27,7 @@ fun View.showOut() {
     visibility = View.VISIBLE
     alpha = 1f
     translationY = 0f
-    animate().setDuration(200)
+    animate().setDuration(ANIM_DURATION)
         .translationY(height.toFloat())
         .setListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator) {

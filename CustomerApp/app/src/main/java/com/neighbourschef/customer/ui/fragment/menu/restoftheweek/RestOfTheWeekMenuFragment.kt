@@ -14,6 +14,7 @@ import com.neighbourschef.customer.ui.fragment.menu.MenuAdapter
 import com.neighbourschef.customer.util.android.base.BaseFragment
 import com.neighbourschef.customer.util.common.State
 import com.neighbourschef.customer.util.common.State.Loading
+import com.neighbourschef.customer.util.common.VEILED_ITEM_COUNT
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
@@ -41,7 +42,7 @@ class RestOfTheWeekMenuFragment: BaseFragment<FragmentRestOfTheWeekMenuBinding>(
         binding.recyclerMenu.apply {
             setAdapter(adapter)
             setLayoutManager(LinearLayoutManager(requireContext()))
-            addVeiledItems(10)
+            addVeiledItems(VEILED_ITEM_COUNT)
             getRecyclerView().setHasFixedSize(true)
         }
         observeChanges()

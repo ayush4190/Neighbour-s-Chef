@@ -27,7 +27,9 @@ class MainActivity : AppCompatActivity(), DIAware {
     val cart by instance<Cart>()
 
     lateinit var binding: ActivityMainBinding
-    private lateinit var navController: NavController
+    private val navController: NavController by lazy(LazyThreadSafetyMode.NONE) {
+        findNavController(R.id.nav_host_fragment)
+    }
     private lateinit var appBarConfiguration: AppBarConfiguration
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,9 +39,8 @@ class MainActivity : AppCompatActivity(), DIAware {
         setContentView(binding.root)
         setSupportActionBar(binding.layoutAppBar.toolbar)
 
-        navController = findNavController(R.id.nav_host_fragment)
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.nav_home, R.id.nav_help, R.id.nav_profile, R.id.nav_registration, R.id.nav_history),
+            setOf(R.id.nav_home, R.id.nav_help, R.id.nav_profile, R.id.nav_registration, R.id.nav_orders),
             binding.drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -61,7 +62,7 @@ class MainActivity : AppCompatActivity(), DIAware {
                     navController.navigate(MobileNavigationDirections.navigateToHelp())
                     true
                 }
-                R.id.nav_history -> {
+                R.id.nav_orders -> {
                     navController.navigate(MobileNavigationDirections.navigateToHistory())
                     true
                 }

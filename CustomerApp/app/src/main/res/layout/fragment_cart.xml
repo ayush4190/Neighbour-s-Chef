@@ -1,14 +1,17 @@
-<androidx.constraintlayout.widget.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="5dp">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_cart"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_weight="0.87"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/text_total_price"
         tools:listitem="@layout/card_cart"
@@ -17,18 +20,19 @@
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/text_total_price"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.05"
+        android:layout_gravity="end"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-        app:layout_constraintBottom_toTopOf="@id/btn_checkout"
-        app:layout_constraintEnd_toEndOf="parent"
         tools:text="\u20b9 300.00"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_checkout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="0.08"
         android:backgroundTint="@color/colorPrimary"
         android:text="@string/title_checkout"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
