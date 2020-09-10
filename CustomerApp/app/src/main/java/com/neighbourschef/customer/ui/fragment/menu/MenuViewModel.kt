@@ -6,15 +6,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.neighbourschef.customer.repositories.FirebaseRepository
-import com.neighbourschef.customer.util.common.State
+import com.neighbourschef.customer.util.common.UiState
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 class MenuViewModel(day: String) : ViewModel() {
-    private val savedItems: LiveData<State> = FirebaseRepository.getMenu(day)
+    private val savedItems: LiveData<UiState> = FirebaseRepository.getMenu(day)
         .asLiveData(viewModelScope.coroutineContext)
     
-    val items: LiveData<State>
+    val items: LiveData<UiState>
         get() = savedItems
 }
 

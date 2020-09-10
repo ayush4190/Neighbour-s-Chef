@@ -59,7 +59,7 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>(), DIAware {
         val adapter = SectionsPagerAdapter(this)
         binding.viewPager.adapter = adapter
         TabLayoutMediator(binding.tabs, binding.viewPager) { tab, position ->
-            val titles = arrayOf("Today", "Tomorrow", "Rest of the Week")
+            val titles = arrayOf("Today", "Tomorrow")
             tab.text = titles[position]
         }.attach()
     }

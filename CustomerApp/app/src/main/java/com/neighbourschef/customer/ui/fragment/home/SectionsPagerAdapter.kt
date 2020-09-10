@@ -13,9 +13,9 @@ internal class SectionsPagerAdapter(fragment: Fragment): FragmentStateAdapter(fr
     override fun createFragment(position: Int): Fragment = when (position) {
         0 -> MenuFragment.newInstance(PATH_TODAY)
         1 -> MenuFragment.newInstance(PATH_TOMORROW)
-        2 -> MenuFragment.newInstance(PATH_REST_OF_THE_WEEK)
+        // 2 -> MenuFragment.newInstance(PATH_REST_OF_THE_WEEK)
         else -> throw IllegalArgumentException("Position $position is out of bounds!")
     }
 
-    override fun getItemCount(): Int = 3
+    override fun getItemCount(): Int = 2
 }

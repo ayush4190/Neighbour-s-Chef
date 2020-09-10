@@ -83,6 +83,15 @@
                 tools:background="@color/red_non_veg"
                 tools:ignore="ContentDescription" />
 
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_for_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/text_food_price"
+                android:layout_marginTop="5dp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                tools:text="Available today"/>
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_add"
                 android:layout_width="match_parent"
@@ -90,7 +99,7 @@
                 android:layout_margin="20dp"
                 android:text="@string/add_to_cart"
                 android:backgroundTint="@color/colorPrimary"
-                android:layout_below="@id/text_food_price"/>
+                android:layout_below="@id/text_for_date"/>
 
         </RelativeLayout>
 

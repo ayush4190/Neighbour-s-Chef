@@ -17,6 +17,7 @@ import com.neighbourschef.customer.model.Cart
 import com.neighbourschef.customer.model.Product
 import com.neighbourschef.customer.ui.activity.MainActivity
 import com.neighbourschef.customer.util.android.base.BaseFragment
+import com.neighbourschef.customer.util.common.EXTRA_DAY
 import com.neighbourschef.customer.util.common.EXTRA_PRODUCT
 import com.neighbourschef.customer.util.common.JSON
 import com.neighbourschef.customer.util.common.PREFERENCE_CART
@@ -33,6 +34,9 @@ class ItemDetailFragment: BaseFragment<FragmentItemDetailBinding>(), DIAware {
 
     private val product: Product by lazy(LazyThreadSafetyMode.NONE) {
         requireArguments()[EXTRA_PRODUCT] as Product
+    }
+    private val day: String by lazy(LazyThreadSafetyMode.NONE) {
+        requireArguments()[EXTRA_DAY] as String
     }
 
     override fun onCreateView(
@@ -59,7 +63,10 @@ class ItemDetailFragment: BaseFragment<FragmentItemDetailBinding>(), DIAware {
         // To be changed eventually
         binding.imgFood.load(R.drawable.food_sample)
         binding.textFoodDescription.text = binding.root.context.getString(R.string.food_description_placeholder)
-        binding.imgFoodVegNonVeg.load(R.drawable.green_veg) {
+        binding.textForDate.text = requireContext().getString(R.string.for_date, day)
+
+        val drawable = if (product.veg) R.drawable.green_veg else R.drawable.red_non_veg
+        binding.imgFoodVegNonVeg.load(drawable) {
             transformations(CircleCropTransformation())
         }
     }

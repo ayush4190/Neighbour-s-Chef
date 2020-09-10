@@ -61,6 +61,7 @@
     <string name="delete_account">Delete Account</string>
     <string name="comments">Comments</string>
     <string name="empty_menu">New food items will be added soon!</string>
+    <string name="for_date">Available %s</string>
 
     <plurals name="items">
         <item quantity="one">Item</item>
