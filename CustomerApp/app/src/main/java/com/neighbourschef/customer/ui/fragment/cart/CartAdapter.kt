@@ -2,7 +2,10 @@ package com.neighbourschef.customer.ui.fragment.cart
 
 import android.content.SharedPreferences
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import coil.load
+import coil.transform.CircleCropTransformation
 import com.google.android.material.textview.MaterialTextView
 import com.neighbourschef.customer.R
 import com.neighbourschef.customer.databinding.CardCartBinding
@@ -10,13 +13,14 @@ import com.neighbourschef.customer.model.Cart
 import com.neighbourschef.customer.model.Product
 import com.neighbourschef.customer.model.total
 import com.neighbourschef.customer.util.android.base.BaseAdapter
+import com.neighbourschef.customer.util.android.base.BaseViewHolder
 import com.neighbourschef.customer.util.android.saveCart
 
 class CartAdapter(
     items: MutableList<Product>,
     private val sharedPreferences: SharedPreferences,
     private val priceTextView: MaterialTextView
-): BaseAdapter<CartViewHolder, Product>(items, false) {
+): BaseAdapter<CartAdapter.CartViewHolder, Product>(items, false) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder =
         CartViewHolder(
             CardCartBinding.inflate(
@@ -45,4 +49,27 @@ class CartAdapter(
                 saveCart(sharedPreferences, Cart(items))
             }
         }
+
+    class CartViewHolder(binding: CardCartBinding): BaseViewHolder<CardCartBinding, Product>(binding) {
+        override fun bindTo(item: Product) {
+            binding.textFoodName.text = item.name
+            binding.textFoodPrice.text = binding.root.context.getString(R.string.set_price, item.price)
+            binding.textFoodQuantity.text = item.quantity.toString()
+
+            // To be changed eventually
+            binding.imgFood.load(R.drawable.food_sample)
+            binding.textFoodDescription.text = binding.root.context.getString(R.string.food_description_placeholder)
+
+            val drawable = if (item.veg) R.drawable.green_veg else R.drawable.red_non_veg
+            binding.imgFoodVegNonVeg.load(drawable) {
+                transformations(CircleCropTransformation())
+            }
+        }
+
+        fun setMinusClickListener(listener: ((View) -> Unit)?) =
+            binding.btnMinus.setOnClickListener(listener)
+
+        fun setPlusClickListener(listener: ((View) -> Unit)?) =
+            binding.btnPlus.setOnClickListener(listener)
+    }
 }

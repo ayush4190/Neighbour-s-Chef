@@ -1,5 +1,6 @@
 package com.neighbourschef.customer.ui.fragment.profile
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,17 +16,22 @@ import com.neighbourschef.customer.databinding.FragmentAddressBinding
 import com.neighbourschef.customer.db.CustomerDatabase
 import com.neighbourschef.customer.model.Address
 import com.neighbourschef.customer.model.User
+import com.neighbourschef.customer.repositories.FirebaseRepository
 import com.neighbourschef.customer.util.android.asString
+import com.neighbourschef.customer.util.android.getUserRef
 import com.neighbourschef.customer.util.common.EXTRA_USER
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import org.kodein.di.DIAware
 import org.kodein.di.android.x.di
 import org.kodein.di.instance
 
+@ExperimentalCoroutinesApi
 class AddressFragment: BottomSheetDialogFragment(), DIAware {
     override val di by di()
     val database by instance<CustomerDatabase>()
+    val sharedPreferences by instance<SharedPreferences>()
 
     private var currentBinding: FragmentAddressBinding? = null
     private val binding: FragmentAddressBinding
@@ -55,6 +61,7 @@ class AddressFragment: BottomSheetDialogFragment(), DIAware {
                 lifecycleScope.launch(Dispatchers.IO) {
                     user.address = newAddress
                     database.userDao().update(user)
+                    FirebaseRepository.saveUser(user, getUserRef(sharedPreferences))
                 }
                 findNavController().navigate(
                     MobileNavigationDirections.navigateToProfile(),

@@ -6,6 +6,7 @@ import com.neighbourschef.customer.model.Cart
 import com.neighbourschef.customer.util.common.JSON
 import com.neighbourschef.customer.util.common.PREFERENCE_CART
 import com.neighbourschef.customer.util.common.PREFERENCE_PROFILE_SET_UP
+import com.neighbourschef.customer.util.common.PREFERENCE_USER
 
 fun saveCart(sharedPreferences: SharedPreferences, cart: Cart) =
     sharedPreferences.edit {
@@ -26,3 +27,11 @@ fun getCart(sharedPreferences: SharedPreferences): Cart =
 
 fun isProfileSetup(sharedPreferences: SharedPreferences): Boolean =
     sharedPreferences.getBoolean(PREFERENCE_PROFILE_SET_UP, false)
+
+fun saveUserRef(sharedPreferences: SharedPreferences, ref: String) =
+    sharedPreferences.edit {
+        putString(PREFERENCE_USER, ref)
+    }
+
+fun getUserRef(sharedPreferences: SharedPreferences): String? =
+    sharedPreferences.getString(PREFERENCE_USER, null)

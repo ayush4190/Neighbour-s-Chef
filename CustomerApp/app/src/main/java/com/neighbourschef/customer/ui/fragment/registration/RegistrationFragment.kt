@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.edit
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
@@ -23,10 +24,13 @@ import com.neighbourschef.customer.databinding.NavHeaderMainBinding
 import com.neighbourschef.customer.db.CustomerDatabase
 import com.neighbourschef.customer.model.Address
 import com.neighbourschef.customer.model.User
+import com.neighbourschef.customer.repositories.FirebaseRepository
 import com.neighbourschef.customer.ui.activity.MainActivity
 import com.neighbourschef.customer.util.android.CircleBorderTransformation
 import com.neighbourschef.customer.util.android.base.BaseFragment
+import com.neighbourschef.customer.util.android.getUserRef
 import com.neighbourschef.customer.util.android.isProfileSetup
+import com.neighbourschef.customer.util.common.PREFERENCE_USER
 import com.neighbourschef.customer.util.common.RC_SIGN_IN
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -88,12 +92,19 @@ class RegistrationFragment: BaseFragment<FragmentRegistrationBinding>(), DIAware
                         )
                     } else {
                         lifecycleScope.launch(Dispatchers.IO) {
-                            database.userDao().insert(User(
+                            val user = User(
                                 app.account!!.displayName!!,
                                 app.account!!.email!!,
                                 "",
                                 Address.EMPTY
-                            ))
+                            )
+                            database.userDao().insert(user)
+                            sharedPreferences.edit {
+                                putString(
+                                    PREFERENCE_USER,
+                                    FirebaseRepository.saveUser(user, getUserRef(sharedPreferences))
+                                )
+                            }
                         }
                         findNavController().navigate(
                             MobileNavigationDirections.navigateToProfile(),

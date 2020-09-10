@@ -24,8 +24,10 @@ import com.neighbourschef.customer.databinding.FragmentProfileBinding
 import com.neighbourschef.customer.db.CustomerDatabase
 import com.neighbourschef.customer.model.Address
 import com.neighbourschef.customer.model.User
+import com.neighbourschef.customer.repositories.FirebaseRepository
 import com.neighbourschef.customer.util.android.asString
 import com.neighbourschef.customer.util.android.base.BaseFragment
+import com.neighbourschef.customer.util.android.getUserRef
 import com.neighbourschef.customer.util.android.init
 import com.neighbourschef.customer.util.android.restartApp
 import com.neighbourschef.customer.util.android.rotate
@@ -34,11 +36,13 @@ import com.neighbourschef.customer.util.android.showOut
 import com.neighbourschef.customer.util.common.EXTRA_USER
 import com.neighbourschef.customer.util.common.PREFERENCE_PROFILE_SET_UP
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import org.kodein.di.DIAware
 import org.kodein.di.android.x.di
 import org.kodein.di.instance
 
+@ExperimentalCoroutinesApi
 class ProfileFragment: BaseFragment<FragmentProfileBinding>(), DIAware {
     override val di by di()
     val app by instance<CustomerApp>()
@@ -112,6 +116,7 @@ class ProfileFragment: BaseFragment<FragmentProfileBinding>(), DIAware {
                     binding.textUserPhone.text = user.phoneNumber
                     lifecycleScope.launch(Dispatchers.IO) {
                         database.userDao().update(user)
+                        FirebaseRepository.saveUser(user, getUserRef(sharedPreferences))
                     }
                     dialog.dismiss()
                 }
