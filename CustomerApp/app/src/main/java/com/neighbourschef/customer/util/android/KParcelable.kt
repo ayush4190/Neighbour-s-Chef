@@ -103,3 +103,19 @@ inline fun <reified T: Enum<T>> Parcel.readEnum(): T = enumValueOf(readString()!
  * Writes the name of the enum to the parcel
  */
 inline fun <reified T: Enum<T>> Parcel.writeEnum(value: T) = writeString(value.name)
+
+/**
+ * Read a [Boolean] from [Parcel]
+ * The Android library provides this as [Parcel.readBoolean], however it was added in API level 29
+ *
+ * @see Parcel.readBoolean
+ */
+fun Parcel.readBool(): Boolean = readInt() != 0
+
+/**
+ * Write a [Boolean] to [Parcel]
+ * The Android library provides this as [Parcel.writeBoolean], however it was added in API level 29
+ *
+ * @see Parcel.writeBoolean
+ */
+fun Parcel.writeBool(value: Boolean) = writeInt(if (value) 1 else 0)

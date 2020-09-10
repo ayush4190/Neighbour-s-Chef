@@ -15,26 +15,44 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.Query
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
+import com.neighbourschef.customer.model.Order
 import com.neighbourschef.customer.model.Product
-import com.neighbourschef.customer.util.common.State
+import com.neighbourschef.customer.util.common.UiState
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.channels.SendChannel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
 /**
+ * Offer values from a [SendChannel] only if it is not closed by a [SendChannel.close] call
+ * @receiver channel used to send data
+ * @param T item to be sent in the channel
+ * @return `true` if channel can safely send data and `false` otherwise
+ */
+@ExperimentalCoroutinesApi
+private fun <T> SendChannel<T>.safeOffer(value: T): Boolean =
+    !isClosedForSend && try {
+        offer(value)
+    } catch (e: CancellationException) {
+        false
+    }
+
+/**
  * Attaches a [ValueEventListener] to a [Query] and sends data into a flow
  * @receiver Firebase [Query] (a [DatabaseReference])
- * @return [Flow] emitting [State] objects depending on the data received
+ * @return [Flow] emitting [UiState] objects depending on the data received
  */
-@Suppress("ThrowableNotThrown")
 @ExperimentalCoroutinesApi
-fun Query.listen(): Flow<State> = callbackFlow {
-    offer(State.Loading)
-    val valueListener = object: ValueEventListener {
+fun Query.listenMenu(): Flow<UiState> = callbackFlow {
+    // Show initial loading state
+    offer(UiState.Loading)
+
+    val valueListener = object : ValueEventListener {
         override fun onCancelled(error: DatabaseError) {
             // Send error so that it can be processed by UI and close channel with the error
-            offer(State.Failure(error.toException()))
+            offer(UiState.Failure(error.toException()))
             close(error.toException())
         }
 
@@ -43,16 +61,49 @@ fun Query.listen(): Flow<State> = callbackFlow {
             try {
                 // Data is received as a list of products
                 val data = dataSnapshot.getValue<List<@JvmSuppressWildcards Product>>()
-                if (data == null) {
-                    offer(State.Failure("No data found"))
-                } else {
-                    offer(State.Success(data.toMutableList()))
-                }
+                offer(
+                    UiState.Success(
+                        data?.toMutableList() ?: mutableListOf()
+                    )
+                )
             } catch (e: Exception) {
-                // Exception is forwarded only if offer or send is called and the channel is not closed
-                if (!isClosedForSend) {
-                    offer(State.Failure(e))
-                }
+                safeOffer(e)
+            }
+        }
+    }
+    addValueEventListener(valueListener)
+    awaitClose { removeEventListener(valueListener) }
+}
+
+/**
+ * Attaches a [ValueEventListener] to a [Query] and sends data into a flow
+ * @receiver Firebase [Query] (a [DatabaseReference])
+ * @return [Flow] emitting [UiState] objects depending on the data received
+ */
+@ExperimentalCoroutinesApi
+fun Query.listenOrder(): Flow<UiState> = callbackFlow {
+    // Show initial loading state
+    offer(UiState.Loading)
+
+    val valueListener = object : ValueEventListener {
+        override fun onCancelled(error: DatabaseError) {
+            // Send error so that it can be processed by UI and close channel with the error
+            offer(UiState.Failure(error.toException()))
+            close(error.toException())
+        }
+
+        override fun onDataChange(dataSnapshot: DataSnapshot) {
+            // Exception caught is most likely a deserialization exception
+            try {
+                // Data is received as a list of products
+                val data = dataSnapshot.getValue<List<@JvmSuppressWildcards Order>>()
+                offer(
+                    UiState.Success(
+                        data?.toMutableList() ?: mutableListOf()
+                    )
+                )
+            } catch (e: Exception) {
+                safeOffer(e)
             }
         }
     }
