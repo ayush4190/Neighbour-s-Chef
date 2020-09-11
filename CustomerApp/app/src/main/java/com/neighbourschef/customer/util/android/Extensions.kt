@@ -17,6 +17,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
 import com.neighbourschef.customer.model.Order
 import com.neighbourschef.customer.model.Product
+import com.neighbourschef.customer.model.User
 import com.neighbourschef.customer.util.common.UiState
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -67,7 +68,7 @@ fun Query.listenMenu(): Flow<UiState> = callbackFlow {
                     )
                 )
             } catch (e: Exception) {
-                safeOffer(e)
+                safeOffer(UiState.Failure(e))
             }
         }
     }
@@ -103,8 +104,31 @@ fun Query.listenOrder(): Flow<UiState> = callbackFlow {
                     )
                 )
             } catch (e: Exception) {
-                safeOffer(e)
+                safeOffer(UiState.Failure(e))
             }
+        }
+    }
+    addValueEventListener(valueListener)
+    awaitClose { removeEventListener(valueListener) }
+}
+
+@ExperimentalCoroutinesApi
+fun Query.listenUser(): Flow<UiState> = callbackFlow {
+    offer(UiState.Loading)
+
+    val valueListener = object : ValueEventListener {
+        override fun onDataChange(snapshot: DataSnapshot) {
+            try {
+
+                offer(UiState.Success(snapshot.getValue<User>()))
+            } catch (e: Exception) {
+                safeOffer(UiState.Failure(e))
+            }
+        }
+
+        override fun onCancelled(error: DatabaseError) {
+            offer(UiState.Failure(error.toException()))
+            close(error.toException())
         }
     }
     addValueEventListener(valueListener)

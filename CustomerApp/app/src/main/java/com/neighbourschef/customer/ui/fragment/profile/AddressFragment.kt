@@ -6,20 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.core.content.edit
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navOptions
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import com.neighbourschef.customer.MobileNavigationDirections
 import com.neighbourschef.customer.R
 import com.neighbourschef.customer.databinding.FragmentAddressBinding
-import com.neighbourschef.customer.db.CustomerDatabase
 import com.neighbourschef.customer.model.Address
 import com.neighbourschef.customer.model.User
 import com.neighbourschef.customer.repositories.FirebaseRepository
 import com.neighbourschef.customer.util.android.asString
 import com.neighbourschef.customer.util.android.getUserRef
 import com.neighbourschef.customer.util.common.EXTRA_USER
+import com.neighbourschef.customer.util.common.PREFERENCE_PROFILE_SET_UP
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
@@ -30,7 +29,6 @@ import org.kodein.di.instance
 @ExperimentalCoroutinesApi
 class AddressFragment: BottomSheetDialogFragment(), DIAware {
     override val di by di()
-    val database by instance<CustomerDatabase>()
     val sharedPreferences by instance<SharedPreferences>()
 
     private var currentBinding: FragmentAddressBinding? = null
@@ -60,17 +58,23 @@ class AddressFragment: BottomSheetDialogFragment(), DIAware {
             if (newAddress != null) {
                 lifecycleScope.launch(Dispatchers.IO) {
                     user.address = newAddress
-                    database.userDao().update(user)
                     FirebaseRepository.saveUser(user, getUserRef(sharedPreferences))
                 }
-                findNavController().navigate(
-                    MobileNavigationDirections.navigateToProfile(),
-                    navOptions {
-                        popUpTo(R.id.nav_profile) {
-                            inclusive = true
-                        }
-                    }
-                )
+                sharedPreferences.edit {
+                    putBoolean(
+                        PREFERENCE_PROFILE_SET_UP,
+                        user.phoneNumber != "" && user.address != Address.EMPTY
+                    )
+                }
+                findNavController().navigateUp()
+                // findNavController().navigate(
+                //     MobileNavigationDirections.navigateToProfile(),
+                //     navOptions {
+                //         popUpTo(R.id.nav_profile) {
+                //             inclusive = true
+                //         }
+                //     }
+                // )
             }
         }
     }

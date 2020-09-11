@@ -8,14 +8,15 @@ import com.neighbourschef.customer.util.android.KParcelable
 import com.neighbourschef.customer.util.android.parcelableCreator
 import kotlinx.serialization.Serializable
 
-@Entity
 @Serializable
 data class User(
     val name: String,
-    @PrimaryKey val email: String,
+    val email: String,
     var phoneNumber: String,
-    @Embedded var address: Address
+    var address: Address
 ): KParcelable {
+    constructor(): this("", "", "", Address.EMPTY)
+
     private constructor(parcel: Parcel): this(
         parcel.readString()!!,
         parcel.readString()!!,

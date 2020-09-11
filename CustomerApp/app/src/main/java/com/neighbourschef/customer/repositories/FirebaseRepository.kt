@@ -6,6 +6,7 @@ import com.google.firebase.ktx.Firebase
 import com.neighbourschef.customer.model.User
 import com.neighbourschef.customer.util.android.listenMenu
 import com.neighbourschef.customer.util.android.listenOrder
+import com.neighbourschef.customer.util.android.listenUser
 import com.neighbourschef.customer.util.common.PATH_MENU
 import com.neighbourschef.customer.util.common.PATH_ORDERS
 import com.neighbourschef.customer.util.common.PATH_ROOT
@@ -30,7 +31,6 @@ object FirebaseRepository {
 
     fun getOrders(email: String): Flow<UiState> = databaseReference.child(PATH_ORDERS).child(email).listenOrder()
 
-    @Suppress("ThrowableNotThrown")
     fun saveUser(user: User, ref: String?): String {
         val userRef = databaseReference.child(PATH_USERS)
         return if (ref != null) {
@@ -42,4 +42,6 @@ object FirebaseRepository {
             key
         }
     }
+
+    fun getUser(ref: String): Flow<UiState> = databaseReference.child(PATH_USERS).child(ref).listenUser()
 }

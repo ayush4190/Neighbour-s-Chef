@@ -19,6 +19,8 @@ data class Address(
     val pinCode: String,
     val landmark: String?
 ): KParcelable {
+    constructor(): this("", null, "", "", "", "", "", null)
+
     private constructor(parcel: Parcel): this(
         parcel.readString()!!,
         parcel.readString(),

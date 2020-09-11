@@ -21,7 +21,6 @@ import com.neighbourschef.customer.MobileNavigationDirections
 import com.neighbourschef.customer.R
 import com.neighbourschef.customer.databinding.FragmentRegistrationBinding
 import com.neighbourschef.customer.databinding.NavHeaderMainBinding
-import com.neighbourschef.customer.db.CustomerDatabase
 import com.neighbourschef.customer.model.Address
 import com.neighbourschef.customer.model.User
 import com.neighbourschef.customer.repositories.FirebaseRepository
@@ -44,7 +43,6 @@ import timber.log.Timber
 class RegistrationFragment: BaseFragment<FragmentRegistrationBinding>(), DIAware {
     override val di by di()
     val app by instance<CustomerApp>()
-    val database by instance<CustomerDatabase>()
     val sharedPreferences by instance<SharedPreferences>()
 
     private var currentNavHeaderMainBinding: NavHeaderMainBinding? = null
@@ -91,20 +89,17 @@ class RegistrationFragment: BaseFragment<FragmentRegistrationBinding>(), DIAware
                             }
                         )
                     } else {
-                        lifecycleScope.launch(Dispatchers.IO) {
-                            val user = User(
-                                app.account!!.displayName!!,
-                                app.account!!.email!!,
-                                "",
-                                Address.EMPTY
+                        val user = User(
+                            app.account!!.displayName!!,
+                            app.account!!.email!!,
+                            "",
+                            Address.EMPTY
+                        )
+                        sharedPreferences.edit {
+                            putString(
+                                PREFERENCE_USER,
+                                FirebaseRepository.saveUser(user, getUserRef(sharedPreferences))
                             )
-                            database.userDao().insert(user)
-                            sharedPreferences.edit {
-                                putString(
-                                    PREFERENCE_USER,
-                                    FirebaseRepository.saveUser(user, getUserRef(sharedPreferences))
-                                )
-                            }
                         }
                         findNavController().navigate(
                             MobileNavigationDirections.navigateToProfile(),
