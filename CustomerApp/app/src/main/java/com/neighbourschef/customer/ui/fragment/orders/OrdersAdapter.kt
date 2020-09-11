@@ -43,7 +43,7 @@ class OrdersAdapter(
         override fun bindTo(item: Order) {
             binding.btnCancel.isVisible = item.status != Order.OrderStatus.CANCELLED
 
-            binding.textId.text = item.id.toString()
+            binding.textId.text = item.id
             binding.textDate.text = item.timestamp.toLocalDateTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
             binding.textQuantity.text = item.totalQuantity().toString()
             binding.textTotal.text = binding.root.context.getString(R.string.set_price, item.totalPrice())

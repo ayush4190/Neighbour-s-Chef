@@ -6,11 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.edit
-import androidx.navigation.fragment.findNavController
 import coil.load
 import coil.transform.CircleCropTransformation
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.neighbourschef.customer.MobileNavigationDirections
 import com.neighbourschef.customer.R
 import com.neighbourschef.customer.databinding.FragmentItemDetailBinding
 import com.neighbourschef.customer.model.Cart
@@ -51,11 +48,6 @@ class ItemDetailFragment: BaseFragment<FragmentItemDetailBinding>(), DIAware {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initFoodInfo()
-        setButtonListener()
-    }
-
-    private fun initFoodInfo() {
         binding.collapsingToolbar.title = product.name
 
         binding.textFoodPrice.text = binding.root.context.getString(R.string.set_price, product.price)
@@ -69,9 +61,7 @@ class ItemDetailFragment: BaseFragment<FragmentItemDetailBinding>(), DIAware {
         binding.imgFoodVegNonVeg.load(drawable) {
             transformations(CircleCropTransformation())
         }
-    }
 
-    private fun setButtonListener() {
         binding.btnAdd.setOnClickListener {
             cart += product.copy(quantity = 1)
             (requireActivity() as MainActivity).binding.layoutAppBar.fab.text = getString(
@@ -82,17 +72,6 @@ class ItemDetailFragment: BaseFragment<FragmentItemDetailBinding>(), DIAware {
             sharedPreferences.edit {
                 putString(PREFERENCE_CART, JSON.encodeToString(Cart.serializer(), cart))
             }
-
-            MaterialAlertDialogBuilder(requireContext())
-                .setTitle("Item added")
-                .setPositiveButton("Go to cart") { dialog, _ ->
-                    dialog.dismiss()
-                    findNavController().navigate(MobileNavigationDirections.navigateToCart())
-                }
-                .setNegativeButton("Continue") { dialog, _ ->
-                    dialog.dismiss()
-                }
-                .show()
         }
     }
 }

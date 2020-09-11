@@ -47,7 +47,7 @@ class RegistrationFragment: BaseFragment<FragmentRegistrationBinding>(), DIAware
     val app by instance<CustomerApp>()
     val sharedPreferences by instance<SharedPreferences>()
 
-    private lateinit var auth: FirebaseAuth
+    private val auth: FirebaseAuth by lazy(LazyThreadSafetyMode.NONE) { Firebase.auth }
     private lateinit var googleSignInClient: GoogleSignInClient
     private var currentUser: FirebaseUser? = null
 
@@ -76,7 +76,18 @@ class RegistrationFragment: BaseFragment<FragmentRegistrationBinding>(), DIAware
             .build()
         googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
 
-        auth = Firebase.auth
+        currentUser = auth.currentUser
+        if (currentUser != null) {
+            updateNavHeader()
+            findNavController().navigate(
+                MobileNavigationDirections.navigateToHome(),
+                navOptions {
+                    popUpTo(R.id.nav_registration) {
+                        inclusive = true
+                    }
+                }
+            )
+        }
         binding.btnSignIn.setOnClickListener { signIn() }
 
         updateNavHeader()

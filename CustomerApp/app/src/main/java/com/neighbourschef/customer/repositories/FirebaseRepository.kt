@@ -35,7 +35,7 @@ object FirebaseRepository {
     fun getOrders(uid: String): Flow<UiState> = databaseReference.child(PATH_ORDERS).child(uid).listenOrder()
 
     fun saveOrder(order: Order, uid: String) {
-        databaseReference.child(PATH_ORDERS).child(uid).child(order.id.toString()).setValue(order)
+        databaseReference.child(PATH_ORDERS).child(uid).child(order.id).setValue(order)
     }
 
     fun getUser(uid: String): Flow<UiState> = databaseReference.child(PATH_USERS).child(uid).listenUser()

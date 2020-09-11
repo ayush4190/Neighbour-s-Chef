@@ -2,8 +2,6 @@ package com.neighbourschef.customer.util.android
 
 import android.os.Parcel
 import android.os.Parcelable
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.ZoneOffset
 
 /**
  * Simple interface to implement while handling Parcelable models in Kotlin
@@ -75,21 +73,6 @@ inline fun <reified T: Parcelable> Parcel.writeParcelableListCompat(value: List<
         writeParcelable(value[i], flags)
         i++
     }
-}
-
-/**
- * Read [LocalDateTime] from [Parcel]
- */
-fun Parcel.readLocalDateTime(): LocalDateTime =
-    LocalDateTime.ofEpochSecond(readLong(), 0, ZoneOffset.UTC)
-
-/**
- * Write [LocalDateTime] to [Parcel]
- * [LocalDateTime.withNano] is done so that the read and write values are exactly the same. This
- * can be confirmed with [LocalDateTime.isEqual]
- */
-fun Parcel.writeLocalDateTime(value: LocalDateTime) {
-    writeLong(value.withNano(0).toEpochSecond(ZoneOffset.UTC))
 }
 
 /**
