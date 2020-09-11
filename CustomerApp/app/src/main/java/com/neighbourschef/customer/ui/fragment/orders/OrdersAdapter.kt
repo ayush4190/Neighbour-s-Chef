@@ -5,19 +5,21 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import com.neighbourschef.customer.R
 import com.neighbourschef.customer.databinding.CardOrderBinding
-import com.neighbourschef.customer.db.CustomerDatabase
 import com.neighbourschef.customer.model.Order
+import com.neighbourschef.customer.repositories.FirebaseRepository
 import com.neighbourschef.customer.util.android.base.BaseAdapter
 import com.neighbourschef.customer.util.android.base.BaseViewHolder
 import com.neighbourschef.customer.util.android.toast
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import org.threeten.bp.format.DateTimeFormatter
 
+@ExperimentalCoroutinesApi
 class OrdersAdapter(
     items: MutableList<Order>,
-    private val database: CustomerDatabase
+    private val uid: String
 ): BaseAdapter<OrdersAdapter.OrdersViewHolder, Order>(items, true) {
     override fun getItemId(position: Int): Long = items[position].hashCode().toLong()
 
@@ -28,29 +30,30 @@ class OrdersAdapter(
                 parent,
                 false
             ),
-            database
+            uid
         ).also {
             it.setOnClickListener { v ->
                 v.toast("Display items")
             }
         }
 
+    @ExperimentalCoroutinesApi
     inner class OrdersViewHolder(
         binding: CardOrderBinding,
-        private val database: CustomerDatabase
+        private val uid: String
     ): BaseViewHolder<CardOrderBinding, Order>(binding) {
         override fun bindTo(item: Order) {
-            binding.historyCancel.isVisible = item.status != Order.OrderStatus.CANCELLED
+            binding.btnCancel.isVisible = item.status != Order.OrderStatus.CANCELLED
 
             binding.textId.text = item.id.toString()
             binding.textDate.text = item.timestamp.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
             binding.textQuantity.text = item.totalQuantity().toString()
             binding.textTotal.text = binding.root.context.getString(R.string.set_price, item.totalPrice())
 
-            binding.historyCancel.setOnClickListener {
+            binding.btnCancel.setOnClickListener {
                 item.status = Order.OrderStatus.CANCELLED
                 CoroutineScope(Dispatchers.IO).launch {
-                    database.orderDao().update(item)
+                    FirebaseRepository.saveOrder(item, uid)
                 }
             }
         }

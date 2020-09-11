@@ -19,7 +19,10 @@ import coil.request.ImageRequest
 import coil.request.SuccessResult
 import coil.transform.CircleCropTransformation
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.neighbourschef.customer.CustomerApp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.neighbourschef.customer.R
 import com.neighbourschef.customer.databinding.DialogAccountBinding
 import com.neighbourschef.customer.util.android.CircleBorderTransformation
@@ -33,7 +36,9 @@ import org.kodein.di.instance
 class SettingsFragment: PreferenceFragmentCompat(), DIAware {
     override val di by di()
     val sharedPreferences by instance<SharedPreferences>()
-    val app by instance<CustomerApp>()
+
+    private val auth: FirebaseAuth by lazy(LazyThreadSafetyMode.NONE) { Firebase.auth }
+    private val currentUser: FirebaseUser? by lazy(LazyThreadSafetyMode.NONE) { auth.currentUser }
 
     private val settingsViewModel by viewModels<SettingsViewModel> { SettingsViewModelFactory(sharedPreferences) }
 
@@ -50,13 +55,12 @@ class SettingsFragment: PreferenceFragmentCompat(), DIAware {
     private fun listenToSettings() {
         val accountPreference = preferenceManager.findPreference(requireContext().getString(R.string.pref_account)) as? Preference
         accountPreference?.let { pref ->
-            val account = app.account
-            if (account != null) {
+            if (currentUser != null) {
                 pref.isEnabled = true
-                pref.title = account.displayName
+                pref.title = currentUser!!.displayName
 
                 lifecycleScope.launchWhenCreated {
-                    account.photoUrl?.let {
+                    currentUser!!.photoUrl?.let {
                         pref.icon = when (val result = Coil.imageLoader(requireContext())
                             .execute(ImageRequest.Builder(requireContext()).data(it).apply {
                                 transformations(
@@ -76,7 +80,7 @@ class SettingsFragment: PreferenceFragmentCompat(), DIAware {
                         .show()
 
                     dialogBinding.imgAccount.apply {
-                        load(account.photoUrl) {
+                        load(currentUser!!.photoUrl) {
                             fallback(R.drawable.ic_person_outline_60dp)
                             transformations(
                                 CircleCropTransformation(),
@@ -84,9 +88,9 @@ class SettingsFragment: PreferenceFragmentCompat(), DIAware {
                             )
                         }
                     }
-                    dialogBinding.textAccountName.text = account.displayName
+                    dialogBinding.textAccountName.text = currentUser!!.displayName
                     dialogBinding.textAccountEmail.visibility = View.VISIBLE
-                    dialogBinding.textAccountEmail.text = account.email
+                    dialogBinding.textAccountEmail.text = currentUser!!.email
 
                     dialogBinding.btnAccountRemove.setOnClickListener {
                         dialog.dismiss()
@@ -120,10 +124,11 @@ class SettingsFragment: PreferenceFragmentCompat(), DIAware {
     }
 
     private fun removeAccount() {
-        app.googleSignInClient.revokeAccess()
+        currentUser!!.delete()
             .addOnCompleteListener {
-                toast("Account removed!")
-                app.account = null
+                if (it.isSuccessful) {
+                    toast("Account removed!")
+                }
                 restartApp(requireActivity())
             }
             .addOnFailureListener {

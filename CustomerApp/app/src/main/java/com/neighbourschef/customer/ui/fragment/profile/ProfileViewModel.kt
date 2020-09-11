@@ -12,8 +12,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
-class ProfileViewModel(private val userRef: String) : ViewModel() {
-    private val savedUser: LiveData<UiState> = FirebaseRepository.getUser(userRef)
+class ProfileViewModel(private val uid: String) : ViewModel() {
+    private val savedUser: LiveData<UiState> = FirebaseRepository.getUser(uid)
         .asLiveData(viewModelScope.coroutineContext)
 
     val user: LiveData<UiState>
@@ -21,16 +21,16 @@ class ProfileViewModel(private val userRef: String) : ViewModel() {
 
     fun saveUser(user: User) {
         viewModelScope.launch {
-            FirebaseRepository.saveUser(user, userRef)
+            FirebaseRepository.saveUser(user, uid)
         }
     }
 }
 
 @ExperimentalCoroutinesApi
-class ProfileViewModelFactory(private val ref: String) : ViewModelProvider.Factory {
+class ProfileViewModelFactory(private val uid: String) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T =
         if (modelClass.isAssignableFrom(ProfileViewModel::class.java)) {
-            ProfileViewModel(ref) as T
+            ProfileViewModel(uid) as T
         } else {
             throw IllegalArgumentException("${modelClass.simpleName} is not assignable by ${ProfileViewModel::class.java.simpleName}")
         }

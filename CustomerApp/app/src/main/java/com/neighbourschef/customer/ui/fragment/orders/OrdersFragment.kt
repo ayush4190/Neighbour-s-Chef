@@ -12,24 +12,25 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.neighbourschef.customer.CustomerApp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.neighbourschef.customer.MobileNavigationDirections
 import com.neighbourschef.customer.R
 import com.neighbourschef.customer.databinding.FragmentOrdersBinding
-import com.neighbourschef.customer.db.CustomerDatabase
+import com.neighbourschef.customer.model.Order
 import com.neighbourschef.customer.util.android.base.BaseFragment
 import com.neighbourschef.customer.util.android.restartApp
-import org.kodein.di.DIAware
-import org.kodein.di.android.x.di
-import org.kodein.di.instance
+import com.neighbourschef.customer.util.android.toast
+import com.neighbourschef.customer.util.common.UiState
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-class OrdersFragment: BaseFragment<FragmentOrdersBinding>(), DIAware {
-    override val di by di()
-    val database by instance<CustomerDatabase>()
-    val app by instance<CustomerApp>()
+@ExperimentalCoroutinesApi
+class OrdersFragment: BaseFragment<FragmentOrdersBinding>() {
+    private val auth: FirebaseAuth by lazy(LazyThreadSafetyMode.NONE) { Firebase.auth }
 
-    private val ordersViewModel by viewModels<OrdersViewModel> { OrdersViewModelFactory(database) }
-    private val adapter by lazy(LazyThreadSafetyMode.NONE) { OrdersAdapter(mutableListOf(), database) }
+    private val ordersViewModel by viewModels<OrdersViewModel> { OrdersViewModelFactory(auth.currentUser!!.uid) }
+    private val adapter by lazy(LazyThreadSafetyMode.NONE) { OrdersAdapter(mutableListOf(), auth.currentUser!!.uid) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,9 +56,19 @@ class OrdersFragment: BaseFragment<FragmentOrdersBinding>(), DIAware {
         binding.textEmptyState.isVisible = adapter.itemCount == 0
 
         ordersViewModel.orders.observe(viewLifecycleOwner) {
-            adapter.submitList(it)
             binding.recyclerOrders.isVisible = adapter.itemCount != 0
             binding.textEmptyState.isVisible = adapter.itemCount == 0
+            when (it) {
+                is UiState.Loading -> binding.progressBar.isVisible = true
+                is UiState.Success<*> -> {
+                    binding.progressBar.isVisible = false
+                    adapter.submitList(it.data as List<Order>)
+                }
+                is UiState.Failure -> {
+                    binding.progressBar.isVisible = false
+                    toast(it.reason)
+                }
+            }
         }
     }
 
@@ -71,7 +82,7 @@ class OrdersFragment: BaseFragment<FragmentOrdersBinding>(), DIAware {
                 true
             }
             R.id.action_logout -> {
-                app.signOut()
+                auth.signOut()
                 restartApp(requireActivity())
                 true
             }

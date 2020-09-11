@@ -27,11 +27,3 @@ fun getCart(sharedPreferences: SharedPreferences): Cart =
 
 fun isProfileSetup(sharedPreferences: SharedPreferences): Boolean =
     sharedPreferences.getBoolean(PREFERENCE_PROFILE_SET_UP, false)
-
-fun saveUserRef(sharedPreferences: SharedPreferences, ref: String) =
-    sharedPreferences.edit {
-        putString(PREFERENCE_USER, ref)
-    }
-
-fun getUserRef(sharedPreferences: SharedPreferences): String? =
-    sharedPreferences.getString(PREFERENCE_USER, null)

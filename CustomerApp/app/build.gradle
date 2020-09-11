@@ -20,15 +20,6 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [
-                        "room.schemaLocation":"$projectDir/schemas".toString(),
-                        "room.incremental":"true",
-                        "room.expandProjection":"true"]
-            }
-        }
     }
 
     buildTypes {
@@ -78,8 +69,8 @@ dependencies {
     implementation "com.google.android.material:material:1.2.1"
 
     implementation "com.google.android.gms:play-services-auth:18.1.0"
-    implementation "com.google.firebase:firebase-analytics:17.5.0"
-    implementation "com.google.firebase:firebase-auth:19.3.2"
+    implementation "com.google.firebase:firebase-analytics-ktx:17.5.0"
+    implementation "com.google.firebase:firebase-auth-ktx:19.3.2"
     implementation "com.google.firebase:firebase-core:17.5.0"
     implementation "com.google.firebase:firebase-database-ktx:19.4.0"
 
@@ -96,11 +87,6 @@ dependencies {
     //Kodein Dependency Injection
     implementation "org.kodein.di:kodein-di-jvm:$kodein_version"
     implementation "org.kodein.di:kodein-di-framework-android-x:$kodein_version"
-
-    //Android Room
-    implementation "androidx.room:room-runtime:$room_version"
-    implementation "androidx.room:room-ktx:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
 
     testImplementation "junit:junit:4.13"
     androidTestImplementation "androidx.test.ext:junit:1.1.2"

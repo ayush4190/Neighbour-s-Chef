@@ -2,9 +2,6 @@ package com.neighbourschef.customer.di
 
 import android.content.Context
 import android.content.SharedPreferences
-import androidx.room.Room
-import com.neighbourschef.customer.R
-import com.neighbourschef.customer.db.CustomerDatabase
 import com.neighbourschef.customer.model.Cart
 import com.neighbourschef.customer.util.common.JSON
 import com.neighbourschef.customer.util.common.PREFERENCE_CART
@@ -24,10 +21,3 @@ fun provideCart(sharedPreferences: SharedPreferences): Cart =
             )
         )!!
     )
-
-fun provideCustomerDatabase(context: Context): CustomerDatabase =
-    Room.databaseBuilder(
-        context,
-        CustomerDatabase::class.java,
-        "${context.getString(R.string.app_name)}_customer.db"
-    ).build()

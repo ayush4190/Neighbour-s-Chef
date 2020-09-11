@@ -29,11 +29,11 @@ import kotlinx.coroutines.flow.callbackFlow
 /**
  * Offer values from a [SendChannel] only if it is not closed by a [SendChannel.close] call
  * @receiver channel used to send data
- * @param T item to be sent in the channel
+ * @param E item to be sent in the channel
  * @return `true` if channel can safely send data and `false` otherwise
  */
 @ExperimentalCoroutinesApi
-private fun <T> SendChannel<T>.safeOffer(value: T): Boolean =
+fun <E> SendChannel<E>.safeOffer(value: E): Boolean =
     !isClosedForSend && try {
         offer(value)
     } catch (e: CancellationException) {

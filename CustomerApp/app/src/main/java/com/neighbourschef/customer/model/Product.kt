@@ -9,10 +9,9 @@ import com.neighbourschef.customer.util.android.readBool
 import com.neighbourschef.customer.util.android.writeBool
 import kotlinx.serialization.Serializable
 
-@Entity
 @Serializable
 data class Product(
-    @PrimaryKey val id: String,
+    val id: String,
     val name: String,
     val price: Double,
     // quantity is intended only for customer and not vendor

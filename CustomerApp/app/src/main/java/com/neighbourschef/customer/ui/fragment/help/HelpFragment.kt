@@ -10,7 +10,8 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
-import com.neighbourschef.customer.CustomerApp
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.neighbourschef.customer.MobileNavigationDirections
 import com.neighbourschef.customer.R
 import com.neighbourschef.customer.databinding.FragmentHelpBinding
@@ -20,13 +21,9 @@ import com.neighbourschef.customer.util.android.restartApp
 import com.neighbourschef.customer.util.android.sendEmail
 import com.neighbourschef.customer.util.common.DEV_EMAIL
 import com.neighbourschef.customer.util.common.DEV_NUMBER
-import org.kodein.di.DIAware
-import org.kodein.di.android.x.di
-import org.kodein.di.instance
 
-class HelpFragment: BaseFragment<FragmentHelpBinding>(), DIAware {
-    override val di by di()
-    val app by instance<CustomerApp>()
+class HelpFragment: BaseFragment<FragmentHelpBinding>() {
+    private val auth by lazy(LazyThreadSafetyMode.NONE) { Firebase.auth }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -76,7 +73,7 @@ class HelpFragment: BaseFragment<FragmentHelpBinding>(), DIAware {
                 true
             }
             R.id.action_logout -> {
-                app.signOut()
+                auth.signOut()
                 restartApp(requireActivity())
                 true
             }

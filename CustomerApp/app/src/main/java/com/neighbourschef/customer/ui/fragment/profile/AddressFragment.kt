@@ -16,7 +16,7 @@ import com.neighbourschef.customer.model.Address
 import com.neighbourschef.customer.model.User
 import com.neighbourschef.customer.repositories.FirebaseRepository
 import com.neighbourschef.customer.util.android.asString
-import com.neighbourschef.customer.util.android.getUserRef
+import com.neighbourschef.customer.util.common.EXTRA_FIREBASE_UID
 import com.neighbourschef.customer.util.common.EXTRA_USER
 import com.neighbourschef.customer.util.common.PREFERENCE_PROFILE_SET_UP
 import kotlinx.coroutines.Dispatchers
@@ -38,6 +38,9 @@ class AddressFragment: BottomSheetDialogFragment(), DIAware {
     private val user by lazy(LazyThreadSafetyMode.NONE) {
         requireArguments()[EXTRA_USER] as User
     }
+    private val uid by lazy(LazyThreadSafetyMode.NONE) {
+        requireArguments()[EXTRA_FIREBASE_UID] as String
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,7 +61,7 @@ class AddressFragment: BottomSheetDialogFragment(), DIAware {
             if (newAddress != null) {
                 lifecycleScope.launch(Dispatchers.IO) {
                     user.address = newAddress
-                    FirebaseRepository.saveUser(user, getUserRef(sharedPreferences))
+                    FirebaseRepository.saveUser(user, uid)
                 }
                 sharedPreferences.edit {
                     putBoolean(

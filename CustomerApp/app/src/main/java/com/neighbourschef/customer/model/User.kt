@@ -1,9 +1,6 @@
 package com.neighbourschef.customer.model
 
 import android.os.Parcel
-import androidx.room.Embedded
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.neighbourschef.customer.util.android.KParcelable
 import com.neighbourschef.customer.util.android.parcelableCreator
 import kotlinx.serialization.Serializable

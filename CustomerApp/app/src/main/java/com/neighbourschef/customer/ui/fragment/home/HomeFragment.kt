@@ -10,7 +10,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
-import com.neighbourschef.customer.CustomerApp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.neighbourschef.customer.MobileNavigationDirections
 import com.neighbourschef.customer.R
 import com.neighbourschef.customer.databinding.FragmentHomeBinding
@@ -26,8 +28,9 @@ import org.kodein.di.instance
 @ExperimentalCoroutinesApi
 class HomeFragment: BaseFragment<FragmentHomeBinding>(), DIAware {
     override val di by di()
-    val app by instance<CustomerApp>()
     val sharedPreferences by instance<SharedPreferences>()
+
+    private val auth: FirebaseAuth by lazy(LazyThreadSafetyMode.NONE) { Firebase.auth }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,7 +92,7 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>(), DIAware {
                 true
             }
             R.id.action_logout -> {
-                app.signOut()
+                auth.signOut()
                 restartApp(requireActivity())
                 true
             }

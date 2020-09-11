@@ -10,29 +10,35 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.neighbourschef.customer.MobileNavigationDirections
 import com.neighbourschef.customer.R
 import com.neighbourschef.customer.databinding.DialogCommentsBinding
 import com.neighbourschef.customer.databinding.FragmentCartBinding
-import com.neighbourschef.customer.db.CustomerDatabase
 import com.neighbourschef.customer.model.Cart
 import com.neighbourschef.customer.model.Order
+import com.neighbourschef.customer.repositories.FirebaseRepository
 import com.neighbourschef.customer.util.android.asString
 import com.neighbourschef.customer.util.android.base.BaseFragment
 import com.neighbourschef.customer.util.android.getCart
 import com.neighbourschef.customer.util.android.saveCart
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 import org.kodein.di.DIAware
 import org.kodein.di.android.x.di
 import org.kodein.di.instance
 
+@ExperimentalCoroutinesApi
 class CartFragment: BaseFragment<FragmentCartBinding>(), DIAware {
     override val di by di()
     val sharedPreferences by instance<SharedPreferences>()
     val cart by instance<Cart>()
-    val database by instance<CustomerDatabase>()
 
+    private val uid: String by lazy(LazyThreadSafetyMode.NONE) {
+        Firebase.auth.currentUser!!.uid
+    }
     private val adapter: CartAdapter by lazy(LazyThreadSafetyMode.NONE) {
         CartAdapter(cart.products, sharedPreferences, binding.textTotalPrice)
     }
@@ -71,7 +77,7 @@ class CartFragment: BaseFragment<FragmentCartBinding>(), DIAware {
                         val order = Order.fromCart(getCart(sharedPreferences))
                         order.comments = dialogBinding.editComments.asString()
                         lifecycleScope.launch(Dispatchers.IO) {
-                            database.orderDao().insert(order)
+                            FirebaseRepository.saveOrder(order, uid)
                         }
                         saveCart(sharedPreferences, Cart.EMPTY)
                         dialog.dismiss()

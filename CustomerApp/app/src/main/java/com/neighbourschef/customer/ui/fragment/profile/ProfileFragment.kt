@@ -16,9 +16,12 @@ import androidx.navigation.fragment.findNavController
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.google.i18n.phonenumbers.NumberParseException
 import com.google.i18n.phonenumbers.PhoneNumberUtil
-import com.neighbourschef.customer.CustomerApp
 import com.neighbourschef.customer.MobileNavigationDirections
 import com.neighbourschef.customer.R
 import com.neighbourschef.customer.databinding.DialogSetPhoneBinding
@@ -27,13 +30,13 @@ import com.neighbourschef.customer.model.Address
 import com.neighbourschef.customer.model.User
 import com.neighbourschef.customer.util.android.asString
 import com.neighbourschef.customer.util.android.base.BaseFragment
-import com.neighbourschef.customer.util.android.getUserRef
 import com.neighbourschef.customer.util.android.init
 import com.neighbourschef.customer.util.android.restartApp
 import com.neighbourschef.customer.util.android.rotate
 import com.neighbourschef.customer.util.android.showIn
 import com.neighbourschef.customer.util.android.showOut
 import com.neighbourschef.customer.util.android.toast
+import com.neighbourschef.customer.util.common.EXTRA_FIREBASE_UID
 import com.neighbourschef.customer.util.common.EXTRA_USER
 import com.neighbourschef.customer.util.common.PREFERENCE_PROFILE_SET_UP
 import com.neighbourschef.customer.util.common.UiState
@@ -45,12 +48,11 @@ import org.kodein.di.instance
 @ExperimentalCoroutinesApi
 class ProfileFragment: BaseFragment<FragmentProfileBinding>(), DIAware {
     override val di by di()
-    val app by instance<CustomerApp>()
     val sharedPreferences by instance<SharedPreferences>()
 
-    private val ref: String by lazy(LazyThreadSafetyMode.NONE) { getUserRef(sharedPreferences)!! }
-
-    private val viewModel: ProfileViewModel by viewModels { ProfileViewModelFactory(ref) }
+    private val auth: FirebaseAuth by lazy(LazyThreadSafetyMode.NONE) { Firebase.auth }
+    private val currentUser: FirebaseUser by lazy(LazyThreadSafetyMode.NONE) { auth.currentUser!! }
+    private val viewModel: ProfileViewModel by viewModels { ProfileViewModelFactory(currentUser.uid) }
 
     private lateinit var user: User
     private var shouldRotate = false
@@ -114,7 +116,7 @@ class ProfileFragment: BaseFragment<FragmentProfileBinding>(), DIAware {
                 true
             }
             R.id.action_logout -> {
-                app.signOut()
+                auth.signOut()
                 restartApp(requireActivity())
                 true
             }
@@ -122,12 +124,12 @@ class ProfileFragment: BaseFragment<FragmentProfileBinding>(), DIAware {
         }
 
     private fun setupViews() {
-        binding.imgUser.load(app.account?.photoUrl) {
+        binding.imgUser.load(currentUser.photoUrl) {
             placeholder(R.drawable.ic_profile_placeholder)
             transformations(CircleCropTransformation())
         }
-        binding.textUserName.text = app.account?.displayName
-        binding.textUserEmail.text = app.account?.email
+        binding.textUserName.text = currentUser.displayName
+        binding.textUserEmail.text = currentUser.email
     }
 
     private fun setupListeners() {
@@ -145,7 +147,10 @@ class ProfileFragment: BaseFragment<FragmentProfileBinding>(), DIAware {
         binding.fabAddress.setOnClickListener {
             findNavController().navigate(
                 R.id.navigate_to_address_dialog,
-                bundleOf(EXTRA_USER to user)
+                bundleOf(
+                    EXTRA_USER to user,
+                    EXTRA_FIREBASE_UID to currentUser.uid
+                )
             )
         }
 

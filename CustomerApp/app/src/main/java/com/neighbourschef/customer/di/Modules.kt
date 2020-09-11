@@ -3,7 +3,6 @@ package com.neighbourschef.customer.di
 import android.content.Context
 import android.content.SharedPreferences
 import com.neighbourschef.customer.CustomerApp
-import com.neighbourschef.customer.db.CustomerDatabase
 import com.neighbourschef.customer.model.Cart
 import org.kodein.di.DI
 import org.kodein.di.bind
@@ -20,11 +19,4 @@ fun appModule(context: Context) = DI.Module("AppModule") {
     bind<Cart>() with singleton { provideCart(sharedPreferences) }
 
     bind<CustomerApp>() with singleton { context as CustomerApp }
-}
-
-/**
- * Contains Room DB-specific components like [androidx.room.Dao] and [androidx.room.RoomDatabase]
- */
-fun roomModule(context: Context) = DI.Module("RoomModule") {
-    bind<CustomerDatabase>() with singleton { provideCustomerDatabase(context) }
 }

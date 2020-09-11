@@ -2,8 +2,6 @@ package com.neighbourschef.customer.model
 
 import android.os.Parcel
 import android.os.ParcelUuid
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.neighbourschef.customer.model.Order.OrderStatus.CANCELLED
 import com.neighbourschef.customer.model.Order.OrderStatus.DELIVERED
 import com.neighbourschef.customer.model.Order.OrderStatus.PLACED
@@ -24,9 +22,8 @@ val tempProducts: MutableList<Product> = mutableListOf()
 // NOTE: ParcelUuid is a parcelable wrapper around UUID. UUIDs generated are unique and so are good
 // for primary identifiers
 
-@Entity
 data class Order(
-    @PrimaryKey val id: ParcelUuid,
+    val id: ParcelUuid,
     val products: List<Product>,
     var status: OrderStatus,
     val timestamp: LocalDateTime,
@@ -47,7 +44,7 @@ data class Order(
         PLACED,
         CANCELLED,
 
-        // App-controlled statuses
+        // Vendor-controlled statuses
         READY,
         DELIVERED;
 
@@ -59,6 +56,8 @@ data class Order(
             @JvmField val CREATOR = parcelableCreator { valueOf(it.readString()!!) }
         }
     }
+
+    constructor(): this(ParcelUuid(UUID.randomUUID()), listOf(), PLACED, LocalDateTime.now(), "")
 
     private constructor(source: Parcel): this(
         source.readParcelable<ParcelUuid>(ParcelUuid::class.java.classLoader)!!,
