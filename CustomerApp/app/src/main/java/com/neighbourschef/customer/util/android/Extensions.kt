@@ -97,10 +97,11 @@ fun Query.listenOrder(): Flow<UiState> = callbackFlow {
             // Exception caught is most likely a deserialization exception
             try {
                 // Data is received as a list of products
-                val data = dataSnapshot.getValue<List<@JvmSuppressWildcards Order>>()
+                val data = dataSnapshot.getValue<HashMap<String, @JvmSuppressWildcards Order>>()
+                data.log()
                 offer(
                     UiState.Success(
-                        data?.toMutableList() ?: mutableListOf()
+                        data?.values?.toMutableList() ?: mutableListOf()
                     )
                 )
             } catch (e: Exception) {

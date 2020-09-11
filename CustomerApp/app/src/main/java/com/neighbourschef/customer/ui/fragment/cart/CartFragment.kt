@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navOptions
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,9 +22,7 @@ import com.neighbourschef.customer.util.android.asString
 import com.neighbourschef.customer.util.android.base.BaseFragment
 import com.neighbourschef.customer.util.android.getCart
 import com.neighbourschef.customer.util.android.saveCart
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.launch
 import org.kodein.di.DIAware
 import org.kodein.di.android.x.di
 import org.kodein.di.instance
@@ -76,9 +73,7 @@ class CartFragment: BaseFragment<FragmentCartBinding>(), DIAware {
                     .setPositiveButton("Place order") { dialog, _ ->
                         val order = Order.fromCart(getCart(sharedPreferences))
                         order.comments = dialogBinding.editComments.asString()
-                        lifecycleScope.launch(Dispatchers.IO) {
-                            FirebaseRepository.saveOrder(order, uid)
-                        }
+                        FirebaseRepository.saveOrder(order, uid)
                         saveCart(sharedPreferences, Cart.EMPTY)
                         dialog.dismiss()
 

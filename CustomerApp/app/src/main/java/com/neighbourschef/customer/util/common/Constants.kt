@@ -24,7 +24,6 @@ const val PREFERENCE_USER = "$PACKAGE_NAME.PREFERENCE_USER"
 const val RC_SIGN_IN = 1001
 
 // Firebase constants
-const val PATH_ROOT = "dev"
 const val PATH_ORDERS = "orders"
 const val PATH_MENU = "menu"
 const val PATH_TODAY = "today"

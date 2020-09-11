@@ -56,13 +56,13 @@ class OrdersFragment: BaseFragment<FragmentOrdersBinding>() {
         binding.textEmptyState.isVisible = adapter.itemCount == 0
 
         ordersViewModel.orders.observe(viewLifecycleOwner) {
-            binding.recyclerOrders.isVisible = adapter.itemCount != 0
-            binding.textEmptyState.isVisible = adapter.itemCount == 0
             when (it) {
                 is UiState.Loading -> binding.progressBar.isVisible = true
                 is UiState.Success<*> -> {
                     binding.progressBar.isVisible = false
                     adapter.submitList(it.data as List<Order>)
+                    binding.recyclerOrders.isVisible = adapter.itemCount != 0
+                    binding.textEmptyState.isVisible = adapter.itemCount == 0
                 }
                 is UiState.Failure -> {
                     binding.progressBar.isVisible = false

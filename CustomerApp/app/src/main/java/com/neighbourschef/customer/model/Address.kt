@@ -1,16 +1,13 @@
 package com.neighbourschef.customer.model
 
 import android.os.Parcel
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.neighbourschef.customer.util.android.KParcelable
 import com.neighbourschef.customer.util.android.parcelableCreator
 import kotlinx.serialization.Serializable
 
-@Entity
 @Serializable
 data class Address(
-    @PrimaryKey val addressName: String,
+    val addressName: String,
     val flatNo: String?,
     val building: String,
     val street: String,

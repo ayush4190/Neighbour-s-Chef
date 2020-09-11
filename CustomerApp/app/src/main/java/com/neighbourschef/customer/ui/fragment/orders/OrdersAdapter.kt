@@ -10,10 +10,8 @@ import com.neighbourschef.customer.repositories.FirebaseRepository
 import com.neighbourschef.customer.util.android.base.BaseAdapter
 import com.neighbourschef.customer.util.android.base.BaseViewHolder
 import com.neighbourschef.customer.util.android.toast
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import com.neighbourschef.customer.util.common.toLocalDateTime
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.launch
 import org.threeten.bp.format.DateTimeFormatter
 
 @ExperimentalCoroutinesApi
@@ -46,15 +44,13 @@ class OrdersAdapter(
             binding.btnCancel.isVisible = item.status != Order.OrderStatus.CANCELLED
 
             binding.textId.text = item.id.toString()
-            binding.textDate.text = item.timestamp.format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+            binding.textDate.text = item.timestamp.toLocalDateTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
             binding.textQuantity.text = item.totalQuantity().toString()
             binding.textTotal.text = binding.root.context.getString(R.string.set_price, item.totalPrice())
 
             binding.btnCancel.setOnClickListener {
                 item.status = Order.OrderStatus.CANCELLED
-                CoroutineScope(Dispatchers.IO).launch {
-                    FirebaseRepository.saveOrder(item, uid)
-                }
+                FirebaseRepository.saveOrder(item, uid)
             }
         }
     }

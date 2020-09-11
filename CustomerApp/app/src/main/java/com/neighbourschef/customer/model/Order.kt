@@ -1,7 +1,6 @@
 package com.neighbourschef.customer.model
 
 import android.os.Parcel
-import android.os.ParcelUuid
 import com.neighbourschef.customer.model.Order.OrderStatus.CANCELLED
 import com.neighbourschef.customer.model.Order.OrderStatus.DELIVERED
 import com.neighbourschef.customer.model.Order.OrderStatus.PLACED
@@ -9,11 +8,11 @@ import com.neighbourschef.customer.model.Order.OrderStatus.READY
 import com.neighbourschef.customer.util.android.KParcelable
 import com.neighbourschef.customer.util.android.parcelableCreator
 import com.neighbourschef.customer.util.android.readEnum
-import com.neighbourschef.customer.util.android.readLocalDateTime
 import com.neighbourschef.customer.util.android.readParcelableListCompat
 import com.neighbourschef.customer.util.android.writeEnum
-import com.neighbourschef.customer.util.android.writeLocalDateTime
 import com.neighbourschef.customer.util.android.writeParcelableListCompat
+import com.neighbourschef.customer.util.common.toLocalDateTime
+import com.neighbourschef.customer.util.common.toTimestamp
 import org.threeten.bp.LocalDateTime
 import java.util.UUID
 
@@ -23,10 +22,10 @@ val tempProducts: MutableList<Product> = mutableListOf()
 // for primary identifiers
 
 data class Order(
-    val id: ParcelUuid,
+    val id: String,
     val products: List<Product>,
     var status: OrderStatus,
-    val timestamp: LocalDateTime,
+    val timestamp: Long,
     var comments: String
 ): KParcelable {
 
@@ -57,21 +56,21 @@ data class Order(
         }
     }
 
-    constructor(): this(ParcelUuid(UUID.randomUUID()), listOf(), PLACED, LocalDateTime.now(), "")
+    constructor(): this("", listOf(), PLACED, LocalDateTime.now().toTimestamp(), "")
 
     private constructor(source: Parcel): this(
-        source.readParcelable<ParcelUuid>(ParcelUuid::class.java.classLoader)!!,
+        source.readString()!!,
         source.readParcelableListCompat<Product>(tempProducts, Product::class.java.classLoader),
         source.readEnum<OrderStatus>(),
-        source.readLocalDateTime(),
+        source.readLong(),
         source.readString()!!
     )
 
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
-        writeParcelable(id, flags)
+        writeString(id)
         writeParcelableListCompat(products, flags)
         writeEnum(status)
-        writeLocalDateTime(timestamp)
+        writeLong(timestamp)
         writeString(comments)
     }
 
@@ -87,20 +86,24 @@ data class Order(
         if (products != other.products) return false
         if (status != other.status) return false
         if (timestamp != other.timestamp) return false
+        if (comments != other.comments) return false
 
         return true
     }
 
     override fun hashCode(): Int = id.hashCode()
 
+    override fun toString(): String =
+        "Order(id=$id, products=$products, status=$status, timestamp=${timestamp.toLocalDateTime()}, comments=$comments)"
+
     companion object {
         @JvmField val CREATOR = parcelableCreator(::Order)
 
         @JvmStatic fun fromCart(cart: Cart): Order = Order(
-            ParcelUuid(UUID.randomUUID()),
+            UUID.randomUUID().toString(),
             cart.products,
             PLACED,
-            LocalDateTime.now(),
+            LocalDateTime.now().toTimestamp(),
             ""
         )
     }
