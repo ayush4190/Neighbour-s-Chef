@@ -21,7 +21,7 @@
     <string name="title_activity_test_maps">Map</string>
     <string name="back">Back</string>
 
-    <string name="set_price">\u20b9 %.2f</string>
+    <string name="set_price">\u20b9 %s</string>
     <string name="set_items">%d %s</string>
     <string name="title_cart">Cart</string>
     <string name="action_logout">Log Out</string>
@@ -63,6 +63,8 @@
     <string name="empty_menu">New food items will be added soon!</string>
     <string name="for_date">Available %s</string>
     <string name="empty_phone">Provide your phone number</string>
+    <string name="order">Order #: %s</string>
+    <string name="set_status">Status: %s</string>
 
     <plurals name="items">
         <item quantity="one">Item</item>

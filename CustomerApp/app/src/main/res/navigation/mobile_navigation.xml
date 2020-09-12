@@ -19,19 +19,23 @@
 
     <action
         android:id="@+id/navigate_to_home"
-        app:destination="@id/nav_home"/>
+        app:destination="@id/nav_home"
+        app:popUpTo="@id/mobile_navigation"/>
 
     <action
         android:id="@+id/navigate_to_help"
-        app:destination="@id/nav_help"/>
+        app:destination="@id/nav_help"
+        app:popUpTo="@id/nav_home"/>
 
     <action
         android:id="@+id/navigate_to_profile"
-        app:destination="@id/nav_profile"/>
+        app:destination="@id/nav_profile"
+        app:popUpTo="@id/nav_home"/>
 
     <action
-        android:id="@+id/navigate_to_history"
-        app:destination="@id/nav_orders"/>
+        android:id="@+id/navigate_to_orders"
+        app:destination="@id/nav_orders"
+        app:popUpTo="@id/nav_home"/>
 
     <action
         android:id="@+id/navigate_to_settings"

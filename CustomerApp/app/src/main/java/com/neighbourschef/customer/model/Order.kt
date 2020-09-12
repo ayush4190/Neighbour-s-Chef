@@ -18,9 +18,6 @@ import java.util.UUID
 
 val tempProducts: MutableList<Product> = mutableListOf()
 
-// NOTE: ParcelUuid is a parcelable wrapper around UUID. UUIDs generated are unique and so are good
-// for primary identifiers
-
 data class Order(
     val id: String,
     val products: List<Product>,
@@ -76,7 +73,7 @@ data class Order(
 
     fun totalQuantity(): Int = products.sumBy { it.quantity }
 
-    fun totalPrice(): Double = products.sumByDouble { it.price }
+    fun totalPrice(): Double = products.total()
 
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

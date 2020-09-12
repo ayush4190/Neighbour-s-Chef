@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
@@ -49,13 +48,8 @@ class OrdersFragment: BaseFragment<FragmentOrdersBinding>() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         binding.recyclerOrders.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         binding.recyclerOrders.adapter = adapter
-
-        binding.recyclerOrders.isVisible = adapter.itemCount != 0
-        binding.textEmptyState.isVisible = adapter.itemCount == 0
 
         lifecycleScope.launch {
             viewModel.orders.collectLatest {
@@ -82,7 +76,7 @@ class OrdersFragment: BaseFragment<FragmentOrdersBinding>() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
         when(item.itemId) {
             R.id.action_settings -> {
-                findNavController().navigate(MobileNavigationDirections.navigateToSettings())
+                navController.navigate(MobileNavigationDirections.navigateToSettings())
                 true
             }
             R.id.action_logout -> {
