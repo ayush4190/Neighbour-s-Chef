@@ -1,21 +1,17 @@
 package com.neighbourschef.customer.ui.fragment.menu
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
+import com.neighbourschef.customer.model.Product
 import com.neighbourschef.customer.repositories.FirebaseRepository
-import com.neighbourschef.customer.util.common.UiState
+import com.neighbourschef.customer.util.common.Result
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
 
 @ExperimentalCoroutinesApi
-class MenuViewModel(day: String) : ViewModel() {
-    private val savedItems: LiveData<UiState> = FirebaseRepository.getMenu(day)
-        .asLiveData(viewModelScope.coroutineContext)
-    
-    val items: LiveData<UiState>
-        get() = savedItems
+class MenuViewModel(private val day: String) : ViewModel() {
+    val items: Flow<Result<List<@JvmSuppressWildcards Product>, Exception>>
+        get() = FirebaseRepository.getMenu(day)
 }
 
 @ExperimentalCoroutinesApi

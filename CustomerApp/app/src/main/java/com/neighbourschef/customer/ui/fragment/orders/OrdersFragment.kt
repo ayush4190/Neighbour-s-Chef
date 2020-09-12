@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,18 +19,19 @@ import com.google.firebase.ktx.Firebase
 import com.neighbourschef.customer.MobileNavigationDirections
 import com.neighbourschef.customer.R
 import com.neighbourschef.customer.databinding.FragmentOrdersBinding
-import com.neighbourschef.customer.model.Order
 import com.neighbourschef.customer.util.android.base.BaseFragment
 import com.neighbourschef.customer.util.android.restartApp
 import com.neighbourschef.customer.util.android.toast
-import com.neighbourschef.customer.util.common.UiState
+import com.neighbourschef.customer.util.common.Result
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
 class OrdersFragment: BaseFragment<FragmentOrdersBinding>() {
     private val auth: FirebaseAuth by lazy(LazyThreadSafetyMode.NONE) { Firebase.auth }
 
-    private val ordersViewModel by viewModels<OrdersViewModel> { OrdersViewModelFactory(auth.currentUser!!.uid) }
+    private val viewModel by viewModels<OrdersViewModel> { OrdersViewModelFactory(auth.currentUser!!.uid) }
     private val adapter by lazy(LazyThreadSafetyMode.NONE) { OrdersAdapter(mutableListOf(), auth.currentUser!!.uid) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,18 +57,20 @@ class OrdersFragment: BaseFragment<FragmentOrdersBinding>() {
         binding.recyclerOrders.isVisible = adapter.itemCount != 0
         binding.textEmptyState.isVisible = adapter.itemCount == 0
 
-        ordersViewModel.orders.observe(viewLifecycleOwner) {
-            when (it) {
-                is UiState.Loading -> binding.progressBar.isVisible = true
-                is UiState.Success<*> -> {
-                    binding.progressBar.isVisible = false
-                    adapter.submitList(it.data as List<Order>)
-                    binding.recyclerOrders.isVisible = adapter.itemCount != 0
-                    binding.textEmptyState.isVisible = adapter.itemCount == 0
-                }
-                is UiState.Failure -> {
-                    binding.progressBar.isVisible = false
-                    toast(it.reason)
+        lifecycleScope.launch {
+            viewModel.orders.collectLatest {
+                binding.progressBar.isVisible = true
+                when (it) {
+                    is Result.Value -> {
+                        binding.progressBar.isVisible = false
+                        adapter.submitList(it.value)
+                        binding.recyclerOrders.isVisible = adapter.itemCount != 0
+                        binding.textEmptyState.isVisible = adapter.itemCount == 0
+                    }
+                    is Result.Error -> {
+                        binding.progressBar.isVisible = false
+                        toast(it.error.message ?: it.error.toString())
+                    }
                 }
             }
         }

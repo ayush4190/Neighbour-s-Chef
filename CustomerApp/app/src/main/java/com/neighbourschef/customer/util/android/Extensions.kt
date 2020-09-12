@@ -18,7 +18,7 @@ import com.google.firebase.database.ktx.getValue
 import com.neighbourschef.customer.model.Order
 import com.neighbourschef.customer.model.Product
 import com.neighbourschef.customer.model.User
-import com.neighbourschef.customer.util.common.UiState
+import com.neighbourschef.customer.util.common.Result
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.SendChannel
@@ -43,17 +43,14 @@ fun <E> SendChannel<E>.safeOffer(value: E): Boolean =
 /**
  * Attaches a [ValueEventListener] to a [Query] and sends data into a flow
  * @receiver Firebase [Query] (a [DatabaseReference])
- * @return [Flow] emitting [UiState] objects depending on the data received
+ * @return [Flow] emitting [Result] objects depending on the data received
  */
 @ExperimentalCoroutinesApi
-fun Query.listenMenu(): Flow<UiState> = callbackFlow {
-    // Show initial loading state
-    offer(UiState.Loading)
-
+fun Query.listenMenu(): Flow<Result<List<@JvmSuppressWildcards Product>, Exception>> = callbackFlow {
     val valueListener = object : ValueEventListener {
         override fun onCancelled(error: DatabaseError) {
             // Send error so that it can be processed by UI and close channel with the error
-            offer(UiState.Failure(error.toException()))
+            offer(Result.Error(error.toException()))
             close(error.toException())
         }
 
@@ -63,12 +60,12 @@ fun Query.listenMenu(): Flow<UiState> = callbackFlow {
                 // Data is received as a list of products
                 val data = dataSnapshot.getValue<List<@JvmSuppressWildcards Product>>()
                 offer(
-                    UiState.Success(
+                    Result.Value(
                         data?.toMutableList() ?: mutableListOf()
                     )
                 )
             } catch (e: Exception) {
-                safeOffer(UiState.Failure(e))
+                safeOffer(Result.Error(e))
             }
         }
     }
@@ -79,17 +76,14 @@ fun Query.listenMenu(): Flow<UiState> = callbackFlow {
 /**
  * Attaches a [ValueEventListener] to a [Query] and sends data into a flow
  * @receiver Firebase [Query] (a [DatabaseReference])
- * @return [Flow] emitting [UiState] objects depending on the data received
+ * @return [Flow] emitting [Result] objects depending on the data received
  */
 @ExperimentalCoroutinesApi
-fun Query.listenOrder(): Flow<UiState> = callbackFlow {
-    // Show initial loading state
-    offer(UiState.Loading)
-
+fun Query.listenOrder(): Flow<Result<List<@JvmSuppressWildcards Order>, Exception>> = callbackFlow {
     val valueListener = object : ValueEventListener {
         override fun onCancelled(error: DatabaseError) {
             // Send error so that it can be processed by UI and close channel with the error
-            offer(UiState.Failure(error.toException()))
+            offer(Result.Error(error.toException()))
             close(error.toException())
         }
 
@@ -98,14 +92,13 @@ fun Query.listenOrder(): Flow<UiState> = callbackFlow {
             try {
                 // Data is received as a list of products
                 val data = dataSnapshot.getValue<HashMap<String, @JvmSuppressWildcards Order>>()
-                data.log()
                 offer(
-                    UiState.Success(
+                    Result.Value(
                         data?.values?.toMutableList() ?: mutableListOf()
                     )
                 )
             } catch (e: Exception) {
-                safeOffer(UiState.Failure(e))
+                safeOffer(Result.Error(e))
             }
         }
     }
@@ -114,22 +107,19 @@ fun Query.listenOrder(): Flow<UiState> = callbackFlow {
 }
 
 @ExperimentalCoroutinesApi
-fun Query.listenUser(): Flow<UiState> = callbackFlow {
-    offer(UiState.Loading)
-
+fun Query.listenUser(): Flow<Result<User, Exception>> = callbackFlow {
     val valueListener = object : ValueEventListener {
-        override fun onDataChange(snapshot: DataSnapshot) {
-            try {
-
-                offer(UiState.Success(snapshot.getValue<User>()))
-            } catch (e: Exception) {
-                safeOffer(UiState.Failure(e))
-            }
+        override fun onCancelled(error: DatabaseError) {
+            offer(Result.Error(error.toException()))
+            close(error.toException())
         }
 
-        override fun onCancelled(error: DatabaseError) {
-            offer(UiState.Failure(error.toException()))
-            close(error.toException())
+        override fun onDataChange(snapshot: DataSnapshot) {
+            try {
+                offer(Result.Value(snapshot.getValue<User>()))
+            } catch (e: Exception) {
+                safeOffer(Result.Error(e))
+            }
         }
     }
     addValueEventListener(valueListener)

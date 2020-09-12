@@ -7,16 +7,18 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.neighbourschef.customer.databinding.FragmentMenuBinding
-import com.neighbourschef.customer.model.Product
 import com.neighbourschef.customer.util.android.base.BaseFragment
 import com.neighbourschef.customer.util.android.toast
 import com.neighbourschef.customer.util.common.EXTRA_DAY
-import com.neighbourschef.customer.util.common.UiState
+import com.neighbourschef.customer.util.common.Result
 import com.neighbourschef.customer.util.common.VEILED_ITEM_COUNT
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @ExperimentalCoroutinesApi
 class MenuFragment : BaseFragment<FragmentMenuBinding>() {
@@ -47,21 +49,23 @@ class MenuFragment : BaseFragment<FragmentMenuBinding>() {
     }
 
     private fun observeChanges() {
-        viewModel.items.observe(viewLifecycleOwner) {
-            binding.recyclerMenu.isVisible = it !is UiState.Failure
+        lifecycleScope.launch {
+            viewModel.items.collectLatest {
+                binding.recyclerMenu.veil()
+                binding.recyclerMenu.isVisible = it is Result.Value
 
-            when (it) {
-                is UiState.Loading -> binding.recyclerMenu.veil()
-                is UiState.Success<*> -> {
-                    binding.recyclerMenu.unVeil()
-                    adapter.submitList(it.data as List<Product>)
+                when (it) {
+                    is Result.Value -> {
+                        binding.recyclerMenu.unVeil()
+                        adapter.submitList(it.value)
 
-                    binding.textEmptyState.isVisible = adapter.itemCount == 0
-                    binding.recyclerMenu.isVisible = adapter.itemCount != 0
-                }
-                is UiState.Failure -> {
-                    binding.textEmptyState.isVisible = true
-                    toast(it.reason)
+                        binding.textEmptyState.isVisible = adapter.itemCount == 0
+                        binding.recyclerMenu.isVisible = adapter.itemCount != 0
+                    }
+                    is Result.Error -> {
+                        binding.textEmptyState.isVisible = true
+                        toast(it.error.message ?: it.error.toString())
+                    }
                 }
             }
         }

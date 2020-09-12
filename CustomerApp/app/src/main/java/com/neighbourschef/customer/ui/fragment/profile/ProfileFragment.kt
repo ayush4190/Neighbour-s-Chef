@@ -12,6 +12,7 @@ import androidx.core.content.edit
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import coil.load
 import coil.transform.CircleCropTransformation
@@ -39,8 +40,10 @@ import com.neighbourschef.customer.util.android.toast
 import com.neighbourschef.customer.util.common.EXTRA_FIREBASE_UID
 import com.neighbourschef.customer.util.common.EXTRA_USER
 import com.neighbourschef.customer.util.common.PREFERENCE_PROFILE_SET_UP
-import com.neighbourschef.customer.util.common.UiState
+import com.neighbourschef.customer.util.common.Result
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import org.kodein.di.DIAware
 import org.kodein.di.android.x.di
 import org.kodein.di.instance
@@ -79,28 +82,30 @@ class ProfileFragment: BaseFragment<FragmentProfileBinding>(), DIAware {
         setupViews()
         setupListeners()
 
-        viewModel.user.observe(viewLifecycleOwner) {
-            when (it) {
-                is UiState.Loading -> binding.progressBar.isVisible = true
-                is UiState.Success<*> -> {
-                    binding.progressBar.isVisible = false
-                    user = it.data as User
+        lifecycleScope.launch {
+            viewModel.user.collectLatest {
+                binding.progressBar.isVisible = true
+                when (it) {
+                    is Result.Value -> {
+                        binding.progressBar.isVisible = false
+                        user = it.value
 
-                    binding.textUserPhone.text = if (user.phoneNumber == "") {
-                        getString(R.string.empty_phone)
-                    } else {
-                        user.phoneNumber
+                        binding.textUserPhone.text = if (user.phoneNumber == "") {
+                            getString(R.string.empty_phone)
+                        } else {
+                            user.phoneNumber
+                        }
+                        binding.cardAddress.isVisible = (user.address != Address.EMPTY).also {
+                            binding.textAddressName.text = user.address.addressName
+                            binding.textAddress.text = user.address.formattedString()
+                            binding.textAddressLandmark.text = user.address.landmark
+                        }
+                        binding.textEmptyState.isVisible = user.address == Address.EMPTY
                     }
-                    binding.cardAddress.isVisible = (user.address != Address.EMPTY).also {
-                        binding.textAddressName.text = user.address.addressName
-                        binding.textAddress.text = user.address.formattedString()
-                        binding.textAddressLandmark.text = user.address.landmark
+                    is Result.Error -> {
+                        binding.progressBar.isVisible = false
+                        toast(it.error.message ?: it.error.toString())
                     }
-                    binding.textEmptyState.isVisible = user.address == Address.EMPTY
-                }
-                is UiState.Failure -> {
-                    binding.progressBar.isVisible = false
-                    toast(it.reason)
                 }
             }
         }

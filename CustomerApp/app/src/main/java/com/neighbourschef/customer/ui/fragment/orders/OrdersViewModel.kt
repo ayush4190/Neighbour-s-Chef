@@ -1,21 +1,17 @@
 package com.neighbourschef.customer.ui.fragment.orders
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
+import com.neighbourschef.customer.model.Order
 import com.neighbourschef.customer.repositories.FirebaseRepository
-import com.neighbourschef.customer.util.common.UiState
+import com.neighbourschef.customer.util.common.Result
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.Flow
 
 @ExperimentalCoroutinesApi
-class OrdersViewModel(uid: String): ViewModel() {
-    private val savedOrders: LiveData<UiState> = FirebaseRepository.getOrders(uid)
-        .asLiveData(viewModelScope.coroutineContext)
-
-    val orders: LiveData<UiState>
-        get() = savedOrders
+class OrdersViewModel(private val uid: String): ViewModel() {
+    val orders: Flow<Result<List<Order>, Exception>>
+        get() = FirebaseRepository.getOrders(uid)
 }
 
 @ExperimentalCoroutinesApi
