@@ -3,17 +3,25 @@ package com.neighbourschef.customer.ui.fragment.details
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.edit
 import coil.load
 import coil.transform.CircleCropTransformation
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
+import com.neighbourschef.customer.MobileNavigationDirections
 import com.neighbourschef.customer.R
 import com.neighbourschef.customer.databinding.FragmentItemDetailBinding
 import com.neighbourschef.customer.model.Cart
 import com.neighbourschef.customer.model.Product
 import com.neighbourschef.customer.ui.activity.MainActivity
 import com.neighbourschef.customer.util.android.base.BaseFragment
+import com.neighbourschef.customer.util.android.restartApp
 import com.neighbourschef.customer.util.common.EXTRA_DAY
 import com.neighbourschef.customer.util.common.EXTRA_PRODUCT
 import com.neighbourschef.customer.util.common.JSON
@@ -28,6 +36,8 @@ class ItemDetailFragment: BaseFragment<FragmentItemDetailBinding>(), DIAware {
     override val di by di()
     val sharedPreferences by instance<SharedPreferences>()
     val cart by instance<Cart>()
+
+    private val auth: FirebaseAuth by lazy(LazyThreadSafetyMode.NONE) { Firebase.auth }
 
     private val product: Product by lazy(LazyThreadSafetyMode.NONE) {
         requireArguments()[EXTRA_PRODUCT] as Product
@@ -46,11 +56,9 @@ class ItemDetailFragment: BaseFragment<FragmentItemDetailBinding>(), DIAware {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         binding.collapsingToolbar.title = product.name
 
-        binding.textFoodPrice.text = binding.root.context.getString(R.string.set_price, product.price)
+        binding.textFoodPrice.text = binding.root.context.getString(R.string.set_price, String.format("%.2f", product.price))
 
         // To be changed eventually
         binding.imgFood.load(R.drawable.food_sample)
@@ -74,4 +82,21 @@ class ItemDetailFragment: BaseFragment<FragmentItemDetailBinding>(), DIAware {
             }
         }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) =
+        inflater.inflate(R.menu.menu_main, menu)
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =
+        when(item.itemId) {
+            R.id.action_settings -> {
+                navController.navigate(MobileNavigationDirections.navigateToSettings())
+                true
+            }
+            R.id.action_logout -> {
+                auth.signOut()
+                restartApp(requireActivity())
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
 }

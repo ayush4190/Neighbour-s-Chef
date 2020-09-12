@@ -13,7 +13,6 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -74,8 +73,6 @@ class ProfileFragment: BaseFragment<FragmentProfileBinding>(), DIAware {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         binding.fabAddress.init()
         binding.fabPhone.init()
 
@@ -117,7 +114,7 @@ class ProfileFragment: BaseFragment<FragmentProfileBinding>(), DIAware {
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
         when(item.itemId) {
             R.id.action_settings -> {
-                findNavController().navigate(MobileNavigationDirections.navigateToSettings())
+                navController.navigate(MobileNavigationDirections.navigateToSettings())
                 true
             }
             R.id.action_logout -> {
@@ -150,7 +147,7 @@ class ProfileFragment: BaseFragment<FragmentProfileBinding>(), DIAware {
         }
 
         binding.fabAddress.setOnClickListener {
-            findNavController().navigate(
+            navController.navigate(
                 R.id.navigate_to_address_dialog,
                 bundleOf(
                     EXTRA_USER to user,

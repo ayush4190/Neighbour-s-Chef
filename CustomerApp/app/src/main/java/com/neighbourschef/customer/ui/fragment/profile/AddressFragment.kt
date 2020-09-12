@@ -70,14 +70,6 @@ class AddressFragment: BottomSheetDialogFragment(), DIAware {
                     )
                 }
                 findNavController().navigateUp()
-                // findNavController().navigate(
-                //     MobileNavigationDirections.navigateToProfile(),
-                //     navOptions {
-                //         popUpTo(R.id.nav_profile) {
-                //             inclusive = true
-                //         }
-                //     }
-                // )
             }
         }
     }

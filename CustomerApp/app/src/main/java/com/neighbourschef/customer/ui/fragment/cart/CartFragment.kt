@@ -3,12 +3,14 @@ package com.neighbourschef.customer.ui.fragment.cart
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.navOptions
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.neighbourschef.customer.MobileNavigationDirections
@@ -21,6 +23,7 @@ import com.neighbourschef.customer.repositories.FirebaseRepository
 import com.neighbourschef.customer.util.android.asString
 import com.neighbourschef.customer.util.android.base.BaseFragment
 import com.neighbourschef.customer.util.android.getCart
+import com.neighbourschef.customer.util.android.restartApp
 import com.neighbourschef.customer.util.android.saveCart
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.kodein.di.DIAware
@@ -33,8 +36,8 @@ class CartFragment: BaseFragment<FragmentCartBinding>(), DIAware {
     val sharedPreferences by instance<SharedPreferences>()
     val cart by instance<Cart>()
 
-    private val uid: String by lazy(LazyThreadSafetyMode.NONE) {
-        Firebase.auth.currentUser!!.uid
+    private val auth: FirebaseAuth by lazy(LazyThreadSafetyMode.NONE) { Firebase.auth }
+    private val uid: String by lazy(LazyThreadSafetyMode.NONE) { auth.currentUser!!.uid
     }
     private val adapter: CartAdapter by lazy(LazyThreadSafetyMode.NONE) {
         CartAdapter(cart.products, sharedPreferences, binding.textTotalPrice)
@@ -49,15 +52,8 @@ class CartFragment: BaseFragment<FragmentCartBinding>(), DIAware {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        setupViews()
-    }
-
-    private fun setupViews() {
-        binding.textTotalPrice.text = getString(R.string.set_price, cart.total())
-
         with(binding) {
+            textTotalPrice.text = getString(R.string.set_price, String.format("%.2f", cart.total()))
             recyclerCart.apply {
                 adapter = this@CartFragment.adapter
                 setHasFixedSize(true)
@@ -83,18 +79,30 @@ class CartFragment: BaseFragment<FragmentCartBinding>(), DIAware {
                             .setNeutralButton("OK") { d, _ -> d.dismiss() }
                             .show()
 
-                        findNavController().navigate(
-                            MobileNavigationDirections.navigateToHome(),
-                            navOptions {
-                                popUpTo(R.id.nav_cart) {
-                                    inclusive = true
-                                }
-                            }
+                        navController.navigate(
+                            MobileNavigationDirections.navigateToHome()
                         )
                     }
-                    .setNegativeButton("Cancel") { dialog, _ -> dialog.dismiss()}
+                    .setNegativeButton("Cancel") { _, _ -> }
                     .show()
             }
         }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) =
+        inflater.inflate(R.menu.menu_main, menu)
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean =
+        when(item.itemId) {
+            R.id.action_settings -> {
+                navController.navigate(MobileNavigationDirections.navigateToSettings())
+                true
+            }
+            R.id.action_logout -> {
+                auth.signOut()
+                restartApp(requireActivity())
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
 }

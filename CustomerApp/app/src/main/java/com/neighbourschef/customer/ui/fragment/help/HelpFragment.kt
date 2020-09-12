@@ -9,7 +9,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.neighbourschef.customer.MobileNavigationDirections
@@ -40,8 +39,6 @@ class HelpFragment: BaseFragment<FragmentHelpBinding>() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         binding.textContact.text = getString(R.string.call_us, DEV_NUMBER)
         binding.textEmail.text = getString(R.string.email_us, DEV_EMAIL)
 
@@ -69,7 +66,7 @@ class HelpFragment: BaseFragment<FragmentHelpBinding>() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
         when(item.itemId) {
             R.id.action_settings -> {
-                findNavController().navigate(MobileNavigationDirections.navigateToSettings())
+                navController.navigate(MobileNavigationDirections.navigateToSettings())
                 true
             }
             R.id.action_logout -> {

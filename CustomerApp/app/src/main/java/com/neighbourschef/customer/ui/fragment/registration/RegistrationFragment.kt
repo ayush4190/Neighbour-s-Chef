@@ -68,8 +68,6 @@ class RegistrationFragment: BaseFragment<FragmentRegistrationBinding>(), DIAware
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
@@ -79,13 +77,13 @@ class RegistrationFragment: BaseFragment<FragmentRegistrationBinding>(), DIAware
         currentUser = auth.currentUser
         if (currentUser != null) {
             updateNavHeader()
-            findNavController().navigate(
+            navController.navigate(
                 MobileNavigationDirections.navigateToHome(),
-                navOptions {
-                    popUpTo(R.id.nav_registration) {
-                        inclusive = true
-                    }
-                }
+                // navOptions {
+                //     popUpTo(R.id.nav_registration) {
+                //         inclusive = true
+                //     }
+                // }
             )
         }
         binding.btnSignIn.setOnClickListener { signIn() }
@@ -107,13 +105,13 @@ class RegistrationFragment: BaseFragment<FragmentRegistrationBinding>(), DIAware
                             if (it.isSuccessful) {
                                 currentUser = auth.currentUser
                                 if (isProfileSetup(sharedPreferences)) {
-                                    findNavController().navigate(
+                                    navController.navigate(
                                         MobileNavigationDirections.navigateToHome(),
-                                        navOptions {
-                                            popUpTo(R.id.nav_registration) {
-                                                inclusive = true
-                                            }
-                                        }
+                                        // navOptions {
+                                        //     popUpTo(R.id.nav_registration) {
+                                        //         inclusive = true
+                                        //     }
+                                        // }
                                     )
                                 } else {
                                     val user = User(
@@ -123,7 +121,7 @@ class RegistrationFragment: BaseFragment<FragmentRegistrationBinding>(), DIAware
                                         Address.EMPTY
                                     )
                                     FirebaseRepository.saveUser(user, currentUser!!.uid)
-                                    findNavController().navigate(
+                                    navController.navigate(
                                         MobileNavigationDirections.navigateToProfile(),
                                         navOptions {
                                             popUpTo(R.id.nav_registration) {

@@ -8,7 +8,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -47,8 +46,6 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>(), DIAware {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
         val cart = getCart(sharedPreferences)
         (requireActivity() as MainActivity).binding.layoutAppBar.fab.text = if (cart.isEmpty()) {
             ""
@@ -88,7 +85,7 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>(), DIAware {
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
         when(item.itemId) {
             R.id.action_settings -> {
-                findNavController().navigate(MobileNavigationDirections.navigateToSettings())
+                navController.navigate(MobileNavigationDirections.navigateToSettings())
                 true
             }
             R.id.action_logout -> {

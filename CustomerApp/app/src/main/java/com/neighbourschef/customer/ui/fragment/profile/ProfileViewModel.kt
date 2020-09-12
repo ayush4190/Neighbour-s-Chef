@@ -22,6 +22,7 @@ class ProfileViewModel(private val uid: String) : ViewModel() {
     }
 }
 
+@Suppress("UNCHECKED_CAST")
 @ExperimentalCoroutinesApi
 class ProfileViewModelFactory(private val uid: String) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T =

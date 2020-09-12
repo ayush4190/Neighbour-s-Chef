@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity(), DIAware {
                     true
                 }
                 R.id.nav_orders -> {
-                    navController.navigate(MobileNavigationDirections.navigateToHistory())
+                    navController.navigate(MobileNavigationDirections.navigateToOrders())
                     true
                 }
                 else -> false
