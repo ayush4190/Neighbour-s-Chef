@@ -2,17 +2,16 @@ package com.neighbourschef.customer.ui.fragment.orders
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import androidx.navigation.NavController
 import com.neighbourschef.customer.R
 import com.neighbourschef.customer.databinding.CardOrderBinding
-import com.neighbourschef.customer.databinding.DialogOrderItemsBinding
 import com.neighbourschef.customer.model.Order
 import com.neighbourschef.customer.repositories.FirebaseRepository
 import com.neighbourschef.customer.util.android.base.BaseAdapter
 import com.neighbourschef.customer.util.android.base.BaseViewHolder
+import com.neighbourschef.customer.util.common.EXTRA_ITEMS
 import com.neighbourschef.customer.util.common.humanReadable
 import com.neighbourschef.customer.util.common.toLocalDateTime
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -20,7 +19,8 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 @ExperimentalCoroutinesApi
 class OrdersAdapter(
     items: MutableList<Order>,
-    private val uid: String
+    private val uid: String,
+    private val navController: NavController
 ): BaseAdapter<OrdersAdapter.OrdersViewHolder, Order>(items, true) {
     override fun getItemId(position: Int): Long = items[position].id.hashCode().toLong()
 
@@ -33,17 +33,11 @@ class OrdersAdapter(
             ),
             uid
         ).also {
-            it.setOnClickListener { v ->
-                val dialogBinding = DialogOrderItemsBinding.inflate(LayoutInflater.from(v.context))
-                MaterialAlertDialogBuilder(v.context)
-                    .setTitle("Ordered items")
-                    .setView(dialogBinding.root)
-                    .show()
-                dialogBinding.recyclerItems.apply {
-                    layoutManager = LinearLayoutManager(dialogBinding.root.context, RecyclerView.VERTICAL, false)
-                    setHasFixedSize(true)
-                    adapter = FoodAdapter(items[it.adapterPosition].products.toMutableList())
-                }
+            it.setOnClickListener { _ ->
+                navController.navigate(
+                    R.id.navigate_to_items_dialog,
+                    bundleOf(EXTRA_ITEMS to items[it.adapterPosition].products)
+                )
             }
         }
 

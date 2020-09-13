@@ -66,11 +66,7 @@ data class Cart(
 
     fun isEmpty(): Boolean = size() == 0
 
-    fun clear() = products.clear()
-
     companion object {
         @JvmField val CREATOR = parcelableCreator(::Cart)
-
-        @JvmField val EMPTY = Cart(mutableListOf())
     }
 }

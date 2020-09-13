@@ -66,12 +66,11 @@ class CartFragment: BaseFragment<FragmentCartBinding>(), DIAware {
                     .setTitle("Confirm order")
                     .setView(dialogBinding.root)
                     .setMessage("Add comments")
-                    .setPositiveButton("Place order") { dialog, _ ->
+                    .setPositiveButton("Place order") { _, _ ->
                         val order = Order.fromCart(getCart(sharedPreferences))
                         order.comments = dialogBinding.editComments.asString()
                         FirebaseRepository.saveOrder(order, uid)
-                        saveCart(sharedPreferences, Cart.EMPTY)
-                        dialog.dismiss()
+                        saveCart(sharedPreferences, Cart())
 
                         MaterialAlertDialogBuilder(requireContext())
                             .setTitle("Order placed")

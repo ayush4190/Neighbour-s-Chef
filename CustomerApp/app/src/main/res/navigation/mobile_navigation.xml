@@ -77,7 +77,13 @@
         android:id="@+id/nav_orders"
         android:name="com.neighbourschef.customer.ui.fragment.orders.OrdersFragment"
         android:label="@string/title_orders"
-        tools:layout="@layout/fragment_orders"/>
+        tools:layout="@layout/fragment_orders">
+
+        <action
+            android:id="@+id/navigate_to_items_dialog"
+            app:destination="@id/nav_order_items"/>
+
+    </fragment>
 
     <fragment
         android:id="@+id/nav_help"
@@ -107,5 +113,11 @@
         android:name="com.neighbourschef.customer.ui.fragment.profile.AddressFragment"
         android:label="@string/title_address"
         tools:layout="@layout/fragment_address"/>
+
+    <dialog
+        android:id="@+id/nav_order_items"
+        android:name="com.neighbourschef.customer.ui.fragment.orders.OrderItemsDialogFragment"
+        android:label="Ordered Items"
+        tools:layout="@layout/dialog_order_items"/>
 
 </navigation>

@@ -39,7 +39,7 @@ class CustomerApp: Application(), DIAware {
 
         if (!sharedPreferences.contains(PREFERENCE_CART)) {
             sharedPreferences.edit {
-                putString(PREFERENCE_CART, JSON.encodeToString(Cart.serializer(), Cart.EMPTY))
+                putString(PREFERENCE_CART, JSON.encodeToString(Cart.serializer(), Cart()))
             }
         }
         AppCompatDelegate.setDefaultNightMode(

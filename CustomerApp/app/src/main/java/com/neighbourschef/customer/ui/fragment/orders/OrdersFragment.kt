@@ -31,7 +31,9 @@ class OrdersFragment: BaseFragment<FragmentOrdersBinding>() {
     private val auth: FirebaseAuth by lazy(LazyThreadSafetyMode.NONE) { Firebase.auth }
 
     private val viewModel by viewModels<OrdersViewModel> { OrdersViewModelFactory(auth.currentUser!!.uid) }
-    private val adapter by lazy(LazyThreadSafetyMode.NONE) { OrdersAdapter(mutableListOf(), auth.currentUser!!.uid) }
+    private val adapter by lazy(LazyThreadSafetyMode.NONE) {
+        OrdersAdapter(mutableListOf(), auth.currentUser!!.uid, navController)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

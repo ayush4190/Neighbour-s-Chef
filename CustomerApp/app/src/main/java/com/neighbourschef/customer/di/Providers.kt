@@ -17,7 +17,7 @@ fun provideCart(sharedPreferences: SharedPreferences): Cart =
             PREFERENCE_CART,
             JSON.encodeToString(
                 Cart.serializer(),
-                Cart.EMPTY
+                Cart()
             )
         )!!
     )
