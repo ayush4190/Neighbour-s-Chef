@@ -1,6 +1,12 @@
 package com.neighbourschef.vendor.util.android.base
 
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.fragment.findNavController
 import androidx.viewbinding.ViewBinding
 
 /**
@@ -12,14 +18,24 @@ import androidx.viewbinding.ViewBinding
  * return binding.getRoot();
  *
  * Views must be setup in onViewCreated()
-</VB> */
-abstract class BaseFragment<VB : ViewBinding?> : Fragment() {
+*/
+abstract class BaseFragment<VB : ViewBinding> : Fragment() {
     protected var currentBinding: VB? = null
-    protected var binding: VB
+    protected val binding: VB
         get() = currentBinding!!
+
+    protected val navController: NavController by lazy(LazyThreadSafetyMode.NONE) { findNavController() }
 
     override fun onDestroyView() {
         super.onDestroyView()
         currentBinding = null
     }
+
+    abstract override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View?
+
+    abstract override fun onViewCreated(view: View, savedInstanceState: Bundle?)
 }
