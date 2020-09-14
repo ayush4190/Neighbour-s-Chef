@@ -26,10 +26,10 @@ const val RC_SIGN_IN = 1001
 
 // Firebase constants
 const val PATH_ORDERS = "orders"
+const val PATH_USERS = "users"
 const val PATH_MENU = "menu"
 const val PATH_TODAY = "today"
 const val PATH_TOMORROW = "tomorrow"
-const val PATH_USERS = "users"
 const val PATH_REST_OF_THE_WEEK = "rest_of_the_week"
 
 // Misc
