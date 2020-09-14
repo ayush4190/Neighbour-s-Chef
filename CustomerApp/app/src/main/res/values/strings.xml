@@ -65,6 +65,7 @@
     <string name="empty_phone">Provide your phone number</string>
     <string name="order">Order #: %s</string>
     <string name="set_status">Status: %s</string>
+    <string name="empty_cart">Oops! Your cart is empty!</string>
 
     <plurals name="items">
         <item quantity="one">Item</item>

@@ -8,6 +8,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.FirebaseAuth
@@ -53,6 +54,9 @@ class CartFragment: BaseFragment<FragmentCartBinding>(), DIAware {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         with(binding) {
+            layoutCart.isVisible = !cart.isEmpty()
+            textEmptyState.isVisible = cart.isEmpty()
+
             textTotalPrice.text = getString(R.string.set_price, String.format("%.2f", cart.total()))
             recyclerCart.apply {
                 adapter = this@CartFragment.adapter
