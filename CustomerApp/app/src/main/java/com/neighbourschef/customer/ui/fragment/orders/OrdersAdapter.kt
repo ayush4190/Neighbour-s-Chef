@@ -1,8 +1,8 @@
 package com.neighbourschef.customer.ui.fragment.orders
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import com.neighbourschef.customer.R
@@ -36,7 +36,9 @@ class OrdersAdapter(
             it.setOnClickListener { _ ->
                 navController.navigate(
                     R.id.navigate_to_items_dialog,
-                    bundleOf(EXTRA_ITEMS to items[it.adapterPosition].products)
+                    Bundle().apply {
+                        putParcelableArrayList(EXTRA_ITEMS, ArrayList(items[it.adapterPosition].products))
+                    }
                 )
             }
         }

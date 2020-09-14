@@ -16,8 +16,8 @@ class OrderItemsDialogFragment : DialogFragment() {
     private val binding: DialogOrderItemsBinding
         get() = currentBinding!!
 
-    private val items: List<Product> by lazy(LazyThreadSafetyMode.NONE) {
-        requireArguments()[EXTRA_ITEMS] as List<Product>
+    private val items: ArrayList<Product> by lazy(LazyThreadSafetyMode.NONE) {
+        requireArguments().getParcelableArrayList(EXTRA_ITEMS)!!
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

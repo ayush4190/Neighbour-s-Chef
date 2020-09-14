@@ -24,8 +24,10 @@ object FirebaseRepository {
         Firebase.database.reference
     }
 
-    fun getMenu(day: String): Flow<Result<List<Product>, Exception>> = databaseReference.child(PATH_MENU).child(day)
-        .asResultFlow<List<@JvmSuppressWildcards Product>, List<@JvmSuppressWildcards Product>>(listOf()) { it }
+    fun getMenu(day: String): Flow<Result<List<Product>, Exception>> = databaseReference.child(PATH_MENU)
+        .asResultFlow<HashMap<String, @JvmSuppressWildcards Product>, List<Product>>(listOf()) {
+            it?.values?.filter { product -> product.day == day}
+        }
 
     fun getOrders(uid: String): Flow<Result<List<Order>, Exception>> = databaseReference.child(PATH_ORDERS).child(uid)
         .asResultFlow<HashMap<String, @JvmSuppressWildcards Order>, List<@JvmSuppressWildcards Order>>(listOf()) {
