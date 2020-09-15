@@ -20,21 +20,6 @@
             android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/layout_address_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:hint="@string/name">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edit_address_name"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:inputType="text|textCapWords" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/layout_address_flat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -57,7 +57,10 @@ class OrdersAdapter(
                 item.totalQuantity(),
                 binding.root.context.resources.getQuantityString(R.plurals.items, item.totalQuantity())
             )
-            binding.textTotal.text = binding.root.context.getString(R.string.set_price, String.format("%.2f", item.totalPrice()))
+            binding.textTotal.text = binding.root.context.getString(
+                R.string.set_price,
+                String.format("%.2f", item.totalPrice())
+            )
             binding.textDate.text = item.timestamp.toLocalDateTime().humanReadable()
             binding.textStatus.text = binding.root.context.getString(R.string.set_status, item.status.toString())
 

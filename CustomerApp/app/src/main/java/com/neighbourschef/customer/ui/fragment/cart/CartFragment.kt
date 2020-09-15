@@ -27,19 +27,15 @@ import com.neighbourschef.customer.util.android.getCart
 import com.neighbourschef.customer.util.android.restartApp
 import com.neighbourschef.customer.util.android.saveCart
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.kodein.di.DIAware
-import org.kodein.di.android.x.di
-import org.kodein.di.instance
+import org.koin.android.ext.android.inject
 
 @ExperimentalCoroutinesApi
-class CartFragment: BaseFragment<FragmentCartBinding>(), DIAware {
-    override val di by di()
-    val sharedPreferences by instance<SharedPreferences>()
-    val cart by instance<Cart>()
+class CartFragment: BaseFragment<FragmentCartBinding>() {
+    private val sharedPreferences: SharedPreferences by inject()
+    private val cart by lazy(LazyThreadSafetyMode.NONE) { getCart(sharedPreferences) }
 
     private val auth: FirebaseAuth by lazy(LazyThreadSafetyMode.NONE) { Firebase.auth }
-    private val uid: String by lazy(LazyThreadSafetyMode.NONE) { auth.currentUser!!.uid
-    }
+    private val uid: String by lazy(LazyThreadSafetyMode.NONE) { auth.currentUser!!.uid }
     private val adapter: CartAdapter by lazy(LazyThreadSafetyMode.NONE) {
         CartAdapter(cart.products, sharedPreferences, binding.textTotalPrice)
     }
@@ -79,7 +75,7 @@ class CartFragment: BaseFragment<FragmentCartBinding>(), DIAware {
                         MaterialAlertDialogBuilder(requireContext())
                             .setTitle("Order placed")
                             .setMessage("Order ID: ${order.id}\nOrder Status: ${order.status}")
-                            .setNeutralButton("OK") { d, _ -> d.dismiss() }
+                            .setNeutralButton("OK") { _, _ ->  }
                             .show()
 
                         navController.navigate(

@@ -15,19 +15,14 @@ import com.google.firebase.ktx.Firebase
 import com.neighbourschef.customer.MobileNavigationDirections
 import com.neighbourschef.customer.R
 import com.neighbourschef.customer.databinding.FragmentHomeBinding
-import com.neighbourschef.customer.ui.activity.MainActivity
 import com.neighbourschef.customer.util.android.base.BaseFragment
-import com.neighbourschef.customer.util.android.getCart
 import com.neighbourschef.customer.util.android.restartApp
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.kodein.di.DIAware
-import org.kodein.di.android.x.di
-import org.kodein.di.instance
+import org.koin.android.ext.android.inject
 
 @ExperimentalCoroutinesApi
-class HomeFragment: BaseFragment<FragmentHomeBinding>(), DIAware {
-    override val di by di()
-    val sharedPreferences by instance<SharedPreferences>()
+class HomeFragment: BaseFragment<FragmentHomeBinding>() {
+    val sharedPreferences: SharedPreferences by inject()
 
     private val auth: FirebaseAuth by lazy(LazyThreadSafetyMode.NONE) { Firebase.auth }
 
@@ -46,37 +41,12 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>(), DIAware {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val cart = getCart(sharedPreferences)
-        (requireActivity() as MainActivity).binding.layoutAppBar.fab.text = if (cart.isEmpty()) {
-            ""
-        } else {
-            getString(
-                R.string.set_items,
-                cart.size(),
-                resources.getQuantityString(R.plurals.items, cart.size())
-            )
-        }
         val adapter = SectionsPagerAdapter(this)
         binding.viewPager.adapter = adapter
         TabLayoutMediator(binding.tabs, binding.viewPager) { tab, position ->
             val titles = arrayOf("Today", "Tomorrow")
             tab.text = titles[position]
         }.attach()
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        val cart = getCart(sharedPreferences)
-        (requireActivity() as MainActivity).binding.layoutAppBar.fab.text = if (cart.isEmpty()) {
-            ""
-        } else {
-            getString(
-                R.string.set_items,
-                cart.size(),
-                resources.getQuantityString(R.plurals.items, cart.size())
-            )
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) =

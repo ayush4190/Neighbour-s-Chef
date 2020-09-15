@@ -1,9 +1,10 @@
 package com.neighbourschef.customer.ui.activity
 
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -13,24 +14,36 @@ import androidx.navigation.ui.setupWithNavController
 import com.neighbourschef.customer.MobileNavigationDirections
 import com.neighbourschef.customer.R
 import com.neighbourschef.customer.databinding.ActivityMainBinding
-import com.neighbourschef.customer.model.Cart
 import com.neighbourschef.customer.model.Product
+import com.neighbourschef.customer.util.android.getCart
 import com.neighbourschef.customer.util.common.EXTRA_PRODUCT
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.kodein.di.DIAware
-import org.kodein.di.android.closestDI
-import org.kodein.di.instance
+import com.neighbourschef.customer.util.common.PREFERENCE_CART
+import org.koin.android.ext.android.inject
 
-@ExperimentalCoroutinesApi
-class MainActivity : AppCompatActivity(), DIAware {
-    override val di by closestDI()
-    val cart by instance<Cart>()
+class MainActivity : AppCompatActivity() {
+    val sharedPreferences: SharedPreferences by inject()
 
     lateinit var binding: ActivityMainBinding
     private val navController: NavController by lazy(LazyThreadSafetyMode.NONE) {
         findNavController(R.id.nav_host_fragment)
     }
     private lateinit var appBarConfiguration: AppBarConfiguration
+
+    private val sharedPreferencesListener = SharedPreferences.OnSharedPreferenceChangeListener { sp, key ->
+        if (key == PREFERENCE_CART) {
+            val cart = getCart(sp)
+            binding.layoutAppBar.fabCart.text = if (cart.isEmpty()) {
+                binding.layoutAppBar.fabCart.isExtended = false
+                ""
+            } else {
+                getString(
+                    R.string.set_items,
+                    cart.size(),
+                    resources.getQuantityString(R.plurals.items, cart.size())
+                )
+            }
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -70,7 +83,18 @@ class MainActivity : AppCompatActivity(), DIAware {
             }
         }
 
-        initViews()
+        val cart = getCart(sharedPreferences)
+        binding.layoutAppBar.fabCart.text = if (cart.isEmpty()) {
+            binding.layoutAppBar.fabCart.isExtended = false
+            ""
+        } else {
+            getString(
+                R.string.set_items,
+                cart.size(),
+                resources.getQuantityString(R.plurals.items, cart.size())
+            )
+        }
+        setupListeners()
     }
 
     override fun onSupportNavigateUp(): Boolean =
@@ -84,8 +108,12 @@ class MainActivity : AppCompatActivity(), DIAware {
         }
     }
 
-    private fun initViews() {
-        binding.layoutAppBar.fab.text = if (cart.isEmpty()) {
+    override fun onResume() {
+        super.onResume()
+
+        val cart = getCart(sharedPreferences)
+        binding.layoutAppBar.fabCart.text = if (cart.isEmpty()) {
+            binding.layoutAppBar.fabCart.isExtended = false
             ""
         } else {
             getString(
@@ -94,36 +122,46 @@ class MainActivity : AppCompatActivity(), DIAware {
                 resources.getQuantityString(R.plurals.items, cart.size())
             )
         }
-        binding.layoutAppBar.fab.setOnClickListener {
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferencesListener)
+    }
+
+    private fun setupListeners() {
+        sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferencesListener)
+
+        binding.layoutAppBar.fabCart.setOnClickListener {
             navController.navigate(MobileNavigationDirections.navigateToCart())
         }
 
         navController.addOnDestinationChangedListener { _, destination, arguments ->
             when(destination.id) {
                 R.id.nav_home -> {
-                    binding.layoutAppBar.fab.visibility = View.VISIBLE
-                    binding.navView.visibility = View.VISIBLE
+                    binding.layoutAppBar.fabCart.isVisible = true
+                    binding.navView.isVisible = true
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
                 }
                 R.id.nav_item_detail -> {
                     supportActionBar?.title = arguments?.getParcelable<Product>(EXTRA_PRODUCT)?.name
-                    binding.layoutAppBar.fab.visibility = View.VISIBLE
-                    binding.navView.visibility = View.VISIBLE
+                    binding.layoutAppBar.fabCart.isVisible = true
+                    binding.navView.isVisible = true
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
                 }
                 R.id.nav_cart -> {
-                    binding.layoutAppBar.fab.visibility = View.GONE
-                    binding.navView.visibility = View.VISIBLE
+                    binding.layoutAppBar.fabCart.isVisible = false
+                    binding.navView.isVisible = true
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
                 }
                 R.id.nav_registration -> {
-                    binding.layoutAppBar.fab.visibility = View.GONE
-                    binding.navView.visibility = View.GONE
+                    binding.layoutAppBar.fabCart.isVisible = false
+                    binding.navView.isVisible = false
                     supportActionBar?.setDisplayHomeAsUpEnabled(false)
                 }
                 R.id.nav_profile -> {
-                    binding.layoutAppBar.fab.visibility = View.GONE
-                    binding.navView.visibility = View.VISIBLE
+                    binding.layoutAppBar.fabCart.isVisible = false
+                    binding.navView.isVisible = true
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
                 }
             }

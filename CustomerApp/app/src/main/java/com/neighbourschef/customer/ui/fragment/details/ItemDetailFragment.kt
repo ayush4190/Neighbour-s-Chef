@@ -19,23 +19,21 @@ import com.neighbourschef.customer.R
 import com.neighbourschef.customer.databinding.FragmentItemDetailBinding
 import com.neighbourschef.customer.model.Cart
 import com.neighbourschef.customer.model.Product
-import com.neighbourschef.customer.ui.activity.MainActivity
 import com.neighbourschef.customer.util.android.base.BaseFragment
+import com.neighbourschef.customer.util.android.getCart
 import com.neighbourschef.customer.util.android.restartApp
+import com.neighbourschef.customer.util.android.toast
 import com.neighbourschef.customer.util.common.EXTRA_DAY
 import com.neighbourschef.customer.util.common.EXTRA_PRODUCT
 import com.neighbourschef.customer.util.common.JSON
 import com.neighbourschef.customer.util.common.PREFERENCE_CART
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.kodein.di.DIAware
-import org.kodein.di.android.x.di
-import org.kodein.di.instance
+import org.koin.android.ext.android.inject
 
 @ExperimentalCoroutinesApi
-class ItemDetailFragment: BaseFragment<FragmentItemDetailBinding>(), DIAware {
-    override val di by di()
-    val sharedPreferences by instance<SharedPreferences>()
-    val cart by instance<Cart>()
+class ItemDetailFragment: BaseFragment<FragmentItemDetailBinding>() {
+    private val sharedPreferences: SharedPreferences by inject()
+    private val cart: Cart by lazy(LazyThreadSafetyMode.NONE) { getCart(sharedPreferences) }
 
     private val auth: FirebaseAuth by lazy(LazyThreadSafetyMode.NONE) { Firebase.auth }
 
@@ -58,11 +56,14 @@ class ItemDetailFragment: BaseFragment<FragmentItemDetailBinding>(), DIAware {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.collapsingToolbar.title = product.name
 
-        binding.textFoodPrice.text = binding.root.context.getString(R.string.set_price, String.format("%.2f", product.price))
+        binding.textFoodPrice.text = requireContext().getString(
+            R.string.set_price,
+            String.format("%.2f", product.price)
+        )
 
         // To be changed eventually
         binding.imgFood.load(R.drawable.food_sample)
-        binding.textFoodDescription.text = binding.root.context.getString(R.string.food_description_placeholder)
+        binding.textFoodDescription.text = product.description
         binding.textForDate.text = requireContext().getString(R.string.for_date, day)
 
         val drawable = if (product.veg) R.drawable.green_veg else R.drawable.red_non_veg
@@ -72,14 +73,10 @@ class ItemDetailFragment: BaseFragment<FragmentItemDetailBinding>(), DIAware {
 
         binding.btnAdd.setOnClickListener {
             cart += product.copy(quantity = 1)
-            (requireActivity() as MainActivity).binding.layoutAppBar.fab.text = getString(
-                R.string.set_items,
-                cart.size(),
-                resources.getQuantityString(R.plurals.items, cart.size())
-            )
             sharedPreferences.edit {
                 putString(PREFERENCE_CART, JSON.encodeToString(Cart.serializer(), cart))
             }
+            toast("Added to cart")
         }
     }
 

@@ -6,6 +6,7 @@ plugins {
     id "kotlin-kapt"
     id "com.google.gms.google-services"
     id "androidx.navigation.safeargs.kotlin"
+    id "koin"
 }
 
 android {
@@ -83,9 +84,9 @@ dependencies {
 
     implementation "io.coil-kt:coil:0.13.0"
 
-    //Kodein Dependency Injection
-    implementation "org.kodein.di:kodein-di-jvm:$kodein_version"
-    implementation "org.kodein.di:kodein-di-framework-android-x:$kodein_version"
+    implementation "org.koin:koin-androidx-scope:$koin_version"
+    implementation "org.koin:koin-androidx-viewmodel:$koin_version"
+    implementation "org.koin:koin-androidx-fragment:$koin_version"
 
     testImplementation "junit:junit:4.13"
     androidTestImplementation "androidx.test.ext:junit:1.1.2"

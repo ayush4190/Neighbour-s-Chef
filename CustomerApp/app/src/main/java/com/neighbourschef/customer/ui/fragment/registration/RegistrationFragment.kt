@@ -21,7 +21,6 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.neighbourschef.customer.CustomerApp
 import com.neighbourschef.customer.MobileNavigationDirections
 import com.neighbourschef.customer.R
 import com.neighbourschef.customer.databinding.FragmentRegistrationBinding
@@ -36,16 +35,12 @@ import com.neighbourschef.customer.util.android.isProfileSetup
 import com.neighbourschef.customer.util.android.toast
 import com.neighbourschef.customer.util.common.RC_SIGN_IN
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.kodein.di.DIAware
-import org.kodein.di.android.x.di
-import org.kodein.di.instance
+import org.koin.android.ext.android.inject
 import timber.log.Timber
 
 @ExperimentalCoroutinesApi
-class RegistrationFragment: BaseFragment<FragmentRegistrationBinding>(), DIAware {
-    override val di by di()
-    val app by instance<CustomerApp>()
-    val sharedPreferences by instance<SharedPreferences>()
+class RegistrationFragment: BaseFragment<FragmentRegistrationBinding>() {
+    val sharedPreferences: SharedPreferences by inject()
 
     private val auth: FirebaseAuth by lazy(LazyThreadSafetyMode.NONE) { Firebase.auth }
     private lateinit var googleSignInClient: GoogleSignInClient
@@ -77,14 +72,7 @@ class RegistrationFragment: BaseFragment<FragmentRegistrationBinding>(), DIAware
         currentUser = auth.currentUser
         if (currentUser != null) {
             updateNavHeader()
-            navController.navigate(
-                MobileNavigationDirections.navigateToHome(),
-                // navOptions {
-                //     popUpTo(R.id.nav_registration) {
-                //         inclusive = true
-                //     }
-                // }
-            )
+            navController.navigate(MobileNavigationDirections.navigateToHome())
         }
         binding.btnSignIn.setOnClickListener { signIn() }
 
@@ -105,14 +93,7 @@ class RegistrationFragment: BaseFragment<FragmentRegistrationBinding>(), DIAware
                             if (it.isSuccessful) {
                                 currentUser = auth.currentUser
                                 if (isProfileSetup(sharedPreferences)) {
-                                    navController.navigate(
-                                        MobileNavigationDirections.navigateToHome(),
-                                        // navOptions {
-                                        //     popUpTo(R.id.nav_registration) {
-                                        //         inclusive = true
-                                        //     }
-                                        // }
-                                    )
+                                    navController.navigate(MobileNavigationDirections.navigateToHome())
                                 } else {
                                     val user = User(
                                         currentUser!!.displayName!!,
@@ -155,14 +136,7 @@ class RegistrationFragment: BaseFragment<FragmentRegistrationBinding>(), DIAware
                 fallback(R.drawable.ic_profile_placeholder)
                 transformations(CircleCropTransformation(), CircleBorderTransformation())
             }
-            findNavController().navigate(
-                MobileNavigationDirections.navigateToHome(),
-                navOptions {
-                    popUpTo(R.id.nav_registration) {
-                        inclusive = true
-                    }
-                }
-            )
+            findNavController().navigate(MobileNavigationDirections.navigateToHome())
         } else {
             navHeaderMainBinding.imgUser.load(R.drawable.ic_profile_placeholder)
             navHeaderMainBinding.textUserName.text = getString(R.string.sign_in)

@@ -38,14 +38,14 @@ class CartAdapter(
                     item.quantity--
                 }
                 bindTo(item)
-                priceTextView.text = it.context.getString(R.string.set_price, items.total())
+                priceTextView.text = it.context.getString(R.string.set_price, String.format("%.2f", items.total()))
                 saveCart(sharedPreferences, Cart(items))
             }
             setPlusClickListener {
                 val item = items[adapterPosition]
                 item.quantity++
                 bindTo(item)
-                priceTextView.text = it.context.getString(R.string.set_price, items.total())
+                priceTextView.text = it.context.getString(R.string.set_price, String.format("%.2f", items.total()))
                 saveCart(sharedPreferences, Cart(items))
             }
         }
@@ -53,12 +53,15 @@ class CartAdapter(
     class CartViewHolder(binding: CardCartBinding): BaseViewHolder<CardCartBinding, Product>(binding) {
         override fun bindTo(item: Product) {
             binding.textFoodName.text = item.name
-            binding.textFoodPrice.text = binding.root.context.getString(R.string.set_price, item.price)
+            binding.textFoodPrice.text = binding.root.context.getString(
+                R.string.set_price,
+                String.format("%.2f", item.price)
+            )
             binding.textFoodQuantity.text = item.quantity.toString()
 
             // To be changed eventually
             binding.imgFood.load(R.drawable.food_sample)
-            binding.textFoodDescription.text = binding.root.context.getString(R.string.food_description_placeholder)
+            binding.textFoodDescription.text = item.description
 
             val drawable = if (item.veg) R.drawable.green_veg else R.drawable.red_non_veg
             binding.imgFoodVegNonVeg.load(drawable) {

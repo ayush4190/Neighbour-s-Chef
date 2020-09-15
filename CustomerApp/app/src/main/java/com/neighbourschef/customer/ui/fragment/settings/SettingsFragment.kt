@@ -29,18 +29,15 @@ import com.neighbourschef.customer.util.android.CircleBorderTransformation
 import com.neighbourschef.customer.util.android.restartApp
 import com.neighbourschef.customer.util.android.toast
 import com.neighbourschef.customer.util.common.PREFERENCE_THEME
-import org.kodein.di.DIAware
-import org.kodein.di.android.x.di
-import org.kodein.di.instance
+import org.koin.android.ext.android.inject
 
-class SettingsFragment: PreferenceFragmentCompat(), DIAware {
-    override val di by di()
-    val sharedPreferences by instance<SharedPreferences>()
+class SettingsFragment: PreferenceFragmentCompat() {
+    private val sharedPreferences: SharedPreferences by inject()
 
     private val auth: FirebaseAuth by lazy(LazyThreadSafetyMode.NONE) { Firebase.auth }
     private val currentUser: FirebaseUser? by lazy(LazyThreadSafetyMode.NONE) { auth.currentUser }
 
-    private val settingsViewModel by viewModels<SettingsViewModel> { SettingsViewModelFactory(sharedPreferences) }
+    private val viewModel by viewModels<SettingsViewModel> { SettingsViewModelFactory(sharedPreferences) }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) =
         setPreferencesFromResource(R.xml.settings, rootKey)
@@ -108,14 +105,14 @@ class SettingsFragment: PreferenceFragmentCompat(), DIAware {
         val themePreference = preferenceManager.findPreference(requireContext().getString(R.string.pref_theme)) as? ListPreference
         themePreference?.let {
             it.setOnPreferenceChangeListener { _, newValue ->
-                settingsViewModel.theme.value = (newValue as String).toInt()
+                viewModel.theme.value = (newValue as String).toInt()
                 true
             }
         }
     }
 
     private fun observeChanges() {
-        settingsViewModel.theme.observe(viewLifecycleOwner) {
+        viewModel.theme.observe(viewLifecycleOwner) {
             AppCompatDelegate.setDefaultNightMode(it)
             sharedPreferences.edit {
                 putInt(PREFERENCE_THEME, it)

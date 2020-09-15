@@ -43,14 +43,11 @@ import com.neighbourschef.customer.util.common.Result
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import org.kodein.di.DIAware
-import org.kodein.di.android.x.di
-import org.kodein.di.instance
+import org.koin.android.ext.android.inject
 
 @ExperimentalCoroutinesApi
-class ProfileFragment: BaseFragment<FragmentProfileBinding>(), DIAware {
-    override val di by di()
-    val sharedPreferences by instance<SharedPreferences>()
+class ProfileFragment: BaseFragment<FragmentProfileBinding>() {
+    val sharedPreferences: SharedPreferences by inject()
 
     private val auth: FirebaseAuth by lazy(LazyThreadSafetyMode.NONE) { Firebase.auth }
     private val currentUser: FirebaseUser by lazy(LazyThreadSafetyMode.NONE) { auth.currentUser!! }
@@ -93,7 +90,6 @@ class ProfileFragment: BaseFragment<FragmentProfileBinding>(), DIAware {
                             user.phoneNumber
                         }
                         binding.cardAddress.isVisible = (user.address != Address.EMPTY).also {
-                            binding.textAddressName.text = user.address.addressName
                             binding.textAddress.text = user.address.formattedString()
                             binding.textAddressLandmark.text = user.address.landmark
                         }

@@ -22,14 +22,11 @@ import com.neighbourschef.customer.util.common.PREFERENCE_PROFILE_SET_UP
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
-import org.kodein.di.DIAware
-import org.kodein.di.android.x.di
-import org.kodein.di.instance
+import org.koin.android.ext.android.inject
 
 @ExperimentalCoroutinesApi
-class AddressFragment: BottomSheetDialogFragment(), DIAware {
-    override val di by di()
-    val sharedPreferences by instance<SharedPreferences>()
+class AddressFragment: BottomSheetDialogFragment() {
+    val sharedPreferences: SharedPreferences by inject()
 
     private var currentBinding: FragmentAddressBinding? = null
     private val binding: FragmentAddressBinding
@@ -82,7 +79,6 @@ class AddressFragment: BottomSheetDialogFragment(), DIAware {
     private fun loadViews() {
         if (user.address != Address.EMPTY) {
             with(binding) {
-                editAddressName.setText(user.address.addressName)
                 editAddressFlat.setText(user.address.flatNo)
                 editAddressBuilding.setText(user.address.building)
                 editAddressStreet.setText(user.address.street)
@@ -96,12 +92,6 @@ class AddressFragment: BottomSheetDialogFragment(), DIAware {
 
     private fun validateInput(): Address? {
         var isValid = false
-
-        val name = binding.editAddressName.asString().trim()
-        binding.layoutAddressName.error = if (name.isEmpty()) {
-            binding.layoutAddressName.animation = AnimationUtils.loadAnimation(requireContext(), R.anim.shake)
-            "Required"
-        } else null
 
         val flat = binding.editAddressFlat.asString().trim().let { if (it.isEmpty()) null else it }
 
@@ -147,6 +137,6 @@ class AddressFragment: BottomSheetDialogFragment(), DIAware {
 
         val landmark = binding.editAddressLandmark.asString().trim().let { if (it.isEmpty()) null else it }
 
-        return if (isValid) Address(name, flat, building, street, locality, city, pinCode, landmark) else null
+        return if (isValid) Address(flat, building, street, locality, city, pinCode, landmark) else null
     }
 }
