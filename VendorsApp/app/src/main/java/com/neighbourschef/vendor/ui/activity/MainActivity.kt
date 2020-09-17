@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.layoutAppBar.toolbar)
 
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.nav_orders),
+            setOf(R.id.nav_orders, R.id.nav_login),
             binding.drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -72,15 +72,23 @@ class MainActivity : AppCompatActivity() {
             when (destination.id) {
                 R.id.nav_orders -> {
                     binding.layoutAppBar.fab.isVisible = true
+                    binding.navView.isVisible = false
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
                 }
                 R.id.nav_add_item -> {
                     binding.layoutAppBar.fab.isVisible = false
+                    binding.navView.isVisible = false
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
                 }
                 R.id.nav_order_details -> {
                     binding.layoutAppBar.fab.isVisible = false
+                    binding.navView.isVisible = false
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                }
+                R.id.nav_login -> {
+                    binding.layoutAppBar.fab.isVisible = false
+                    binding.navView.isVisible = false
+                    supportActionBar?.setDisplayHomeAsUpEnabled(false)
                 }
             }
         }
