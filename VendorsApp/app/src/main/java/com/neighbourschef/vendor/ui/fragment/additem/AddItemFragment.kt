@@ -4,9 +4,6 @@ import android.Manifest
 import android.app.Activity
 import android.content.ContentValues
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -18,6 +15,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import androidx.core.net.toUri
+import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import coil.load
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
@@ -33,17 +32,16 @@ import com.neighbourschef.vendor.model.Product
 import com.neighbourschef.vendor.repository.FirebaseRepository
 import com.neighbourschef.vendor.util.android.asString
 import com.neighbourschef.vendor.util.android.base.BaseFragment
+import com.neighbourschef.vendor.util.android.compressImage
 import com.neighbourschef.vendor.util.android.isEmpty
 import com.neighbourschef.vendor.util.android.snackbar
 import com.neighbourschef.vendor.util.android.toast
 import com.neighbourschef.vendor.util.common.RC_PICK_IMAGE
-import com.neighbourschef.vendor.util.common.log
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneOffset
 import org.threeten.bp.format.DateTimeFormatter
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
 import java.util.UUID
 
 @ExperimentalCoroutinesApi
@@ -75,18 +73,51 @@ class AddItemFragment : BaseFragment<FragmentAddItemBinding>() {
         binding.btnAdd.setOnClickListener {
             if (validateInput()) {
                 val day = if (binding.btnToday.isChecked) "Today" else "Tomorrow"
+                val itemName = binding.editName.asString().trim()
 
-                val product = Product(
-                    UUID.randomUUID().toString(),
-                    binding.editName.asString().trim(),
-                    binding.editDescription.asString().trim(),
-                    binding.editPrice.asString().trim().toDouble(),
-                    0,
-                    binding.switchVeg.isChecked,
-                    day
-                )
-                FirebaseRepository.saveItem(product)
-                navController.navigateUp()
+                binding.layoutMain.alpha = 0.45f
+                binding.layoutProgress.isVisible = true
+
+                lifecycleScope.launch {
+                    FirebaseRepository.uploadImage(
+                        itemName,
+                        compressImage(requireContext(), imageUri).toByteArray()
+                    ).addOnProgressListener {
+                        val progress = it.bytesTransferred * 100.0 / it.totalByteCount
+                        binding.textProgress.text = requireContext().getString(R.string.uploading, progress)
+                        binding.progressBar.progress = progress.toInt()
+                    }.addOnFailureListener {
+                        toast { it.message ?: it.toString() }
+                        binding.layoutProgress.isVisible = false
+                        binding.layoutMain.alpha = 1f
+                    }.addOnSuccessListener {
+                        toast { "Upload Complete" }
+                        binding.layoutProgress.isVisible = false
+                        binding.layoutMain.alpha = 1f
+                    }.continueWithTask {
+                        if (!it.isSuccessful) {
+                            it.exception?.let { e -> throw e }
+                        }
+                        FirebaseRepository.getDownloadUrl(itemName)
+                    }.addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            val product = Product(
+                                UUID.randomUUID().toString(),
+                                itemName,
+                                binding.editDescription.asString().trim(),
+                                binding.editPrice.asString().trim().toDouble(),
+                                0,
+                                binding.switchVeg.isChecked,
+                                day,
+                                it.result.toString()
+                            )
+                            FirebaseRepository.saveItem(product)
+                            navController.navigateUp()
+                        } else {
+                            toast { it.exception?.message ?: it.exception.toString() }
+                        }
+                    }
+                }
             }
         }
     }
@@ -102,17 +133,6 @@ class AddItemFragment : BaseFragment<FragmentAddItemBinding>() {
                     } else if (data != null && data.data == null) {
                         toast { "Unable to retrieve image" }
                     }
-
-                    // File(imageUri.path!!).length().log("Size:")
-                    val original = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                        val source = ImageDecoder.createSource(requireContext().contentResolver, imageUri)
-                        ImageDecoder.decodeBitmap(source)
-                    } else {
-                        MediaStore.Images.Media.getBitmap(requireContext().contentResolver, imageUri)
-                    }
-                    val out = ByteArrayOutputStream()
-                    original.compress(Bitmap.CompressFormat.JPEG, 50, out)
-                    val compressed = BitmapFactory.decodeStream(ByteArrayInputStream(out.toByteArray()))
                     binding.imgFood.load(imageUri) {
                         fallback(R.drawable.ic_food_bowl_64)
                     }
@@ -153,7 +173,6 @@ class AddItemFragment : BaseFragment<FragmentAddItemBinding>() {
                 )
                 .withErrorListener {
                     toast { "Something went wrong while requesting permissions. Please try again" }
-                    it.log()
                 }
                 .check()
         } else {
@@ -189,7 +208,6 @@ class AddItemFragment : BaseFragment<FragmentAddItemBinding>() {
                 )
                 .withErrorListener {
                     toast { "Something went wrong while requesting permissions. Please try again" }
-                    it.log()
                 }
                 .check()
         }

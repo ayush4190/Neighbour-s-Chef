@@ -30,6 +30,7 @@
     <string name="email_id">Email Id</string>
     <string name="password">Password</string>
     <string name="sign_in">Sign In</string>
+    <string name="uploading">Uploading… %.1f%%</string>
 
     <plurals name="items">
         <item quantity="one">Item</item>

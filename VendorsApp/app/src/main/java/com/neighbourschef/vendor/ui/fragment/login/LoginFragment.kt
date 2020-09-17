@@ -41,6 +41,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
                             toast { it.exception?.message ?: it.exception.toString() }
                         }
                     }
+                    .addOnFailureListener {
+                        toast { it.message ?: it.toString() }
+                    }
             }
         }
     }

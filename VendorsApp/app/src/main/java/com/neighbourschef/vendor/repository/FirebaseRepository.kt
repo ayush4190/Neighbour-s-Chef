@@ -4,10 +4,12 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.ktx.storage
 import com.neighbourschef.vendor.model.Order
 import com.neighbourschef.vendor.model.Product
 import com.neighbourschef.vendor.model.User
+import com.neighbourschef.vendor.util.common.PATH_IMAGES
 import com.neighbourschef.vendor.util.common.PATH_MENU
 import com.neighbourschef.vendor.util.common.PATH_ORDERS
 import com.neighbourschef.vendor.util.common.PATH_USERS
@@ -50,4 +52,9 @@ object FirebaseRepository {
 
     fun getUser(uid: String): Flow<Result<User, Exception>> = databaseReference.child(PATH_USERS).child(uid)
         .asResultFlow<User, User>(User()) { it }
+
+    fun uploadImage(itemName: String, byteArray: ByteArray): UploadTask =
+        storageReference.child(PATH_IMAGES).child(itemName).putBytes(byteArray)
+
+    fun getDownloadUrl(itemName: String) = storageReference.child(PATH_IMAGES).child(itemName).downloadUrl
 }
