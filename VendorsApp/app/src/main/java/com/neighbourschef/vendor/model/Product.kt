@@ -11,6 +11,7 @@ import kotlinx.serialization.Serializable
 data class Product(
     val id: String,
     val name: String,
+    val description: String,
     val price: Double,
     // quantity is intended only for customer and not vendor
     // vendor uploaded quantity is always 0
@@ -21,21 +22,23 @@ data class Product(
     private constructor(source: Parcel): this(
         source.readString()!!,
         source.readString()!!,
+        source.readString()!!,
         source.readDouble(),
         source.readInt(),
         source.readBool(),
         source.readString()!!
     )
 
-    constructor(): this("", "", 0.0, 0, true, "")
+    constructor(): this("", "", "", 0.0, 0, true, "")
 
-    override fun writeToParcel(dest: Parcel, flags: Int) {
-        dest.writeString(id)
-        dest.writeString(name)
-        dest.writeDouble(price)
-        dest.writeInt(quantity)
-        dest.writeBool(veg)
-        dest.writeString(day)
+    override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
+        writeString(id)
+        writeString(name)
+        writeString(description)
+        writeDouble(price)
+        writeInt(quantity)
+        writeBool(veg)
+        writeString(day)
     }
 
     companion object {

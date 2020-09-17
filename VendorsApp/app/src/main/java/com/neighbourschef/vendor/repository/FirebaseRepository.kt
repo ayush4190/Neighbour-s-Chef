@@ -3,6 +3,8 @@ package com.neighbourschef.vendor.repository
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.ktx.storage
 import com.neighbourschef.vendor.model.Order
 import com.neighbourschef.vendor.model.Product
 import com.neighbourschef.vendor.model.User
@@ -18,6 +20,9 @@ import kotlinx.coroutines.flow.Flow
 object FirebaseRepository {
     private val databaseReference: DatabaseReference by lazy(LazyThreadSafetyMode.NONE) {
         Firebase.database.reference
+    }
+    private val storageReference: StorageReference by lazy(LazyThreadSafetyMode.NONE) {
+        Firebase.storage.reference
     }
 
     fun saveItem(product: Product) {

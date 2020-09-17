@@ -24,6 +24,9 @@
     <string name="tomorrow">Tomorrow</string>
     <string name="day">Day</string>
     <string name="action_add">Add</string>
+    <string name="title_orders">Orders</string>
+    <string name="file_provider_name" translatable="false">.fileProvider</string>
+    <string name="select_capture_image">Please select or capture image</string>
 
     <plurals name="items">
         <item quantity="one">Item</item>

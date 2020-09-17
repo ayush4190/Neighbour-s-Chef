@@ -76,9 +76,9 @@ dependencies {
     implementation "com.google.firebase:firebase-database-ktx:19.4.0"
     implementation "com.google.firebase:firebase-storage-ktx:19.2.0"
 
-    implementation "com.googlecode.libphonenumber:libphonenumber:8.12.9"
-
     implementation "com.github.skydoves:androidveil:1.0.9"
+
+    implementation "com.karumi:dexter:6.2.1"
 
     // Android backport of JSR-310 for DateTime
     implementation "com.jakewharton.threetenabp:threetenabp:1.2.4"

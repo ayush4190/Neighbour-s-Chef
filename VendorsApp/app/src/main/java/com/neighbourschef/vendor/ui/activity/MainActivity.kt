@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
             binding.drawerLayout.closeDrawers()
             it.isChecked = true
             when (it.itemId) {
-                R.id.nav_home -> {
+                R.id.nav_orders -> {
                     navController.navigate(MobileNavigationDirections.navigateToOrders())
                     true
                 }
@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.nav_home -> {
+                R.id.nav_orders -> {
                     binding.layoutAppBar.fab.isVisible = true
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
                 }

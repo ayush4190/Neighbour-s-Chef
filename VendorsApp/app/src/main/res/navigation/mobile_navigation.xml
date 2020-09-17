@@ -14,7 +14,7 @@
     <fragment
         android:id="@+id/nav_orders"
         android:name="com.neighbourschef.vendor.ui.fragment.order.OrdersFragment"
-        android:label="@string/app_name"
+        android:label="@string/title_orders"
         tools:layout="@layout/fragment_orders">
 
         <action
@@ -29,7 +29,7 @@
 
     <fragment
         android:id="@+id/nav_add_item"
-        android:name="com.neighbourschef.vendor.ui.fragment.additems.AddItemFragment"
+        android:name="com.neighbourschef.vendor.ui.fragment.additem.AddItemFragment"
         android:label="@string/title_add_new_item"
         tools:layout="@layout/fragment_add_item"/>
 
