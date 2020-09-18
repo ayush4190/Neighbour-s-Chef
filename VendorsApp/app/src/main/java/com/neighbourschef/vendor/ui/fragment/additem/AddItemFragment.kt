@@ -2,15 +2,15 @@ package com.neighbourschef.vendor.ui.fragment.additem
 
 import android.Manifest
 import android.app.Activity
-import android.content.ContentValues
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
-import android.provider.MediaStore
 import android.provider.Settings
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
@@ -18,6 +18,8 @@ import androidx.core.net.toUri
 import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import coil.load
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.karumi.dexter.Dexter
 import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
@@ -33,21 +35,29 @@ import com.neighbourschef.vendor.repository.FirebaseRepository
 import com.neighbourschef.vendor.util.android.asString
 import com.neighbourschef.vendor.util.android.base.BaseFragment
 import com.neighbourschef.vendor.util.android.compressImage
+import com.neighbourschef.vendor.util.android.getPickImageIntent
 import com.neighbourschef.vendor.util.android.isEmpty
+import com.neighbourschef.vendor.util.android.restartApp
 import com.neighbourschef.vendor.util.android.snackbar
 import com.neighbourschef.vendor.util.android.toast
+import com.neighbourschef.vendor.util.common.DAY_TODAY
+import com.neighbourschef.vendor.util.common.DAY_TOMORROW
 import com.neighbourschef.vendor.util.common.RC_PICK_IMAGE
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
-import org.threeten.bp.LocalDateTime
-import org.threeten.bp.ZoneOffset
-import org.threeten.bp.format.DateTimeFormatter
 import java.util.UUID
 
 @ExperimentalCoroutinesApi
 class AddItemFragment : BaseFragment<FragmentAddItemBinding>() {
     private var imageUri = DEFAULT_URI
     private var cameraPermissionGranted = false
+
+    private val auth by lazy(LazyThreadSafetyMode.NONE) { Firebase.auth }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -61,65 +71,8 @@ class AddItemFragment : BaseFragment<FragmentAddItemBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         requestPermissions()
 
-        binding.imgFood.load(R.drawable.ic_food_bowl_64)
-        binding.imgFood.setOnClickListener {
-            requireActivity().startActivityFromFragment(
-                this,
-                getPickImageIntent(),
-                RC_PICK_IMAGE
-            )
-        }
-
-        binding.btnAdd.setOnClickListener {
-            if (validateInput()) {
-                val day = if (binding.btnToday.isChecked) "Today" else "Tomorrow"
-                val itemName = binding.editName.asString().trim()
-
-                binding.layoutMain.alpha = 0.45f
-                binding.layoutProgress.isVisible = true
-
-                lifecycleScope.launch {
-                    FirebaseRepository.uploadImage(
-                        itemName,
-                        compressImage(requireContext(), imageUri).toByteArray()
-                    ).addOnProgressListener {
-                        val progress = it.bytesTransferred * 100.0 / it.totalByteCount
-                        binding.textProgress.text = requireContext().getString(R.string.uploading, progress)
-                        binding.progressBar.progress = progress.toInt()
-                    }.addOnFailureListener {
-                        toast { it.message ?: it.toString() }
-                        binding.layoutProgress.isVisible = false
-                        binding.layoutMain.alpha = 1f
-                    }.addOnSuccessListener {
-                        toast { "Upload Complete" }
-                        binding.layoutProgress.isVisible = false
-                        binding.layoutMain.alpha = 1f
-                    }.continueWithTask {
-                        if (!it.isSuccessful) {
-                            it.exception?.let { e -> throw e }
-                        }
-                        FirebaseRepository.getDownloadUrl(itemName)
-                    }.addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            val product = Product(
-                                UUID.randomUUID().toString(),
-                                itemName,
-                                binding.editDescription.asString().trim(),
-                                binding.editPrice.asString().trim().toDouble(),
-                                0,
-                                binding.switchVeg.isChecked,
-                                day,
-                                it.result.toString()
-                            )
-                            FirebaseRepository.saveItem(product)
-                            navController.navigateUp()
-                        } else {
-                            toast { it.exception?.message ?: it.exception.toString() }
-                        }
-                    }
-                }
-            }
-        }
+        binding.imgFood.load(R.drawable.ic_food_default_64)
+        setupListeners()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -134,11 +87,22 @@ class AddItemFragment : BaseFragment<FragmentAddItemBinding>() {
                         toast { "Unable to retrieve image" }
                     }
                     binding.imgFood.load(imageUri) {
-                        fallback(R.drawable.ic_food_bowl_64)
+                        fallback(R.drawable.ic_food_default_64)
                     }
                 }
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) = inflater.inflate(R.menu.menu_main, menu)
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.action_logout -> {
+            auth.signOut()
+            restartApp(requireActivity())
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
     }
 
     private fun requestPermissions() =
@@ -221,12 +185,6 @@ class AddItemFragment : BaseFragment<FragmentAddItemBinding>() {
             "Required"
         } else null
 
-        binding.layoutDescription.error = if (binding.editDescription.isEmpty()) {
-            isValid = false
-            binding.layoutDescription.animation = AnimationUtils.loadAnimation(requireContext(), R.anim.shake)
-            "Required"
-        } else null
-
         binding.layoutPrice.error = if (binding.editPrice.isEmpty()) {
             isValid = false
             binding.layoutPrice.animation = AnimationUtils.loadAnimation(requireContext(), R.anim.shake)
@@ -236,75 +194,89 @@ class AddItemFragment : BaseFragment<FragmentAddItemBinding>() {
         return isValid
     }
 
-    private fun getPickImageIntent(): Intent? {
-        var chooserIntent: Intent? = null
-        val intentList = mutableListOf<Intent>()
-
-        val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-
-        addIntentToList(intentList, galleryIntent)
-        if (cameraPermissionGranted) {
-            val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(MediaStore.EXTRA_OUTPUT, setImageUri())
-            addIntentToList(intentList, cameraIntent)
-        }
-
-        if (intentList.size > 0) {
-            chooserIntent = Intent.createChooser(
-                intentList.removeLast(),
-                requireContext().getString(R.string.select_capture_image)
-            ).putExtra(
-                Intent.EXTRA_INITIAL_INTENTS,
-                intentList.toTypedArray()
+    private fun setupListeners() {
+        binding.imgFood.setOnClickListener {
+            val res = getPickImageIntent(requireContext(), cameraPermissionGranted)
+            res.second?.let { imageUri = it }
+            requireActivity().startActivityFromFragment(
+                this,
+                res.first,
+                RC_PICK_IMAGE
             )
         }
-        return chooserIntent
-    }
 
-    private fun addIntentToList(intents: MutableList<Intent>, intent: Intent): MutableList<Intent> {
-        val resInfo = requireContext().packageManager.queryIntentActivities(intent, 0)
-        for (info in resInfo) {
-            intents.add(
-                Intent(intent).setPackage(info.activityInfo.packageName)
-            )
-        }
-        return intents
-    }
+        binding.btnAdd.setOnClickListener {
+            if (validateInput()) {
+                val day = if (binding.btnToday.isChecked) DAY_TODAY else DAY_TOMORROW
+                val itemName = binding.editName.asString().trim()
 
-    private fun setImageUri(): Uri {
-        val resolver = requireContext().contentResolver
-        val contentValues = ContentValues(3).apply {
-            put(MediaStore.MediaColumns.DISPLAY_NAME, getTempFileName())
-            put(MediaStore.MediaColumns.MIME_TYPE, "image/jpg")
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                put(MediaStore.MediaColumns.RELATIVE_PATH, Environment.DIRECTORY_PICTURES)
+                binding.layoutMain.alpha = 0.45f
+                binding.layoutProgress.isVisible = true
+
+                // Don't upload default image (already present on customer app)
+                if (imageUri == DEFAULT_URI) {
+                    FirebaseRepository.saveItem(
+                        Product(
+                            UUID.randomUUID().toString(),
+                            itemName,
+                            binding.editDescription.asString().trim(),
+                            binding.editPrice.asString().trim().toDouble(),
+                            0,
+                            binding.switchVeg.isChecked,
+                            day,
+                            null
+                        )
+                    )
+                    navController.navigateUp()
+                } else {
+                    // Upload compressed image to Firebase
+                    lifecycleScope.launch {
+                        FirebaseRepository.uploadImage(
+                            itemName,
+                            compressImage(requireContext(), imageUri).toByteArray()
+                        ).addOnProgressListener {
+                            val progress = it.bytesTransferred * 100.0 / it.totalByteCount
+                            binding.textProgress.text = requireContext().getString(R.string.uploading, progress)
+                            binding.progressBar.progress = progress.toInt()
+                        }.addOnFailureListener {
+                            toast { it.message ?: it.toString() }
+                            binding.layoutProgress.isVisible = false
+                            binding.layoutMain.alpha = 1f
+                        }.addOnSuccessListener {
+                            toast { "Upload Complete" }
+                            binding.layoutProgress.isVisible = false
+                            binding.layoutMain.alpha = 1f
+                        }.continueWithTask {
+                            if (!it.isSuccessful) {
+                                it.exception?.let { e -> throw e }
+                            }
+                            FirebaseRepository.getDownloadUrl(itemName)
+                        }.addOnCompleteListener {
+                            if (it.isSuccessful) {
+                                val product = Product(
+                                    UUID.randomUUID().toString(),
+                                    itemName,
+                                    binding.editDescription.asString().trim(),
+                                    binding.editPrice.asString().trim().toDouble(),
+                                    0,
+                                    binding.switchVeg.isChecked,
+                                    day,
+                                    it.result.toString()
+                                )
+                                FirebaseRepository.saveItem(product)
+                                navController.navigateUp()
+                            } else {
+                                toast { it.exception?.message ?: it.exception.toString() }
+                            }
+                        }
+                    }
+                }
             }
         }
-
-        // Below Android Q, images are stored in private data directory which will be removed on uninstall
-
-        // val directory = File(requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES).toString())
-        // directory.mkdirs()
-        //
-        // val file = File(
-        //     directory,
-        //     getTempFileName()
-        // )
-        // if (file.exists()) file.delete()
-        // file.createNewFile()
-        // imageUri = FileProvider.getUriForFile(
-        //     requireContext(),
-        //     BuildConfig.APPLICATION_ID + requireContext().getString(R.string.file_provider_name),
-        //     file
-        // )
-        imageUri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues) ?: DEFAULT_URI
-        return imageUri
     }
-
-    private fun getTempFileName(): String =
-        "JPEG_${LocalDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss"))}.jpg"
 
     companion object {
         private val DEFAULT_URI =
-            "android.resource://${R::class.java.`package`!!.name}/${R.drawable.ic_food_bowl_64}".toUri()
+            "android.resource://${R::class.java.`package`!!.name}/${R.drawable.ic_food_default_64}".toUri()
     }
 }

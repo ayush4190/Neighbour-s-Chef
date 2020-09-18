@@ -13,7 +13,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.neighbourschef.vendor.MobileNavigationDirections
 import com.neighbourschef.vendor.R
 import com.neighbourschef.vendor.databinding.ActivityMainBinding
-import com.neighbourschef.vendor.ui.fragment.order.OrdersFragmentDirections
+import com.neighbourschef.vendor.model.Product
+import com.neighbourschef.vendor.util.common.EXTRA_PRODUCT
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -31,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(binding.layoutAppBar.toolbar)
 
         appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.nav_orders, R.id.nav_login),
+            setOf(R.id.nav_orders, R.id.nav_login, R.id.nav_root_menu, R.id.nav_help),
             binding.drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -43,6 +44,14 @@ class MainActivity : AppCompatActivity() {
             when (it.itemId) {
                 R.id.nav_orders -> {
                     navController.navigate(MobileNavigationDirections.navigateToOrders())
+                    true
+                }
+                R.id.nav_root_menu -> {
+                    navController.navigate(MobileNavigationDirections.navigateToRootMenu())
+                    true
+                }
+                R.id.nav_help -> {
+                    navController.navigate(MobileNavigationDirections.navigateToHelp())
                     true
                 }
                 else -> false
@@ -65,30 +74,53 @@ class MainActivity : AppCompatActivity() {
 
     private fun initViews() {
         binding.layoutAppBar.fab.setOnClickListener {
-            navController.navigate(OrdersFragmentDirections.navigateToAddItems())
+            navController.navigate(MobileNavigationDirections.navigateToAddItems())
         }
 
-        navController.addOnDestinationChangedListener { _, destination, _ ->
+        navController.addOnDestinationChangedListener { _, destination, args ->
             when (destination.id) {
                 R.id.nav_orders -> {
                     binding.layoutAppBar.fab.isVisible = true
-                    binding.navView.isVisible = false
+                    binding.navView.isVisible = true
+                    supportActionBar?.show()
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
                 }
-                R.id.nav_add_item -> {
-                    binding.layoutAppBar.fab.isVisible = false
-                    binding.navView.isVisible = false
+                R.id.nav_root_menu -> {
+                    binding.layoutAppBar.fab.isVisible = true
+                    binding.navView.isVisible = true
+                    supportActionBar?.show()
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
                 }
-                R.id.nav_order_details -> {
+                R.id.nav_help -> {
                     binding.layoutAppBar.fab.isVisible = false
-                    binding.navView.isVisible = false
+                    binding.navView.isVisible = true
+                    supportActionBar?.show()
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
                 }
                 R.id.nav_login -> {
                     binding.layoutAppBar.fab.isVisible = false
                     binding.navView.isVisible = false
                     supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                    supportActionBar?.hide()
+                }
+                R.id.nav_add_item -> {
+                    binding.layoutAppBar.fab.isVisible = false
+                    binding.navView.isVisible = true
+                    supportActionBar?.show()
+                    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                }
+                R.id.nav_order_details -> {
+                    binding.layoutAppBar.fab.isVisible = false
+                    binding.navView.isVisible = true
+                    supportActionBar?.show()
+                    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                }
+                R.id.nav_item_details -> {
+                    binding.layoutAppBar.fab.isVisible = false
+                    binding.navView.isVisible = true
+                    supportActionBar?.show()
+                    supportActionBar?.title = args?.getParcelable<Product>(EXTRA_PRODUCT)?.name ?: "Details"
+                    supportActionBar?.setDisplayHomeAsUpEnabled(true)
                 }
             }
         }

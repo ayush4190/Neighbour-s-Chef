@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".ui.fragment.additem.AddItemFragment">
 
     <LinearLayout
         android:id="@+id/layout_main"
@@ -19,7 +20,7 @@
             android:layout_marginTop="10dp"
             android:layout_gravity="center_horizontal"
             android:contentDescription="@string/food"
-            tools:src="@drawable/food_sample" />
+            tools:src="@drawable/ic_food_default_64" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/layout_name"

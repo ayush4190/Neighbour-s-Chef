@@ -12,7 +12,6 @@
     <string name="order_details">Order Details</string>
     <string name="user_details">User Details</string>
     <string name="address">Address</string>
-    <string name="set_name">Name: %s</string>
     <string name="set_value">%s: %s</string>
     <string name="food_description_placeholder">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nascetur ridiculus mus mauris vitae ultricies leo integer.</string>
     <string name="food">Food</string>
@@ -31,6 +30,20 @@
     <string name="password">Password</string>
     <string name="sign_in">Sign In</string>
     <string name="uploading">Uploading… %.1f%%</string>
+    <string name="title_menu">Menu</string>
+    <string name="title_help">Help</string>
+    <string name="communicate">Communicate</string>
+    <string name="title_logout">Log Out</string>
+    <string name="title_update_order_status">Update order status</string>
+    <string name="empty_menu">New food items will be added soon!</string>
+    <string name="for_day">Available %s</string>
+    <string name="email_us">Email Us @ dev_email</string>
+    <string name="subject">Subject</string>
+    <string name="title">Title</string>
+    <string name="send">Send</string>
+    <string name="call_us">Call Us @ 123456789</string>
+    <string name="empty_orders">Orders will be displayed here when available</string>
+    <string name="action_update">Update</string>
 
     <plurals name="items">
         <item quantity="one">Item</item>

@@ -2,16 +2,25 @@ package com.neighbourschef.vendor.ui.fragment.order.details
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.neighbourschef.vendor.R
 import com.neighbourschef.vendor.databinding.FragmentOrderDetailsBinding
 import com.neighbourschef.vendor.model.Order
+import com.neighbourschef.vendor.repository.FirebaseRepository
 import com.neighbourschef.vendor.util.android.base.BaseFragment
+import com.neighbourschef.vendor.util.android.restartApp
 import com.neighbourschef.vendor.util.android.toast
 import com.neighbourschef.vendor.util.common.EXTRA_ORDER
 import com.neighbourschef.vendor.util.common.EXTRA_UID
@@ -35,6 +44,12 @@ class OrderDetailsFragment : BaseFragment<FragmentOrderDetailsBinding>() {
         OrderDetailsAdapter(order.products.toMutableList())
     }
     private val viewModel: OrderDetailsViewModel by viewModels { OrderDetailsViewModelFactory(uid) }
+    private val auth by lazy(LazyThreadSafetyMode.NONE) { Firebase.auth }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -83,5 +98,31 @@ class OrderDetailsFragment : BaseFragment<FragmentOrderDetailsBinding>() {
                 }
             }
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) = inflater.inflate(R.menu.menu_orders, menu)
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.action_update_order -> {
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle(R.string.title_update_order_status)
+                .setSingleChoiceItems(
+                    arrayOf("Cancel", "Complete"),
+                    0
+                ) { _, which ->
+                    val status = if (which == 0) Order.OrderStatus.CANCELLED else Order.OrderStatus.COMPLETED
+                    order.status = status
+                    FirebaseRepository.saveOrder(order, uid)
+                }
+                .show()
+            findNavController().navigateUp()
+            true
+        }
+        R.id.action_logout -> {
+            auth.signOut()
+            restartApp(requireActivity())
+            true
+        }
+        else -> super.onOptionsItemSelected(item)
     }
 }

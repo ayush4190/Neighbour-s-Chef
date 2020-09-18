@@ -28,7 +28,7 @@ object FirebaseRepository {
     }
 
     fun saveItem(product: Product) {
-        databaseReference.child(PATH_MENU).push().setValue(product)
+        databaseReference.child(PATH_MENU).child(product.id).setValue(product)
     }
 
     fun getOrders(): Flow<Result<List<Pair<String, Order>>, Exception>> = databaseReference.child(PATH_ORDERS)
@@ -57,4 +57,9 @@ object FirebaseRepository {
         storageReference.child(PATH_IMAGES).child(itemName).putBytes(byteArray)
 
     fun getDownloadUrl(itemName: String) = storageReference.child(PATH_IMAGES).child(itemName).downloadUrl
+
+    fun getMenu(day: String) = databaseReference.child(PATH_MENU)
+        .asResultFlow<HashMap<String, @JvmSuppressWildcards Product>, List<Product>>(listOf()) {
+            it?.values?.filter { product -> product.day == day}
+        }
 }

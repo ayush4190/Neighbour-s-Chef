@@ -5,16 +5,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="5dp"
-    tools:context=".ui.fragment.order.OrdersFragment">
+    tools:context=".ui.fragment.menu.MenuFragment">
 
     <com.skydoves.androidveil.VeilRecyclerFrameView
-        android:id="@+id/recycler_orders"
+        android:id="@+id/recycler_menu"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:veilFrame_layout="@layout/card_order"
-        app:veilFrame_veiled="true"
-        app:veilFrame_shimmerEnable="true"/>
+        android:layout_margin="5dp"
+        app:veilFrame_layout="@layout/card_food"
+        app:veilFrame_shimmerEnable="true"
+        app:veilFrame_veiled="true" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/text_empty_state"
@@ -22,8 +22,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:gravity="center"
-        android:drawableTop="@drawable/ic_orders_128"
-        android:text="@string/empty_orders"
+        android:drawableTop="@drawable/ic_food_default_128"
+        android:text="@string/empty_menu"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
         android:textColor="@android:color/black"
         android:visibility="gone"
@@ -31,3 +31,4 @@
         tools:visibility="visible"/>
 
 </FrameLayout>
+

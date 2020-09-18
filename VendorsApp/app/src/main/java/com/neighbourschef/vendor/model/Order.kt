@@ -2,9 +2,8 @@ package com.neighbourschef.vendor.model
 
 import android.os.Parcel
 import com.neighbourschef.vendor.model.Order.OrderStatus.CANCELLED
-import com.neighbourschef.vendor.model.Order.OrderStatus.DELIVERED
+import com.neighbourschef.vendor.model.Order.OrderStatus.COMPLETED
 import com.neighbourschef.vendor.model.Order.OrderStatus.PLACED
-import com.neighbourschef.vendor.model.Order.OrderStatus.READY
 import com.neighbourschef.vendor.util.android.KParcelable
 import com.neighbourschef.vendor.util.android.parcelableCreator
 import com.neighbourschef.vendor.util.android.readEnum
@@ -30,7 +29,7 @@ data class Order(
      * The user can place an order which results in [PLACED]. After an order is [PLACED], it may be
      * [CANCELLED] by the user.
      *
-     * Once the order can be sent for delivery, it is [READY] and finally it is [DELIVERED].
+     * Since there is no delivery model, the vendor must set the order as [COMPLETED].
      * Additionally, the app may cancel the order if some error occurs (payment, network connection
      * loss, etc.)
      */
@@ -38,10 +37,8 @@ data class Order(
         // User-controlled statuses
         PLACED,
         CANCELLED,
-
         // Vendor-controlled statuses
-        READY,
-        DELIVERED;
+        COMPLETED;
 
         override fun writeToParcel(dest: Parcel, flags: Int) = dest.writeString(name)
 
