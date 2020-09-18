@@ -27,7 +27,7 @@ class MenuFragment : BaseFragment<FragmentMenuBinding>() {
     }
 
     private val adapter: MenuAdapter by lazy(LazyThreadSafetyMode.NONE) {
-        MenuAdapter(mutableListOf(), day, findNavController())
+        MenuAdapter(mutableListOf(), day, navController)
     }
     private val viewModel: MenuViewModel by viewModels { MenuViewModelFactory(day) }
 

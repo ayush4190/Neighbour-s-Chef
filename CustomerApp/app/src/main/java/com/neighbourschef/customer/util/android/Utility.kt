@@ -27,7 +27,6 @@ fun sendEmail(context: Context, subject: String, message: String) {
     } else {
         Toast.makeText(context, "No email clients found", Toast.LENGTH_SHORT).show()
     }
-
 }
 
 fun restartApp(activity: Activity) {
