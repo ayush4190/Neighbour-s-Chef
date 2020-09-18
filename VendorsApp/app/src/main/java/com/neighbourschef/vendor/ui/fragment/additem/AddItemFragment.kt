@@ -28,6 +28,7 @@ import com.karumi.dexter.listener.PermissionGrantedResponse
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
 import com.karumi.dexter.listener.single.PermissionListener
+import com.neighbourschef.vendor.MobileNavigationDirections
 import com.neighbourschef.vendor.R
 import com.neighbourschef.vendor.databinding.FragmentAddItemBinding
 import com.neighbourschef.vendor.model.Product
@@ -97,6 +98,10 @@ class AddItemFragment : BaseFragment<FragmentAddItemBinding>() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) = inflater.inflate(R.menu.menu_main, menu)
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.action_help -> {
+            navController.navigate(MobileNavigationDirections.navigateToHelp())
+            true
+        }
         R.id.action_logout -> {
             auth.signOut()
             restartApp(requireActivity())

@@ -37,13 +37,13 @@
     <string name="title_update_order_status">Update order status</string>
     <string name="empty_menu">New food items will be added soon!</string>
     <string name="for_day">Available %s</string>
-    <string name="email_us">Email Us @ dev_email</string>
+    <string name="email_us">Email Us @ rtvkiz@gmail.com</string>
     <string name="subject">Subject</string>
-    <string name="title">Title</string>
     <string name="send">Send</string>
-    <string name="call_us">Call Us @ 123456789</string>
+    <string name="call_us">Call Us @ 8989973062</string>
     <string name="empty_orders">Orders will be displayed here when available</string>
     <string name="action_update">Update</string>
+    <string name="body">Body</string>
 
     <plurals name="items">
         <item quantity="one">Item</item>

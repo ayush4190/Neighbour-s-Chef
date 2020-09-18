@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import coil.load
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.neighbourschef.vendor.MobileNavigationDirections
 import com.neighbourschef.vendor.R
 import com.neighbourschef.vendor.databinding.FragmentItemDetailsBinding
 import com.neighbourschef.vendor.model.Product
@@ -65,6 +66,10 @@ class ItemDetailsFragment : BaseFragment<FragmentItemDetailsBinding>() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) = inflater.inflate(R.menu.menu_main, menu)
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.action_help -> {
+            navController.navigate(MobileNavigationDirections.navigateToHelp())
+            true
+        }
         R.id.action_logout -> {
             auth.signOut()
             restartApp(requireActivity())

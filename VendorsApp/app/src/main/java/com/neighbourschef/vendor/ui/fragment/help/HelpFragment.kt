@@ -34,9 +34,7 @@ class HelpFragment : BaseFragment<FragmentHelpBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.btnCall.setOnClickListener {
-            val intent = Intent(Intent.ACTION_DIAL).apply {
-                data = Uri.parse("tel:$NUMBER_DEV")
-            }
+            val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$NUMBER_DEV"))
             if (intent.resolveActivity(requireContext().packageManager) != null) {
                 startActivity(intent)
             }
@@ -51,7 +49,7 @@ class HelpFragment : BaseFragment<FragmentHelpBinding>() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) = inflater.inflate(R.menu.menu_main, menu)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) = inflater.inflate(R.menu.menu_help, menu)
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.action_logout -> {

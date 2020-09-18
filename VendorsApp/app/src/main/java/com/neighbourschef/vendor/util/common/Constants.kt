@@ -27,5 +27,5 @@ const val VEILED_ITEM_COUNT = 10
 const val RC_PICK_IMAGE = 100
 
 const val EMAIL_VENDOR = "vendor.neighbourschef@gmail.com"
-const val EMAIL_DEV = ""
-const val NUMBER_DEV = ""
+const val EMAIL_DEV = "rtvkiz@gmail.com"
+const val NUMBER_DEV = "8989973062"

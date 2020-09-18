@@ -18,8 +18,7 @@
 
     <action
         android:id="@+id/navigate_to_help"
-        app:destination="@id/nav_help"
-        app:popUpTo="@id/mobile_navigation"/>
+        app:destination="@id/nav_help"/>
 
     <action
         android:id="@+id/navigate_to_add_items"

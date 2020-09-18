@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.neighbourschef.vendor.MobileNavigationDirections
 import com.neighbourschef.vendor.R
 import com.neighbourschef.vendor.databinding.FragmentRootMenuBinding
 import com.neighbourschef.vendor.util.android.base.BaseFragment
@@ -44,6 +45,10 @@ class RootMenuFragment : BaseFragment<FragmentRootMenuBinding>() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) = inflater.inflate(R.menu.menu_main, menu)
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.action_help -> {
+            navController.navigate(MobileNavigationDirections.navigateToHelp())
+            true
+        }
         R.id.action_logout -> {
             auth.signOut()
             restartApp(requireActivity())
