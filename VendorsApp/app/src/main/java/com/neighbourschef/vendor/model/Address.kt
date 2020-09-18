@@ -3,9 +3,7 @@ package com.neighbourschef.vendor.model
 import android.os.Parcel
 import com.neighbourschef.vendor.util.android.KParcelable
 import com.neighbourschef.vendor.util.android.parcelableCreator
-import kotlinx.serialization.Serializable
 
-@Serializable
 data class Address(
     val addressName: String,
     val flatNo: String?,

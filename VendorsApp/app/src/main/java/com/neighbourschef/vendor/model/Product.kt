@@ -5,9 +5,7 @@ import com.neighbourschef.vendor.util.android.KParcelable
 import com.neighbourschef.vendor.util.android.parcelableCreator
 import com.neighbourschef.vendor.util.android.readBool
 import com.neighbourschef.vendor.util.android.writeBool
-import kotlinx.serialization.Serializable
 
-@Serializable
 data class Product(
     val id: String,
     val name: String,
