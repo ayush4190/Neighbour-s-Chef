@@ -12,6 +12,7 @@ import com.neighbourschef.vendor.R
 import com.neighbourschef.vendor.databinding.FragmentLoginBinding
 import com.neighbourschef.vendor.util.android.asString
 import com.neighbourschef.vendor.util.android.base.BaseFragment
+import com.neighbourschef.vendor.util.android.closeKeyboard
 import com.neighbourschef.vendor.util.android.isEmpty
 import com.neighbourschef.vendor.util.android.toast
 import com.neighbourschef.vendor.util.common.EMAIL_VENDOR
@@ -30,6 +31,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
             navController.navigate(MobileNavigationDirections.navigateToOrders())
         }
         binding.btnSignIn.setOnClickListener {
+            closeKeyboard()
             val res = validateInput()
             if (res != null) {
                 auth.signInWithEmailAndPassword(res.first, res.second)

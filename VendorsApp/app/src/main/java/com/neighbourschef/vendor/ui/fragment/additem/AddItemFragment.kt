@@ -36,6 +36,7 @@ import com.neighbourschef.vendor.repository.FirebaseRepository
 import com.neighbourschef.vendor.util.android.asString
 import com.neighbourschef.vendor.util.android.base.BaseFragment
 import com.neighbourschef.vendor.util.android.compressImage
+import com.neighbourschef.vendor.util.android.closeKeyboard
 import com.neighbourschef.vendor.util.android.getPickImageIntent
 import com.neighbourschef.vendor.util.android.isEmpty
 import com.neighbourschef.vendor.util.android.snackbar
@@ -210,6 +211,7 @@ class AddItemFragment : BaseFragment<FragmentAddItemBinding>() {
         }
 
         binding.btnAdd.setOnClickListener {
+            closeKeyboard()
             if (validateInput()) {
                 val day = if (binding.btnToday.isChecked) DAY_TODAY else DAY_TOMORROW
                 val itemName = binding.editName.asString().trim()

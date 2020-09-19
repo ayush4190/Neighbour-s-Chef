@@ -17,6 +17,7 @@ import com.neighbourschef.vendor.model.Product
 import com.neighbourschef.vendor.repository.FirebaseRepository
 import com.neighbourschef.vendor.util.android.asString
 import com.neighbourschef.vendor.util.android.base.BaseFragment
+import com.neighbourschef.vendor.util.android.closeKeyboard
 import com.neighbourschef.vendor.util.common.EXTRA_PRODUCT
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -51,6 +52,7 @@ class ItemDetailsFragment : BaseFragment<FragmentItemDetailsBinding>() {
         binding.imgFoodVegNonVeg.load(drawable)
 
         binding.fab.setOnClickListener {
+            closeKeyboard()
             FirebaseRepository.saveItem(
                 item.copy(
                     name = binding.editName.asString().trim(),

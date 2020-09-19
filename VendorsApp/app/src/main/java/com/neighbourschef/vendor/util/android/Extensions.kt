@@ -1,8 +1,10 @@
 package com.neighbourschef.vendor.util.android
 
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import android.widget.Toast
+import androidx.core.content.getSystemService
 import androidx.fragment.app.Fragment
 import com.google.android.material.snackbar.Snackbar
 
@@ -15,6 +17,17 @@ fun Fragment.snackbar(message: String, actionString: String? = null, listener: (
         snackbar.setAction(actionString, listener)
     }
     snackbar.show()
+}
+
+fun Fragment.closeKeyboard() {
+    val view = requireActivity().currentFocus
+    view?.let {
+        requireActivity().getSystemService<InputMethodManager>()
+            ?.hideSoftInputFromWindow(
+                it.windowToken,
+                InputMethodManager.HIDE_NOT_ALWAYS
+            )
+    }
 }
 
 fun EditText.asString(): String = text.toString()
