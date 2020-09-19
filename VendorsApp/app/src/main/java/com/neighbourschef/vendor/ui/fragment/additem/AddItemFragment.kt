@@ -38,7 +38,6 @@ import com.neighbourschef.vendor.util.android.base.BaseFragment
 import com.neighbourschef.vendor.util.android.compressImage
 import com.neighbourschef.vendor.util.android.getPickImageIntent
 import com.neighbourschef.vendor.util.android.isEmpty
-import com.neighbourschef.vendor.util.android.restartApp
 import com.neighbourschef.vendor.util.android.snackbar
 import com.neighbourschef.vendor.util.android.toast
 import com.neighbourschef.vendor.util.common.DAY_TODAY
@@ -104,7 +103,7 @@ class AddItemFragment : BaseFragment<FragmentAddItemBinding>() {
         }
         R.id.action_logout -> {
             auth.signOut()
-            restartApp(requireActivity())
+            navController.navigate(MobileNavigationDirections.navigateToLogin())
             true
         }
         else -> super.onOptionsItemSelected(item)

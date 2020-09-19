@@ -14,7 +14,6 @@ import com.neighbourschef.vendor.MobileNavigationDirections
 import com.neighbourschef.vendor.R
 import com.neighbourschef.vendor.databinding.FragmentRootMenuBinding
 import com.neighbourschef.vendor.util.android.base.BaseFragment
-import com.neighbourschef.vendor.util.android.restartApp
 import com.neighbourschef.vendor.util.common.DAY_TODAY
 import com.neighbourschef.vendor.util.common.DAY_TOMORROW
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -51,7 +50,7 @@ class RootMenuFragment : BaseFragment<FragmentRootMenuBinding>() {
         }
         R.id.action_logout -> {
             auth.signOut()
-            restartApp(requireActivity())
+            navController.navigate(MobileNavigationDirections.navigateToLogin())
             true
         }
         else -> super.onOptionsItemSelected(item)

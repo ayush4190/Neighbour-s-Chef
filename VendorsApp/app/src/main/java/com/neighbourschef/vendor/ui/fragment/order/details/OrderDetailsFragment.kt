@@ -15,12 +15,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.neighbourschef.vendor.MobileNavigationDirections
 import com.neighbourschef.vendor.R
 import com.neighbourschef.vendor.databinding.FragmentOrderDetailsBinding
 import com.neighbourschef.vendor.model.Order
 import com.neighbourschef.vendor.repository.FirebaseRepository
 import com.neighbourschef.vendor.util.android.base.BaseFragment
-import com.neighbourschef.vendor.util.android.restartApp
 import com.neighbourschef.vendor.util.android.toast
 import com.neighbourschef.vendor.util.common.EXTRA_ORDER
 import com.neighbourschef.vendor.util.common.EXTRA_UID
@@ -120,7 +120,7 @@ class OrderDetailsFragment : BaseFragment<FragmentOrderDetailsBinding>() {
         }
         R.id.action_logout -> {
             auth.signOut()
-            restartApp(requireActivity())
+            navController.navigate(MobileNavigationDirections.navigateToLogin())
             true
         }
         else -> super.onOptionsItemSelected(item)

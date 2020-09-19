@@ -17,7 +17,6 @@ import com.neighbourschef.vendor.model.Product
 import com.neighbourschef.vendor.repository.FirebaseRepository
 import com.neighbourschef.vendor.util.android.asString
 import com.neighbourschef.vendor.util.android.base.BaseFragment
-import com.neighbourschef.vendor.util.android.restartApp
 import com.neighbourschef.vendor.util.common.EXTRA_PRODUCT
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
@@ -72,7 +71,7 @@ class ItemDetailsFragment : BaseFragment<FragmentItemDetailsBinding>() {
         }
         R.id.action_logout -> {
             auth.signOut()
-            restartApp(requireActivity())
+            navController.navigate(MobileNavigationDirections.navigateToLogin())
             true
         }
         else -> super.onOptionsItemSelected(item)

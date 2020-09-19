@@ -7,6 +7,12 @@
     app:startDestination="@id/nav_login">
 
     <action
+        android:id="@+id/navigate_to_login"
+        app:destination="@id/nav_login"
+        app:popUpTo="@id/mobile_navigation"
+        app:popUpToInclusive="true"/>
+
+    <action
         android:id="@+id/navigate_to_orders"
         app:destination="@id/nav_orders"
         app:popUpTo="@id/mobile_navigation"/>
@@ -14,7 +20,7 @@
     <action
         android:id="@+id/navigate_to_root_menu"
         app:destination="@id/nav_root_menu"
-        app:popUpTo="@id/mobile_navigation"/>
+        app:popUpTo="@id/nav_orders"/>
 
     <action
         android:id="@+id/navigate_to_help"

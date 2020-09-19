@@ -45,7 +45,7 @@ class OrdersAdapter(
     @ExperimentalCoroutinesApi
     class OrderViewHolder(binding: CardOrderBinding) : BaseViewHolder<CardOrderBinding, Pair<String, Order>>(binding) {
         override fun bindTo(item: Pair<String, Order>) {
-            binding.btnCancel.isVisible = item.second.status != Order.OrderStatus.CANCELLED
+            binding.btnCancel.isVisible = item.second.status == Order.OrderStatus.PLACED
 
             binding.textId.text = binding.root.context.getString(R.string.order, item.second.id)
             binding.textQuantity.text = binding.root.context.getString(

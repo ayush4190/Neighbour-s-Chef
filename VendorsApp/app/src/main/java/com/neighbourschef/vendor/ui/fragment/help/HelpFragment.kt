@@ -11,11 +11,11 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.neighbourschef.vendor.MobileNavigationDirections
 import com.neighbourschef.vendor.R
 import com.neighbourschef.vendor.databinding.FragmentHelpBinding
 import com.neighbourschef.vendor.util.android.asString
 import com.neighbourschef.vendor.util.android.base.BaseFragment
-import com.neighbourschef.vendor.util.android.restartApp
 import com.neighbourschef.vendor.util.android.sendEmail
 import com.neighbourschef.vendor.util.common.NUMBER_DEV
 
@@ -54,7 +54,7 @@ class HelpFragment : BaseFragment<FragmentHelpBinding>() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.action_logout -> {
             auth.signOut()
-            restartApp(requireActivity())
+            navController.navigate(MobileNavigationDirections.navigateToLogin())
             true
         }
         else -> super.onOptionsItemSelected(item)

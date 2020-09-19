@@ -17,7 +17,6 @@ import com.neighbourschef.vendor.MobileNavigationDirections
 import com.neighbourschef.vendor.R
 import com.neighbourschef.vendor.databinding.FragmentOrdersBinding
 import com.neighbourschef.vendor.util.android.base.BaseFragment
-import com.neighbourschef.vendor.util.android.restartApp
 import com.neighbourschef.vendor.util.android.toast
 import com.neighbourschef.vendor.util.common.Result
 import com.neighbourschef.vendor.util.common.VEILED_ITEM_COUNT
@@ -61,7 +60,7 @@ class OrdersFragment : BaseFragment<FragmentOrdersBinding>() {
                 when (it) {
                     is Result.Value -> {
                         binding.recyclerOrders.unVeil()
-                        adapter.submitList(it.value)
+                        adapter.submitList(it.value.sortedByDescending { pair -> pair.second.timestamp })
 
                         binding.textEmptyState.isVisible = adapter.itemCount == 0
                         binding.recyclerOrders.isVisible = adapter.itemCount != 0
@@ -84,7 +83,7 @@ class OrdersFragment : BaseFragment<FragmentOrdersBinding>() {
         }
         R.id.action_logout -> {
             auth.signOut()
-            restartApp(requireActivity())
+            navController.navigate(MobileNavigationDirections.navigateToLogin())
             true
         }
         else -> super.onOptionsItemSelected(item)

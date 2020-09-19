@@ -47,10 +47,6 @@ class MainActivity : AppCompatActivity() {
                     navController.navigate(MobileNavigationDirections.navigateToRootMenu())
                     true
                 }
-                R.id.nav_help -> {
-                    navController.navigate(MobileNavigationDirections.navigateToHelp())
-                    true
-                }
                 else -> false
             }
         }
