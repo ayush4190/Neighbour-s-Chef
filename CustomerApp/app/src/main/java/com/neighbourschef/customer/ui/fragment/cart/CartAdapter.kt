@@ -18,6 +18,7 @@ import com.neighbourschef.customer.util.android.saveCart
 
 class CartAdapter(
     items: MutableList<Product>,
+    private val uid: String,
     private val sharedPreferences: SharedPreferences,
     private val priceTextView: MaterialTextView
 ): BaseAdapter<CartAdapter.CartViewHolder, Product>(items, false) {
@@ -39,14 +40,14 @@ class CartAdapter(
                 }
                 bindTo(item)
                 priceTextView.text = it.context.getString(R.string.set_price, String.format("%.2f", items.total()))
-                saveCart(sharedPreferences, Cart(items))
+                saveCart(sharedPreferences, uid, Cart(items))
             }
             setPlusClickListener {
                 val item = items[adapterPosition]
                 item.quantity++
                 bindTo(item)
                 priceTextView.text = it.context.getString(R.string.set_price, String.format("%.2f", items.total()))
-                saveCart(sharedPreferences, Cart(items))
+                saveCart(sharedPreferences, uid, Cart(items))
             }
         }
 

@@ -8,15 +8,19 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.core.net.toUri
+import coil.load
+import coil.transform.CircleCropTransformation
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.neighbourschef.customer.MobileNavigationDirections
 import com.neighbourschef.customer.R
 import com.neighbourschef.customer.databinding.FragmentHelpBinding
+import com.neighbourschef.customer.ui.activity.MainActivity
+import com.neighbourschef.customer.util.android.CircleBorderTransformation
 import com.neighbourschef.customer.util.android.asString
 import com.neighbourschef.customer.util.android.base.BaseFragment
-import com.neighbourschef.customer.util.android.restartApp
 import com.neighbourschef.customer.util.android.sendEmail
 import com.neighbourschef.customer.util.common.NUMBER_DEV
 
@@ -54,18 +58,36 @@ class HelpFragment: BaseFragment<FragmentHelpBinding>() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) =
-        inflater.inflate(R.menu.menu_main, menu)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_help, menu)
+
+        val menuItem = menu.findItem(R.id.action_profile)!!
+        val imageView = menuItem.actionView?.findViewById<ImageView>(R.id.img_user_account)!!
+        menuItem.actionView?.setOnClickListener {
+            onOptionsItemSelected(menuItem)
+        }
+
+        imageView.load(auth.currentUser?.photoUrl) {
+            transformations(CircleCropTransformation(), CircleBorderTransformation())
+            placeholder(R.drawable.ic_person_outline_24)
+            fallback(R.drawable.ic_person_outline_24)
+        }
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
         when(item.itemId) {
+            R.id.action_profile -> {
+                navController.navigate(MobileNavigationDirections.navigateToProfile())
+                true
+            }
             R.id.action_settings -> {
                 navController.navigate(MobileNavigationDirections.navigateToSettings())
                 true
             }
             R.id.action_logout -> {
                 auth.signOut()
-                restartApp(requireActivity())
+                (requireActivity() as MainActivity).googleSignInClient.signOut()
+                navController.navigate(MobileNavigationDirections.navigateToRegistration())
                 true
             }
             else -> super.onOptionsItemSelected(item)

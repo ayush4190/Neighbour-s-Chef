@@ -1,12 +1,10 @@
 package com.neighbourschef.customer.ui.fragment.profile
 
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import androidx.core.content.edit
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
@@ -18,16 +16,12 @@ import com.neighbourschef.customer.repositories.FirebaseRepository
 import com.neighbourschef.customer.util.android.asString
 import com.neighbourschef.customer.util.common.EXTRA_FIREBASE_UID
 import com.neighbourschef.customer.util.common.EXTRA_USER
-import com.neighbourschef.customer.util.common.PREFERENCE_PROFILE_SET_UP
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
 
 @ExperimentalCoroutinesApi
 class AddressFragment: BottomSheetDialogFragment() {
-    val sharedPreferences: SharedPreferences by inject()
-
     private var currentBinding: FragmentAddressBinding? = null
     private val binding: FragmentAddressBinding
         get() = currentBinding!!
@@ -59,12 +53,6 @@ class AddressFragment: BottomSheetDialogFragment() {
                 lifecycleScope.launch(Dispatchers.IO) {
                     user.address = newAddress
                     FirebaseRepository.saveUser(user, uid)
-                }
-                sharedPreferences.edit {
-                    putBoolean(
-                        PREFERENCE_PROFILE_SET_UP,
-                        user.phoneNumber != "" && user.address != Address.EMPTY
-                    )
                 }
                 findNavController().navigateUp()
             }

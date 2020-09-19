@@ -30,7 +30,7 @@ object FirebaseRepository {
         }
 
     fun getOrders(uid: String): Flow<Result<List<Order>, Exception>> = databaseReference.child(PATH_ORDERS).child(uid)
-        .asResultFlow<HashMap<String, @JvmSuppressWildcards Order>, List<@JvmSuppressWildcards Order>>(listOf()) {
+        .asResultFlow<HashMap<String, @JvmSuppressWildcards Order>, List<Order>>(listOf()) {
             it?.values?.toList()
         }
 

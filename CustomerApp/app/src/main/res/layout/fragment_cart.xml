@@ -49,7 +49,7 @@
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
         android:layout_gravity="center"
         android:gravity="center"
-        android:drawableTop="@mipmap/ic_launcher"
+        android:drawableTop="@drawable/ic_cart_128"
         android:visibility="gone"
         tools:visibility="visible"/>
 

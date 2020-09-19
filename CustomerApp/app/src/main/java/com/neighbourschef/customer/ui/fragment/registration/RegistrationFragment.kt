@@ -1,18 +1,14 @@
 package com.neighbourschef.customer.ui.fragment.registration
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.navOptions
-import coil.load
-import coil.transform.CircleCropTransformation
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
@@ -24,31 +20,23 @@ import com.google.firebase.ktx.Firebase
 import com.neighbourschef.customer.MobileNavigationDirections
 import com.neighbourschef.customer.R
 import com.neighbourschef.customer.databinding.FragmentRegistrationBinding
-import com.neighbourschef.customer.databinding.NavHeaderMainBinding
 import com.neighbourschef.customer.model.Address
 import com.neighbourschef.customer.model.User
 import com.neighbourschef.customer.repositories.FirebaseRepository
 import com.neighbourschef.customer.ui.activity.MainActivity
-import com.neighbourschef.customer.util.android.CircleBorderTransformation
 import com.neighbourschef.customer.util.android.base.BaseFragment
-import com.neighbourschef.customer.util.android.isProfileSetup
 import com.neighbourschef.customer.util.android.toast
 import com.neighbourschef.customer.util.common.RC_SIGN_IN
+import com.neighbourschef.customer.util.common.Result
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import org.koin.android.ext.android.inject
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
 @ExperimentalCoroutinesApi
 class RegistrationFragment: BaseFragment<FragmentRegistrationBinding>() {
-    val sharedPreferences: SharedPreferences by inject()
-
     private val auth: FirebaseAuth by lazy(LazyThreadSafetyMode.NONE) { Firebase.auth }
-    private lateinit var googleSignInClient: GoogleSignInClient
     private var currentUser: FirebaseUser? = null
-
-    private var currentNavHeaderMainBinding: NavHeaderMainBinding? = null
-    private val navHeaderMainBinding: NavHeaderMainBinding
-        get() = currentNavHeaderMainBinding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,9 +44,6 @@ class RegistrationFragment: BaseFragment<FragmentRegistrationBinding>() {
         savedInstanceState: Bundle?
     ): View? {
         currentBinding = FragmentRegistrationBinding.inflate(inflater, container, false)
-        currentNavHeaderMainBinding = NavHeaderMainBinding.bind(
-            (requireActivity() as MainActivity).binding.navView.getHeaderView(0)
-        )
         return binding.root
     }
 
@@ -67,16 +52,13 @@ class RegistrationFragment: BaseFragment<FragmentRegistrationBinding>() {
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build()
-        googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
+        (requireActivity() as MainActivity).googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
 
         currentUser = auth.currentUser
         if (currentUser != null) {
-            updateNavHeader()
-            navController.navigate(MobileNavigationDirections.navigateToHome())
+            navController.navigate(MobileNavigationDirections.navigateToMenu())
         }
         binding.btnSignIn.setOnClickListener { signIn() }
-
-        updateNavHeader()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -92,29 +74,40 @@ class RegistrationFragment: BaseFragment<FragmentRegistrationBinding>() {
                         .addOnCompleteListener(requireActivity()) {
                             if (it.isSuccessful) {
                                 currentUser = auth.currentUser
-                                if (isProfileSetup(sharedPreferences)) {
-                                    navController.navigate(MobileNavigationDirections.navigateToHome())
-                                } else {
-                                    val user = User(
-                                        currentUser!!.displayName!!,
-                                        currentUser!!.email!!,
-                                        "",
-                                        Address.EMPTY
-                                    )
-                                    FirebaseRepository.saveUser(user, currentUser!!.uid)
-                                    navController.navigate(
-                                        MobileNavigationDirections.navigateToProfile(),
-                                        navOptions {
-                                            popUpTo(R.id.nav_registration) {
-                                                inclusive = true
+
+                                lifecycleScope.launch {
+                                    FirebaseRepository.getUser(currentUser!!.uid).collect { res ->
+                                        when (res) {
+                                            is Result.Value -> {
+                                                if (res.value == User() ||
+                                                    res.value.address == Address.EMPTY ||
+                                                    res.value.phoneNumber == "") {
+                                                    val user = User(
+                                                        currentUser!!.displayName!!,
+                                                        currentUser!!.email!!,
+                                                        "",
+                                                        Address.EMPTY
+                                                    )
+                                                    FirebaseRepository.saveUser(user, currentUser!!.uid)
+                                                    navController.navigate(
+                                                        MobileNavigationDirections.navigateToProfile(),
+                                                        navOptions {
+                                                            popUpTo(R.id.mobile_navigation) {
+                                                                inclusive = true
+                                                            }
+                                                        }
+                                                    )
+                                                } else {
+                                                    navController.navigate(MobileNavigationDirections.navigateToMenu())
+                                                }
                                             }
+                                            is Result.Error -> toast(res.error.message ?: res.error.toString())
                                         }
-                                    )
+                                    }
                                 }
                             } else {
                                 toast("Authentication failed: ${it.exception?.message}")
                             }
-                            updateNavHeader()
                         }
                 } catch (e: ApiException) {
                     Timber.w(e, "signInResult:failed code=${e.statusCode}")
@@ -123,30 +116,10 @@ class RegistrationFragment: BaseFragment<FragmentRegistrationBinding>() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        currentNavHeaderMainBinding = null
-    }
-
-    private fun updateNavHeader() {
-        if (currentUser != null) {
-            navHeaderMainBinding.textUserName.text = currentUser!!.displayName
-            navHeaderMainBinding.textUserEmail.text = currentUser!!.email
-            navHeaderMainBinding.imgUser.load(currentUser!!.photoUrl) {
-                fallback(R.drawable.ic_person_outline_60)
-                transformations(CircleCropTransformation(), CircleBorderTransformation())
-            }
-            findNavController().navigate(MobileNavigationDirections.navigateToHome())
-        } else {
-            navHeaderMainBinding.imgUser.load(R.drawable.ic_person_outline_60)
-            navHeaderMainBinding.textUserName.text = getString(R.string.sign_in)
-        }
-    }
-
     private fun signIn() =
         requireActivity().startActivityFromFragment(
             this,
-            googleSignInClient.signInIntent,
+            (requireActivity() as MainActivity).googleSignInClient.signInIntent,
             RC_SIGN_IN
         )
 }

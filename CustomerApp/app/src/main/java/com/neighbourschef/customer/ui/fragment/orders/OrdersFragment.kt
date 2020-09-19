@@ -7,19 +7,23 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import coil.transform.CircleCropTransformation
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.neighbourschef.customer.MobileNavigationDirections
 import com.neighbourschef.customer.R
 import com.neighbourschef.customer.databinding.FragmentOrdersBinding
+import com.neighbourschef.customer.ui.activity.MainActivity
+import com.neighbourschef.customer.util.android.CircleBorderTransformation
 import com.neighbourschef.customer.util.android.base.BaseFragment
-import com.neighbourschef.customer.util.android.restartApp
 import com.neighbourschef.customer.util.android.toast
 import com.neighbourschef.customer.util.common.Result
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -59,7 +63,7 @@ class OrdersFragment: BaseFragment<FragmentOrdersBinding>() {
                 when (it) {
                     is Result.Value -> {
                         binding.progressBar.isVisible = false
-                        adapter.submitList(it.value)
+                        adapter.submitList(it.value.sortedByDescending {o -> o.timestamp })
                         binding.recyclerOrders.isVisible = adapter.itemCount != 0
                         binding.textEmptyState.isVisible = adapter.itemCount == 0
                     }
@@ -72,18 +76,40 @@ class OrdersFragment: BaseFragment<FragmentOrdersBinding>() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) =
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_main, menu)
+
+        val menuItem = menu.findItem(R.id.action_profile)!!
+        val imageView = menuItem.actionView?.findViewById<ImageView>(R.id.img_user_account)!!
+        menuItem.actionView?.setOnClickListener {
+            onOptionsItemSelected(menuItem)
+        }
+
+        imageView.load(auth.currentUser?.photoUrl) {
+            transformations(CircleCropTransformation(), CircleBorderTransformation())
+            placeholder(R.drawable.ic_person_outline_24)
+            fallback(R.drawable.ic_person_outline_24)
+        }
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
         when(item.itemId) {
+            R.id.action_profile -> {
+                navController.navigate(MobileNavigationDirections.navigateToProfile())
+                true
+            }
             R.id.action_settings -> {
                 navController.navigate(MobileNavigationDirections.navigateToSettings())
                 true
             }
+            R.id.action_help -> {
+                navController.navigate(MobileNavigationDirections.navigateToHelp())
+                true
+            }
             R.id.action_logout -> {
                 auth.signOut()
-                restartApp(requireActivity())
+                (requireActivity() as MainActivity).googleSignInClient.signOut()
+                navController.navigate(MobileNavigationDirections.navigateToRegistration())
                 true
             }
             else -> super.onOptionsItemSelected(item)

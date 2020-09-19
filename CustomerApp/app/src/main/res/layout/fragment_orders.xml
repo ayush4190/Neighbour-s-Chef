@@ -24,15 +24,14 @@
         android:id="@+id/text_empty_state"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_margin="5dp"
         android:gravity="center"
-        android:layout_gravity="center"
+        android:drawableTop="@drawable/ic_orders_128"
         android:text="@string/empty_orders"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
-        android:drawableTop="@mipmap/ic_launcher_round"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Headline3"
+        android:textColor="@android:color/black"
         android:visibility="gone"
+        android:layout_gravity="center"
         tools:visibility="visible"/>
 
 </FrameLayout>

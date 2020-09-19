@@ -10,6 +10,7 @@ import com.neighbourschef.customer.util.android.readEnum
 import com.neighbourschef.customer.util.android.readParcelableListCompat
 import com.neighbourschef.customer.util.android.writeEnum
 import com.neighbourschef.customer.util.android.writeParcelableListCompat
+import com.neighbourschef.customer.util.common.DAY_TODAY
 import com.neighbourschef.customer.util.common.toLocalDateTime
 import com.neighbourschef.customer.util.common.toTimestamp
 import org.threeten.bp.LocalDateTime
@@ -24,7 +25,6 @@ data class Order(
     val timestamp: Long,
     var comments: String
 ): KParcelable {
-
     /**
      * Models the current status of the order
      * The user can place an order which results in [PLACED]. After an order is [PLACED], it may be
@@ -94,12 +94,46 @@ data class Order(
     companion object {
         @JvmField val CREATOR = parcelableCreator(::Order)
 
-        @JvmStatic fun fromCart(cart: Cart): Order = Order(
-            UUID.randomUUID().toString(),
-            cart.products,
-            PLACED,
-            LocalDateTime.now().toTimestamp(),
-            ""
-        )
+        @JvmStatic fun fromProducts(products: List<Product>): List<Order> {
+            val (today, tomorrow) = products.partition { it.day == DAY_TODAY }
+            val orders = mutableListOf<Order>()
+            when {
+                today.isEmpty() -> {
+                    orders += Order(
+                        UUID.randomUUID().toString(),
+                        tomorrow,
+                        PLACED,
+                        LocalDateTime.now().toTimestamp(),
+                        ""
+                    )
+                }
+                tomorrow.isEmpty() -> {
+                    orders += Order(
+                        UUID.randomUUID().toString(),
+                        today,
+                        PLACED,
+                        LocalDateTime.now().toTimestamp(),
+                        ""
+                    )
+                }
+                else -> {
+                    orders += Order(
+                        UUID.randomUUID().toString(),
+                        today,
+                        PLACED,
+                        LocalDateTime.now().toTimestamp(),
+                        ""
+                    )
+                    orders += Order(
+                        UUID.randomUUID().toString(),
+                        tomorrow,
+                        PLACED,
+                        LocalDateTime.now().toTimestamp(),
+                        ""
+                    )
+                }
+            }
+            return orders
+        }
     }
 }

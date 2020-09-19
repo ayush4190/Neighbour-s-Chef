@@ -1,7 +1,5 @@
-@file:JvmName("Utility")
 package com.neighbourschef.customer.util.android
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
@@ -26,13 +24,4 @@ fun sendEmail(context: Context, subject: String, message: String) {
         Toast.makeText(context, "No email clients found", Toast.LENGTH_SHORT).show()
     }
 
-}
-
-fun restartApp(activity: Activity) {
-    val intent = activity.packageManager
-        .getLaunchIntentForPackage(activity.baseContext.packageName)!!
-        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-    activity.startActivity(intent)
-    activity.finish()
 }

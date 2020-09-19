@@ -9,5 +9,5 @@ fun Long.toLocalDateTime(): LocalDateTime = LocalDateTime.ofEpochSecond(this, 0,
 fun LocalDateTime.toTimestamp(): Long = withNano(0).toEpochSecond(ZoneOffset.UTC)
 
 fun LocalDateTime.humanReadable(): String = format(
-    DateTimeFormatter.ofPattern("h:m a, dd MMMM yyyy")
+    DateTimeFormatter.ofPattern("h:mm a, dd MMMM yyyy")
 )

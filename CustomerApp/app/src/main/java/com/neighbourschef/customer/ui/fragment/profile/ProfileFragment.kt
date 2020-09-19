@@ -1,6 +1,5 @@
 package com.neighbourschef.customer.ui.fragment.profile
 
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -8,7 +7,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.edit
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -28,27 +26,23 @@ import com.neighbourschef.customer.databinding.DialogSetPhoneBinding
 import com.neighbourschef.customer.databinding.FragmentProfileBinding
 import com.neighbourschef.customer.model.Address
 import com.neighbourschef.customer.model.User
+import com.neighbourschef.customer.ui.activity.MainActivity
 import com.neighbourschef.customer.util.android.asString
 import com.neighbourschef.customer.util.android.base.BaseFragment
 import com.neighbourschef.customer.util.android.init
-import com.neighbourschef.customer.util.android.restartApp
 import com.neighbourschef.customer.util.android.rotate
 import com.neighbourschef.customer.util.android.showIn
 import com.neighbourschef.customer.util.android.showOut
 import com.neighbourschef.customer.util.android.toast
 import com.neighbourschef.customer.util.common.EXTRA_FIREBASE_UID
 import com.neighbourschef.customer.util.common.EXTRA_USER
-import com.neighbourschef.customer.util.common.PREFERENCE_PROFILE_SET_UP
 import com.neighbourschef.customer.util.common.Result
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import org.koin.android.ext.android.inject
 
 @ExperimentalCoroutinesApi
 class ProfileFragment: BaseFragment<FragmentProfileBinding>() {
-    val sharedPreferences: SharedPreferences by inject()
-
     private val auth: FirebaseAuth by lazy(LazyThreadSafetyMode.NONE) { Firebase.auth }
     private val currentUser: FirebaseUser by lazy(LazyThreadSafetyMode.NONE) { auth.currentUser!! }
     private val viewModel: ProfileViewModel by viewModels { ProfileViewModelFactory(currentUser.uid) }
@@ -105,7 +99,7 @@ class ProfileFragment: BaseFragment<FragmentProfileBinding>() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) =
-        inflater.inflate(R.menu.menu_main, menu)
+        inflater.inflate(R.menu.menu_profile, menu)
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
         when(item.itemId) {
@@ -113,9 +107,14 @@ class ProfileFragment: BaseFragment<FragmentProfileBinding>() {
                 navController.navigate(MobileNavigationDirections.navigateToSettings())
                 true
             }
+            R.id.action_help -> {
+                navController.navigate(MobileNavigationDirections.navigateToHelp())
+                true
+            }
             R.id.action_logout -> {
                 auth.signOut()
-                restartApp(requireActivity())
+                (requireActivity() as MainActivity).googleSignInClient.signOut()
+                navController.navigate(MobileNavigationDirections.navigateToRegistration())
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -166,12 +165,6 @@ class ProfileFragment: BaseFragment<FragmentProfileBinding>() {
                         if (phoneUtil.isValidNumber(phoneUtil.parse(number, "IN"))) {
                             user.phoneNumber = number
                             viewModel.saveUser(user)
-                            sharedPreferences.edit {
-                                putBoolean(
-                                    PREFERENCE_PROFILE_SET_UP,
-                                    user.phoneNumber != "" && user.address != Address.EMPTY
-                                )
-                            }
                         } else {
                             toast("Verify the number")
                         }

@@ -9,7 +9,6 @@ import com.neighbourschef.customer.databinding.CardFoodBinding
 import com.neighbourschef.customer.model.Product
 import com.neighbourschef.customer.ui.fragment.FoodViewHolder
 import com.neighbourschef.customer.util.android.base.BaseAdapter
-import com.neighbourschef.customer.util.common.EXTRA_DAY
 import com.neighbourschef.customer.util.common.EXTRA_PRODUCT
 
 class MenuAdapter(
@@ -30,10 +29,7 @@ class MenuAdapter(
             setOnClickListener {
                 navController.navigate(
                     R.id.navigate_to_item_detail,
-                    bundleOf(
-                        EXTRA_PRODUCT to items[adapterPosition],
-                        EXTRA_DAY to day
-                    )
+                    bundleOf(EXTRA_PRODUCT to items[adapterPosition])
                 )
             }
         }

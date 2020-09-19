@@ -3,37 +3,43 @@ package com.neighbourschef.customer.ui.activity
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.neighbourschef.customer.MobileNavigationDirections
 import com.neighbourschef.customer.R
 import com.neighbourschef.customer.databinding.ActivityMainBinding
 import com.neighbourschef.customer.model.Product
 import com.neighbourschef.customer.util.android.getCart
 import com.neighbourschef.customer.util.common.EXTRA_PRODUCT
-import com.neighbourschef.customer.util.common.PREFERENCE_CART
 import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
-    val sharedPreferences: SharedPreferences by inject()
+    private val sharedPreferences: SharedPreferences by inject()
 
-    lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
     private val navController: NavController by lazy(LazyThreadSafetyMode.NONE) {
-        findNavController(R.id.nav_host_fragment)
+        (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment).navController
     }
-    private lateinit var appBarConfiguration: AppBarConfiguration
+    private val appBarConfiguration by lazy(LazyThreadSafetyMode.NONE) {
+        AppBarConfiguration(
+            setOf(R.id.nav_menu, R.id.nav_registration, R.id.nav_orders)
+        )
+    }
+    lateinit var googleSignInClient: GoogleSignInClient
 
     private val sharedPreferencesListener = SharedPreferences.OnSharedPreferenceChangeListener { sp, key ->
-        if (key == PREFERENCE_CART) {
-            val cart = getCart(sp)
-            binding.layoutAppBar.fabCart.text = if (cart.isEmpty()) {
-                binding.layoutAppBar.fabCart.isExtended = false
+        if (key == Firebase.auth.uid) {
+            val cart = getCart(sp, Firebase.auth.uid)
+            binding.fabCart.text = if (cart.isEmpty()) {
+                binding.fabCart.isExtended = false
                 ""
             } else {
                 getString(
@@ -50,29 +56,16 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setSupportActionBar(binding.layoutAppBar.toolbar)
+        setSupportActionBar(binding.toolbar)
 
-        appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.nav_home, R.id.nav_help, R.id.nav_profile, R.id.nav_registration, R.id.nav_orders),
-            binding.drawerLayout
-        )
         setupActionBarWithNavController(navController, appBarConfiguration)
         binding.navView.setupWithNavController(navController)
 
-        binding.navView.setNavigationItemSelectedListener {
-            binding.drawerLayout.closeDrawers()
+        binding.navView.setOnNavigationItemSelectedListener {
             it.isChecked = true
             when(it.itemId) {
-                R.id.nav_home -> {
-                    navController.navigate(MobileNavigationDirections.navigateToHome())
-                    true
-                }
-                R.id.nav_profile -> {
-                    navController.navigate(MobileNavigationDirections.navigateToProfile())
-                    true
-                }
-                R.id.nav_help -> {
-                    navController.navigate(MobileNavigationDirections.navigateToHelp())
+                R.id.nav_menu -> {
+                    navController.navigate(MobileNavigationDirections.navigateToMenu())
                     true
                 }
                 R.id.nav_orders -> {
@@ -83,9 +76,9 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        val cart = getCart(sharedPreferences)
-        binding.layoutAppBar.fabCart.text = if (cart.isEmpty()) {
-            binding.layoutAppBar.fabCart.isExtended = false
+        val cart = getCart(sharedPreferences, Firebase.auth.uid)
+        binding.fabCart.text = if (cart.isEmpty()) {
+            binding.fabCart.isExtended = false
             ""
         } else {
             getString(
@@ -100,20 +93,12 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean =
         navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
 
-    override fun onBackPressed() {
-        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            binding.drawerLayout.closeDrawer(GravityCompat.START)
-        } else {
-            super.onBackPressed()
-        }
-    }
-
     override fun onResume() {
         super.onResume()
 
-        val cart = getCart(sharedPreferences)
-        binding.layoutAppBar.fabCart.text = if (cart.isEmpty()) {
-            binding.layoutAppBar.fabCart.isExtended = false
+        val cart = getCart(sharedPreferences, Firebase.auth.uid)
+        binding.fabCart.text = if (cart.isEmpty()) {
+            binding.fabCart.isExtended = false
             ""
         } else {
             getString(
@@ -132,37 +117,48 @@ class MainActivity : AppCompatActivity() {
     private fun setupListeners() {
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferencesListener)
 
-        binding.layoutAppBar.fabCart.setOnClickListener {
+        binding.fabCart.setOnClickListener {
             navController.navigate(MobileNavigationDirections.navigateToCart())
         }
 
         navController.addOnDestinationChangedListener { _, destination, arguments ->
             when(destination.id) {
-                R.id.nav_home -> {
-                    binding.layoutAppBar.fabCart.isVisible = true
+                R.id.nav_menu -> {
+                    binding.fabCart.isVisible = true
                     binding.navView.isVisible = true
-                    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                    binding.appbar.isVisible = true
+                    supportActionBar?.setDisplayHomeAsUpEnabled(false)
                 }
                 R.id.nav_item_detail -> {
-                    supportActionBar?.title = arguments?.getParcelable<Product>(EXTRA_PRODUCT)?.name
-                    binding.layoutAppBar.fabCart.isVisible = true
+                    binding.fabCart.isVisible = true
                     binding.navView.isVisible = true
+                    binding.appbar.isVisible = true
+                    supportActionBar?.title = arguments?.getParcelable<Product>(EXTRA_PRODUCT)?.name
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
                 }
                 R.id.nav_cart -> {
-                    binding.layoutAppBar.fabCart.isVisible = false
+                    binding.fabCart.isVisible = false
                     binding.navView.isVisible = true
+                    binding.appbar.isVisible = true
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
                 }
                 R.id.nav_registration -> {
-                    binding.layoutAppBar.fabCart.isVisible = false
+                    binding.fabCart.isVisible = false
                     binding.navView.isVisible = false
+                    binding.appbar.isVisible = false
                     supportActionBar?.setDisplayHomeAsUpEnabled(false)
                 }
                 R.id.nav_profile -> {
-                    binding.layoutAppBar.fabCart.isVisible = false
+                    binding.fabCart.isVisible = false
                     binding.navView.isVisible = true
+                    binding.appbar.isVisible = true
                     supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                }
+                R.id.nav_orders -> {
+                    binding.fabCart.isVisible = true
+                    binding.navView.isVisible = true
+                    binding.appbar.isVisible = true
+                    supportActionBar?.setDisplayHomeAsUpEnabled(false)
                 }
             }
         }

@@ -8,7 +8,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.edit
+import android.widget.ImageView
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.google.firebase.auth.FirebaseAuth
@@ -19,23 +19,28 @@ import com.neighbourschef.customer.R
 import com.neighbourschef.customer.databinding.FragmentItemDetailBinding
 import com.neighbourschef.customer.model.Cart
 import com.neighbourschef.customer.model.Product
+import com.neighbourschef.customer.ui.activity.MainActivity
+import com.neighbourschef.customer.util.android.CircleBorderTransformation
 import com.neighbourschef.customer.util.android.base.BaseFragment
 import com.neighbourschef.customer.util.android.getCart
-import com.neighbourschef.customer.util.android.restartApp
+import com.neighbourschef.customer.util.android.saveCart
 import com.neighbourschef.customer.util.android.toast
 import com.neighbourschef.customer.util.common.EXTRA_PRODUCT
-import com.neighbourschef.customer.util.common.JSON
-import com.neighbourschef.customer.util.common.PREFERENCE_CART
 import org.koin.android.ext.android.inject
 
 class ItemDetailFragment: BaseFragment<FragmentItemDetailBinding>() {
     private val sharedPreferences: SharedPreferences by inject()
-    private val cart: Cart by lazy(LazyThreadSafetyMode.NONE) { getCart(sharedPreferences) }
+    private val cart: Cart by lazy(LazyThreadSafetyMode.NONE) { getCart(sharedPreferences, auth.uid) }
 
     private val auth: FirebaseAuth by lazy(LazyThreadSafetyMode.NONE) { Firebase.auth }
 
     private val product: Product by lazy(LazyThreadSafetyMode.NONE) {
         requireArguments()[EXTRA_PRODUCT] as Product
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -67,25 +72,46 @@ class ItemDetailFragment: BaseFragment<FragmentItemDetailBinding>() {
 
         binding.btnAdd.setOnClickListener {
             cart += product.copy(quantity = 1)
-            sharedPreferences.edit {
-                putString(PREFERENCE_CART, JSON.encodeToString(Cart.serializer(), cart))
-            }
+            saveCart(sharedPreferences, auth.uid!!, cart)
             toast("Added to cart")
+            navController.navigateUp()
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) =
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_main, menu)
+
+        val menuItem = menu.findItem(R.id.action_profile)!!
+        val imageView = menuItem.actionView?.findViewById<ImageView>(R.id.img_user_account)!!
+        menuItem.actionView?.setOnClickListener {
+            onOptionsItemSelected(menuItem)
+        }
+
+        imageView.load(auth.currentUser?.photoUrl) {
+            transformations(CircleCropTransformation(), CircleBorderTransformation())
+            placeholder(R.drawable.ic_person_outline_24)
+            fallback(R.drawable.ic_person_outline_24)
+        }
+    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
         when(item.itemId) {
+            R.id.action_profile -> {
+                navController.navigate(MobileNavigationDirections.navigateToProfile())
+                true
+            }
             R.id.action_settings -> {
                 navController.navigate(MobileNavigationDirections.navigateToSettings())
                 true
             }
+            R.id.action_help -> {
+                navController.navigate(MobileNavigationDirections.navigateToHelp())
+                true
+            }
             R.id.action_logout -> {
                 auth.signOut()
-                restartApp(requireActivity())
+                (requireActivity() as MainActivity).googleSignInClient.signOut()
+                navController.navigate(MobileNavigationDirections.navigateToRegistration())
                 true
             }
             else -> super.onOptionsItemSelected(item)

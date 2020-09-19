@@ -15,19 +15,4 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="Look and Feel"
-        app:iconSpaceReserved="false">
-
-        <ListPreference
-            android:key="@string/pref_theme"
-            android:title="@string/settings_theme"
-            android:summary="Set app theme (light, dark or system)"
-            android:icon="@drawable/ic_color_lens_60"
-            android:entries="@array/theme_labels"
-            android:entryValues="@array/theme_values"
-            android:defaultValue="1"/>
-
-    </PreferenceCategory>
-
 </PreferenceScreen>
