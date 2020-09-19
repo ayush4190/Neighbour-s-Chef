@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@id/nav_login">
+
+    <action
+        android:id="@+id/navigate_to_login"
+        app:destination="@id/nav_login"
+        app:popUpTo="@id/mobile_navigation"
+        app:popUpToInclusive="true"/>
+
+    <action
+        android:id="@+id/navigate_to_orders"
+        app:destination="@id/nav_orders"
+        app:popUpTo="@id/mobile_navigation"/>
+
+    <action
+        android:id="@+id/navigate_to_root_menu"
+        app:destination="@id/nav_root_menu"
+        app:popUpTo="@id/nav_orders"/>
+
+    <action
+        android:id="@+id/navigate_to_help"
+        app:destination="@id/nav_help"/>
+
+    <action
+        android:id="@+id/navigate_to_add_items"
+        app:destination="@id/nav_add_item"
+        app:enterAnim="@android:anim/fade_in"
+        app:exitAnim="@android:anim/fade_out"
+        app:popEnterAnim="@android:anim/fade_in"
+        app:popExitAnim="@android:anim/fade_out"/>
+
+    <action
+        android:id="@+id/navigate_to_item_details"
+        app:destination="@id/nav_item_details"
+        app:enterAnim="@android:anim/fade_in"
+        app:exitAnim="@android:anim/fade_out"
+        app:popEnterAnim="@android:anim/fade_in"
+        app:popExitAnim="@android:anim/fade_out">
+
+        <argument
+            android:name="com.neighbourschef.vendor.EXTRA_PRODUCT"
+            app:argType="com.neighbourschef.vendor.model.Product"
+            app:nullable="false"/>
+
+    </action>
+
+    <fragment
+        android:id="@+id/nav_login"
+        android:name="com.neighbourschef.vendor.ui.fragment.login.LoginFragment"
+        tools:layout="@layout/fragment_login"/>
+
+    <fragment
+        android:id="@+id/nav_orders"
+        android:name="com.neighbourschef.vendor.ui.fragment.order.OrdersFragment"
+        android:label="@string/title_orders"
+        tools:layout="@layout/fragment_orders">
+
+        <action
+            android:id="@+id/navigate_to_order_details"
+            app:destination="@id/nav_order_details" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_add_item"
+        android:name="com.neighbourschef.vendor.ui.fragment.additem.AddItemFragment"
+        android:label="@string/title_add_new_item"
+        tools:layout="@layout/fragment_add_item"/>
+
+    <fragment
+        android:id="@+id/nav_order_details"
+        android:name="com.neighbourschef.vendor.ui.fragment.order.details.OrderDetailsFragment"
+        tools:layout="@layout/fragment_order_details"/>
+
+    <fragment
+        android:id="@+id/nav_root_menu"
+        android:name="com.neighbourschef.vendor.ui.fragment.menu.root.RootMenuFragment"
+        android:label="@string/title_menu"
+        tools:layout="@layout/fragment_root_menu"/>
+
+    <fragment
+        android:id="@+id/nav_item_details"
+        android:name="com.neighbourschef.vendor.ui.fragment.details.ItemDetailsFragment"
+        tools:layout="@layout/fragment_item_details"/>
+
+    <fragment
+        android:id="@+id/nav_help"
+        android:name="com.neighbourschef.vendor.ui.fragment.help.HelpFragment"
+        android:label="@string/title_help"
+        tools:layout="@layout/fragment_help"/>
+
+</navigation>

@@ -1,27 +1,52 @@
 <resources>
-    <string name="app_name">Vendors App</string>
+    <string name="app_name">Neighbour\'s Chef: Vendor</string>
 
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="title_settings">Settings</string>
 
-    <string name="action_settings">Settings</string>
+    <string name="title_add_new_item">Add new item</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="order">Order #: %s</string>
+    <string name="set_price">₹ %s</string>
+    <string name="set_items">%d %s</string>
+    <string name="set_status">Status: %s</string>
+    <string name="order_details">Order Details</string>
+    <string name="user_details">User Details</string>
+    <string name="address">Address</string>
+    <string name="set_value">%s: %s</string>
+    <string name="food_description_placeholder">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Nascetur ridiculus mus mauris vitae ultricies leo integer.</string>
+    <string name="food">Food</string>
+    <string name="name">Name</string>
+    <string name="price">Price</string>
+    <string name="description">Description</string>
+    <string name="vegetarian">Vegetarian </string>
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="day">Day</string>
+    <string name="action_add">Add</string>
+    <string name="title_orders">Orders</string>
+    <string name="file_provider_name" translatable="false">.fileProvider</string>
+    <string name="select_capture_image">Please select or capture image</string>
+    <string name="email_id">Email Id</string>
+    <string name="password">Password</string>
+    <string name="sign_in">Sign In</string>
+    <string name="uploading">Uploading… %.1f%%</string>
+    <string name="title_menu">Menu</string>
+    <string name="title_help">Help</string>
+    <string name="communicate">Communicate</string>
+    <string name="title_logout">Log Out</string>
+    <string name="title_update_order_status">Update order status</string>
+    <string name="empty_menu">New food items will be added soon!</string>
+    <string name="for_day">Available %s</string>
+    <string name="email_us">Email Us @ rtvkiz@gmail.com</string>
+    <string name="subject">Subject</string>
+    <string name="send">Send</string>
+    <string name="call_us">Call Us @ 8989973062</string>
+    <string name="empty_orders">Orders will be displayed here when available</string>
+    <string name="action_update">Update</string>
+    <string name="body">Body</string>
 
-    <string name="title_activity_splash">SplashActivity</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
-    <string name="title_activity_sign_in">Sign in</string>
-    <string name="section_format">Hello World from section: %1$d</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
-    <string name="facebook_app_id">349410092108752</string>
-    <string name="fb_login_protocol_scheme">fb1832756210295590</string>
-    <string name="google_maps_key" translatable="false" templateMergeStrategy="preserve">AIzaSyBsmvVVXBT1Gk_gC3uObsSPSZwZXwMPwp0</string>
-    <string name="title_activity_maps">Map</string>
-
-    <!-- Button text -->
-    <string name="btn_logout_from_google">Logout from Google</string>
-    <string name="btn_revoke_access">Revoke Access</string>
-    <string name="title_activity_test_maps">Map</string>
+    <plurals name="items">
+        <item quantity="one">Item</item>
+        <item quantity="other">Items"</item>
+    </plurals>
 </resources>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="116dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/horizontal_padding">
+
+        <ImageView
+            android:id="@+id/img_food"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            tools:src="@drawable/ic_food_default_64"
+            tools:ignore="ContentDescription" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/text_food_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:maxLines="1"
+            android:ellipsize="end"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            android:layout_toEndOf="@id/img_food"
+            tools:text="Large name for a food" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/text_food_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="5dp"
+            android:maxLines="3"
+            android:ellipsize="end"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+            android:layout_toEndOf="@id/img_food"
+            android:layout_below="@id/text_food_name"
+            tools:text="@string/food_description_placeholder"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/text_food_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/text_food_description"
+            android:layout_toEndOf="@id/img_food"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
+            tools:text="\u20b9 50" />
+
+        <ImageView
+            android:id="@+id/img_food_veg_non_veg"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@id/text_food_description"
+            android:layout_alignParentEnd="true"
+            tools:src="@color/red_non_veg"
+            tools:ignore="ContentDescription" />
+
+    </RelativeLayout>
+
+</com.google.android.material.card.MaterialCardView>

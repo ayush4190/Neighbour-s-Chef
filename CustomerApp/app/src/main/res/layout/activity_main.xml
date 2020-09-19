@@ -1,25 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:id="@+id/drawer_layout"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.main.MainActivity">
+    tools:context=".ui.activity.MainActivity">
 
-    <include
-        layout="@layout/app_bar_main"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="?attr/actionBarSize">
 
-   <com.google.android.material.navigation.NavigationView
-       android:id="@+id/nav_view"
-       android:layout_width="wrap_content"
-       android:layout_height="match_parent"
-       android:layout_gravity="start"
-       android:fitsSystemWindows="true"
-       app:menu="@menu/activity_main_drawer" />
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:title="@string/app_name"/>
 
+    </com.google.android.material.appbar.AppBarLayout>
 
-</androidx.drawerlayout.widget.DrawerLayout>
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:orientation="vertical"
+        tools:context=".ui.activity.MainActivity">
+
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/nav_host_fragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/mobile_navigation" />
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:itemTextAppearanceActive="@style/TextAppearance.MaterialComponents.Body1"
+            app:itemTextAppearanceInactive="@style/TextAppearance.MaterialComponents.Body2"
+            app:menu="@menu/menu_bottom_nav" />
+
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fabCart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="72dp"
+        android:layout_marginEnd="16dp"
+        app:icon="@drawable/ic_cart_24"
+        tools:text="10 Items"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

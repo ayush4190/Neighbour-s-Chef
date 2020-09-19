@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/img_account"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_person_outline_60"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_account_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@id/img_account"
+                tools:text="Test Name"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/text_account_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+                android:gravity="center_vertical"
+                android:maxLines="1"
+                android:layout_marginStart="10dp"
+                android:layout_below="@id/text_account_name"
+                android:layout_toEndOf="@id/img_account"
+                tools:text="jainaayush667@gmail.com"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_account_remove"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/delete_account"
+                android:layout_below="@id/text_account_email"
+                android:layout_centerHorizontal="true"/>
+
+        </RelativeLayout>
+
+</com.google.android.material.card.MaterialCardView>

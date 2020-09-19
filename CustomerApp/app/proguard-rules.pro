@@ -19,3 +19,9 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# Firebase rules
+-keepattributes Signature
+-keepclassmembers class com.neighbourschef.vendor.model.** {
+    *;
+}
