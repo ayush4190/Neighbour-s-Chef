@@ -17,7 +17,8 @@ data class Product(
     // vendor uploaded quantity is always 0
     var quantity: Int = 0,
     val veg: Boolean,
-    val day: String
+    val day: String,
+    val firebaseUrl: String?
 ): KParcelable {
     private constructor(source: Parcel): this(
         source.readString()!!,
@@ -26,10 +27,11 @@ data class Product(
         source.readDouble(),
         source.readInt(),
         source.readBool(),
-        source.readString()!!
+        source.readString()!!,
+        source.readString()
     )
 
-    constructor(): this("", "", "", 0.0, 0, true, "")
+    constructor(): this("", "", "", 0.0, 0, true, "", null)
 
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
         writeString(id)
@@ -39,6 +41,7 @@ data class Product(
         writeInt(quantity)
         writeBool(veg)
         writeString(day)
+        writeString(firebaseUrl)
     }
 
     companion object {

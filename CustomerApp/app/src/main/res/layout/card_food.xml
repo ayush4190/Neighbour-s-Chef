@@ -14,7 +14,7 @@
             android:id="@+id/img_food"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            tools:src="@drawable/food_sample"
+            tools:src="@drawable/ic_food_default_64"
             tools:ignore="ContentDescription" />
 
         <com.google.android.material.textview.MaterialTextView

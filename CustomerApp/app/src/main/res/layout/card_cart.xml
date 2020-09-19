@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/card_height">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/horizontal_padding">
@@ -18,34 +18,31 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:src="@drawable/food_sample"
+            tools:src="@drawable/ic_food_default_64"
             tools:ignore="ContentDescription" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/text_food_name"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:maxLines="1"
             android:ellipsize="end"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/img_food"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_toEndOf="@id/img_food"
             tools:text="Large name for a food" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/text_food_description"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:layout_marginStart="5dp"
             android:maxLines="1"
             android:ellipsize="end"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-            app:layout_constraintTop_toBottomOf="@id/text_food_name"
-            app:layout_constraintStart_toEndOf="@id/img_food"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_below="@id/text_food_name"
+            android:layout_toEndOf="@id/img_food"
             tools:text="@string/food_description_placeholder"/>
 
         <ImageButton
@@ -53,11 +50,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
             android:background="@color/colorSecondaryVariant"
-            android:src="@drawable/ic_remove_24dp"
-            app:layout_constraintStart_toEndOf="@id/img_food"
-            app:layout_constraintTop_toBottomOf="@id/text_food_description"
-            app:layout_constraintBottom_toTopOf="@id/text_food_price"
+            android:src="@drawable/ic_remove_24"
+            android:layout_below="@id/text_food_description"
+            android:layout_toEndOf="@id/img_food"
             tools:ignore="ContentDescription" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -65,10 +62,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-            app:layout_constraintStart_toEndOf="@id/btn_minus"
-            app:layout_constraintTop_toBottomOf="@id/text_food_description"
-            app:layout_constraintBottom_toTopOf="@id/text_food_price"
+            android:layout_below="@id/text_food_description"
+            android:layout_toEndOf="@id/btn_minus"
             tools:text="10"/>
 
         <ImageButton
@@ -76,11 +73,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
             android:background="@color/colorSecondaryVariant"
-            android:src="@drawable/ic_add_24dp"
-            app:layout_constraintStart_toEndOf="@id/text_food_quantity"
-            app:layout_constraintTop_toBottomOf="@id/text_food_description"
-            app:layout_constraintBottom_toTopOf="@id/text_food_price"
+            android:src="@drawable/ic_add_24"
+            android:layout_below="@id/text_food_description"
+            android:layout_toEndOf="@id/text_food_quantity"
             tools:ignore="ContentDescription" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -89,8 +86,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/img_food"
+            android:layout_toEndOf="@id/img_food"
+            android:layout_alignParentBottom="true"
             tools:text="\u20b9 50" />
 
         <ImageView
@@ -98,11 +95,11 @@
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:layout_gravity="end"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:src="@color/red_non_veg"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            tools:src="@drawable/green_veg"
             tools:ignore="ContentDescription" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 
 </com.google.android.material.card.MaterialCardView>

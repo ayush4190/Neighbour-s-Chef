@@ -14,7 +14,7 @@
                 android:id="@+id/img_account"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:src="@drawable/ic_person_outline_60dp"/>
+                android:src="@drawable/ic_person_outline_60"/>
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text_account_name"

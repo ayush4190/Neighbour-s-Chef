@@ -123,7 +123,7 @@ class ProfileFragment: BaseFragment<FragmentProfileBinding>() {
 
     private fun setupViews() {
         binding.imgUser.load(currentUser.photoUrl) {
-            placeholder(R.drawable.ic_profile_placeholder)
+            placeholder(R.drawable.ic_person_outline_60)
             transformations(CircleCropTransformation())
         }
         binding.textUserName.text = currentUser.displayName

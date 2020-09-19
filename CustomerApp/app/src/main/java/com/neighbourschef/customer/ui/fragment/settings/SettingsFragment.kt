@@ -78,7 +78,7 @@ class SettingsFragment: PreferenceFragmentCompat() {
 
                     dialogBinding.imgAccount.apply {
                         load(currentUser!!.photoUrl) {
-                            fallback(R.drawable.ic_person_outline_60dp)
+                            fallback(R.drawable.ic_person_outline_60)
                             transformations(
                                 CircleCropTransformation(),
                                 CircleBorderTransformation()

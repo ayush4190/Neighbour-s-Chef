@@ -17,6 +17,8 @@ import com.neighbourschef.customer.R
 import com.neighbourschef.customer.databinding.FragmentHomeBinding
 import com.neighbourschef.customer.util.android.base.BaseFragment
 import com.neighbourschef.customer.util.android.restartApp
+import com.neighbourschef.customer.util.common.DAY_TODAY
+import com.neighbourschef.customer.util.common.DAY_TOMORROW
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.android.inject
 
@@ -44,7 +46,7 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
         val adapter = SectionsPagerAdapter(this)
         binding.viewPager.adapter = adapter
         TabLayoutMediator(binding.tabs, binding.viewPager) { tab, position ->
-            val titles = arrayOf("Today", "Tomorrow")
+            val titles = arrayOf(DAY_TODAY, DAY_TOMORROW)
             tab.text = titles[position]
         }.attach()
     }

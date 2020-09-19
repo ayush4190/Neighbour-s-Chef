@@ -23,14 +23,11 @@ import com.neighbourschef.customer.util.android.base.BaseFragment
 import com.neighbourschef.customer.util.android.getCart
 import com.neighbourschef.customer.util.android.restartApp
 import com.neighbourschef.customer.util.android.toast
-import com.neighbourschef.customer.util.common.EXTRA_DAY
 import com.neighbourschef.customer.util.common.EXTRA_PRODUCT
 import com.neighbourschef.customer.util.common.JSON
 import com.neighbourschef.customer.util.common.PREFERENCE_CART
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.android.ext.android.inject
 
-@ExperimentalCoroutinesApi
 class ItemDetailFragment: BaseFragment<FragmentItemDetailBinding>() {
     private val sharedPreferences: SharedPreferences by inject()
     private val cart: Cart by lazy(LazyThreadSafetyMode.NONE) { getCart(sharedPreferences) }
@@ -39,9 +36,6 @@ class ItemDetailFragment: BaseFragment<FragmentItemDetailBinding>() {
 
     private val product: Product by lazy(LazyThreadSafetyMode.NONE) {
         requireArguments()[EXTRA_PRODUCT] as Product
-    }
-    private val day: String by lazy(LazyThreadSafetyMode.NONE) {
-        requireArguments()[EXTRA_DAY] as String
     }
 
     override fun onCreateView(
@@ -54,17 +48,17 @@ class ItemDetailFragment: BaseFragment<FragmentItemDetailBinding>() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.collapsingToolbar.title = product.name
-
         binding.textFoodPrice.text = requireContext().getString(
             R.string.set_price,
             String.format("%.2f", product.price)
         )
 
-        // To be changed eventually
-        binding.imgFood.load(R.drawable.food_sample)
+        binding.imgFood.load(product.firebaseUrl) {
+            placeholder(R.drawable.ic_food_default_64)
+            fallback(R.drawable.ic_food_default_64)
+        }
         binding.textFoodDescription.text = product.description
-        binding.textForDate.text = requireContext().getString(R.string.for_date, day)
+        binding.textForDay.text = requireContext().getString(R.string.for_day, product.day)
 
         val drawable = if (product.veg) R.drawable.green_veg else R.drawable.red_non_veg
         binding.imgFoodVegNonVeg.load(drawable) {

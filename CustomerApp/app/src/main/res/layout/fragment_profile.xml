@@ -23,7 +23,7 @@
             android:layout_height="100dp"
             android:layout_marginStart="5dp"
             android:layout_marginTop="5dp"
-            tools:src="@drawable/ic_profile_placeholder"
+            tools:src="@drawable/ic_person_outline_60"
             tools:ignore="ContentDescription" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -81,7 +81,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-                    app:layout_constraintTop_toBottomOf="@id/text_address_name"
                     tools:text="1234, Large Name Apartments, Really Long Street Name, Big Locality Name\nBig City Name - 123456"/>
 
                 <com.google.android.material.textview.MaterialTextView
@@ -126,7 +125,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:src="@drawable/ic_edit_location_24dp"
+            android:src="@drawable/ic_edit_location_24"
             android:backgroundTint="@android:color/darker_gray"
             app:fabSize="mini"
             app:rippleColor="@android:color/white"/>
@@ -136,7 +135,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:src="@drawable/ic_dialpad_24dp"
+            android:src="@drawable/ic_dialpad_24"
             android:backgroundTint="@android:color/darker_gray"
             app:fabSize="mini"
             app:rippleColor="@android:color/white"/>
@@ -145,7 +144,7 @@
             android:id="@+id/fab_main"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_add_24dp"
+            android:src="@drawable/ic_add_24"
             android:layout_gravity="bottom|end"
             app:rippleColor="@android:color/white"/>
 

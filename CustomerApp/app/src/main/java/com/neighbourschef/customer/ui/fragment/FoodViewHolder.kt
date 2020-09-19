@@ -20,8 +20,10 @@ class FoodViewHolder(
         }
         binding.textFoodPrice.text = binding.root.context.getString(R.string.set_price, priceText)
 
-        // To be changed eventually
-        binding.imgFood.load(R.drawable.food_sample)
+        binding.imgFood.load(item.firebaseUrl) {
+            placeholder(R.drawable.ic_food_default_64)
+            fallback(R.drawable.ic_food_default_64)
+        }
         binding.textFoodDescription.text = item.description
 
         val drawable = if (item.veg) R.drawable.green_veg else R.drawable.red_non_veg

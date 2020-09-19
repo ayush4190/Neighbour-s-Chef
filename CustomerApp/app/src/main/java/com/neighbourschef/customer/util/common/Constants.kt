@@ -37,8 +37,8 @@ const val DAY_TODAY = "Today"
 const val DAY_TOMORROW = "Tomorrow"
 const val PATH_REST_OF_THE_WEEK = "rest_of_the_week"
 
-const val DEV_EMAIL = "a.ayushkumar1997@gmail.com"
-const val DEV_NUMBER = "Please change this number"
+const val EMAIL_DEV = "rtvkiz@gmail.com"
+const val NUMBER_DEV = "8989973062"
 val JSON = Json {
     encodeDefaults = true
     isLenient = true

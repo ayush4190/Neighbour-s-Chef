@@ -133,12 +133,12 @@ class RegistrationFragment: BaseFragment<FragmentRegistrationBinding>() {
             navHeaderMainBinding.textUserName.text = currentUser!!.displayName
             navHeaderMainBinding.textUserEmail.text = currentUser!!.email
             navHeaderMainBinding.imgUser.load(currentUser!!.photoUrl) {
-                fallback(R.drawable.ic_profile_placeholder)
+                fallback(R.drawable.ic_person_outline_60)
                 transformations(CircleCropTransformation(), CircleBorderTransformation())
             }
             findNavController().navigate(MobileNavigationDirections.navigateToHome())
         } else {
-            navHeaderMainBinding.imgUser.load(R.drawable.ic_profile_placeholder)
+            navHeaderMainBinding.imgUser.load(R.drawable.ic_person_outline_60)
             navHeaderMainBinding.textUserName.text = getString(R.string.sign_in)
         }
     }

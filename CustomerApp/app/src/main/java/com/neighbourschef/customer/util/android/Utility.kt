@@ -6,7 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.widget.Toast
 import androidx.core.net.toUri
-import com.neighbourschef.customer.util.common.DEV_EMAIL
+import com.neighbourschef.customer.util.common.EMAIL_DEV
 
 /**
  * Creates an IntentChooser for sending emails
@@ -16,12 +16,10 @@ import com.neighbourschef.customer.util.common.DEV_EMAIL
  */
 fun sendEmail(context: Context, subject: String, message: String) {
     // ACTION_SENDTO and "mailto:" ensure that only email clients can receive this intent
-    val intent = Intent(Intent.ACTION_SENDTO).apply {
-        data = "mailto:".toUri()
-        putExtra(Intent.EXTRA_EMAIL, arrayOf(DEV_EMAIL))
-        putExtra(Intent.EXTRA_SUBJECT, subject)
-        putExtra(Intent.EXTRA_TEXT, message)
-    }
+    val intent = Intent(Intent.ACTION_SENDTO, "mailto:".toUri())
+        .putExtra(Intent.EXTRA_EMAIL, arrayOf(EMAIL_DEV))
+        .putExtra(Intent.EXTRA_SUBJECT, subject)
+        .putExtra(Intent.EXTRA_TEXT, message)
     if (intent.resolveActivity(context.packageManager) != null) {
         context.startActivity(intent)
     } else {
@@ -32,10 +30,9 @@ fun sendEmail(context: Context, subject: String, message: String) {
 
 fun restartApp(activity: Activity) {
     val intent = activity.packageManager
-        .getLaunchIntentForPackage(activity.baseContext.packageName)!!.apply {
-            addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        }
+        .getLaunchIntentForPackage(activity.baseContext.packageName)!!
+        .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     activity.startActivity(intent)
     activity.finish()
 }
