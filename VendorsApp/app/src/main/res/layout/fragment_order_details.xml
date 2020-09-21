@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="5dp"
+    android:padding="@dimen/horizontal_padding"
     android:orientation="vertical"
     tools:context=".ui.fragment.order.details.OrderDetailsFragment">
 
@@ -37,7 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="3dp">
+                android:layout_marginTop="@dimen/card_margin_packed">
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/text_quantity"
@@ -62,7 +62,7 @@
                 android:id="@+id/text_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="@dimen/card_margin_packed"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                 tools:text="Placed on 17 May 2020"/>
 
@@ -70,7 +70,7 @@
                 android:id="@+id/text_comments"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="@dimen/card_margin_packed"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
                 tools:text="Comments: Send quickly"/>
 
@@ -78,7 +78,7 @@
                 android:id="@+id/text_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
+                android:layout_marginTop="@dimen/card_margin_packed"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
                 tools:text="Status: PLACED"/>
 

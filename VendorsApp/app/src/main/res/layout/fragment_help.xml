@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
+    android:padding="@dimen/activity_vertical_margin"
     tools:context=".ui.fragment.help.HelpFragment">
 
     <ImageButton
@@ -19,9 +19,8 @@
         android:id="@+id/text_contact"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/horizontal_padding"
-        android:paddingBottom="@dimen/horizontal_padding"
-        android:layout_marginStart="10dp"
+        android:paddingVertical="@dimen/vertical_padding"
+        android:layout_marginStart="@dimen/margin_default"
         android:text="@string/call_us"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
         android:layout_toEndOf="@id/btn_call"/>
@@ -31,8 +30,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
-        android:paddingTop="@dimen/horizontal_padding"
-        android:paddingBottom="@dimen/horizontal_padding"
+        android:paddingVertical="@dimen/vertical_padding"
         android:text="@string/email_us"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
         android:layout_below="@id/text_contact" />
@@ -41,7 +39,7 @@
         android:id="@+id/layout_email_subject"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="@dimen/card_margin"
         android:hint="@string/subject"
         android:layout_below="@id/text_email">
 

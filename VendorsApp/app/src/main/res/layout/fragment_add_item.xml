@@ -11,13 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:alpha="0.45">
+        tools:alpha="0.25">
 
         <ImageView
             android:id="@+id/img_food"
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/margin_default"
             android:layout_gravity="center_horizontal"
             android:contentDescription="@string/food"
             tools:src="@drawable/ic_food_default_64" />
@@ -26,9 +26,9 @@
             android:id="@+id/layout_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginEnd="@dimen/margin_default"
+            android:layout_marginTop="@dimen/margin_default"
             android:hint="@string/name">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -43,9 +43,9 @@
             android:id="@+id/layout_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginEnd="@dimen/margin_default"
+            android:layout_marginTop="@dimen/card_margin"
             android:hint="@string/description">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -60,9 +60,9 @@
             android:id="@+id/layout_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginEnd="@dimen/margin_default"
+            android:layout_marginTop="@dimen/card_margin"
             android:hint="@string/price">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -77,9 +77,9 @@
             android:id="@+id/switch_veg"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginEnd="@dimen/margin_default"
+            android:layout_marginTop="@dimen/card_margin"
             android:text="@string/vegetarian"
             android:textSize="20sp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
@@ -89,9 +89,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="5dp">
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginEnd="@dimen/margin_default"
+            android:layout_marginTop="@dimen/card_margin">
 
             <com.google.android.material.textview.MaterialTextView
                 android:layout_width="0dp"
@@ -132,9 +132,9 @@
             android:id="@+id/btn_add"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginStart="@dimen/margin_default"
+            android:layout_marginEnd="@dimen/margin_default"
+            android:layout_marginTop="@dimen/card_margin"
             android:layout_gravity="center"
             android:text="@string/action_add"/>
 
@@ -157,7 +157,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-            tools:text="50.0%"/>
+            tools:text="Uploading... 50.0%"/>
 
         <ProgressBar
             android:id="@+id/progress_bar"

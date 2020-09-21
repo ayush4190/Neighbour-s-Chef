@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="8dp"
+    android:padding="@dimen/horizontal_padding"
     tools:context=".ui.fragment.login.LoginFragment">
 
     <com.google.android.material.textview.MaterialTextView
@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:gravity="center"
-        android:drawableTop="@mipmap/ic_launcher_round"
+        android:drawableTop="@mipmap/ic_launcher"
         android:text="@string/app_name"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"/>
 
@@ -21,7 +21,6 @@
         android:id="@+id/layout_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="70dp"
         android:layout_above="@id/layout_password"
         android:hint="@string/email_id">
 
@@ -38,7 +37,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/margin_default"
         android:hint="@string/password">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -54,7 +53,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/layout_password"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/margin_default"
         android:layout_centerHorizontal="true"
         android:text="@string/sign_in"/>
 
