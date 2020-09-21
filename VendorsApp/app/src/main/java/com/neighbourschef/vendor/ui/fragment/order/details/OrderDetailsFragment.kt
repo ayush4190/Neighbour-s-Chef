@@ -114,8 +114,8 @@ class OrderDetailsFragment : BaseFragment<FragmentOrderDetailsBinding>() {
                         val status = if (which == 0) Order.OrderStatus.CANCELLED else Order.OrderStatus.COMPLETED
                         order.status = status
                         FirebaseRepository.saveOrder(order, uid)
-                        dialog.dismiss()
                         findNavController().navigateUp()
+                        dialog.dismiss()
                     }
                     .show()
             } else {
