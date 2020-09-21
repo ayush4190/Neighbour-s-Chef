@@ -7,22 +7,12 @@
     android:orientation="vertical"
     tools:context=".ui.fragment.registration.RegistrationFragment">
 
-    <ImageView
-        android:id="@+id/img_app"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/text_app"
-        android:layout_centerHorizontal="true"
-        android:src="@mipmap/ic_launcher_round"
-        android:contentDescription="@string/app_name" />
-
     <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/text_app"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:text="@string/app_name"
         android:textAppearance="@style/TextAppearance.MaterialComponents.Headline4"
+        android:drawableTop="@mipmap/ic_launcher_round"
         android:layout_centerInParent="true"/>
 
     <com.google.android.gms.common.SignInButton
