@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="116dp">
+    android:layout_height="@dimen/card_height">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -21,7 +21,7 @@
             android:id="@+id/text_food_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
+            android:layout_marginStart="@dimen/card_margin"
             android:maxLines="1"
             android:ellipsize="end"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
@@ -32,8 +32,8 @@
             android:id="@+id/text_food_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginStart="5dp"
+            android:layout_marginTop="@dimen/card_margin"
+            android:layout_marginStart="@dimen/card_margin"
             android:maxLines="3"
             android:ellipsize="end"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
@@ -45,8 +45,8 @@
             android:id="@+id/text_food_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="5dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginStart="@dimen/card_margin"
+            android:layout_marginTop="@dimen/card_margin"
             android:layout_below="@id/text_food_description"
             android:layout_toEndOf="@id/img_food"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"
@@ -56,9 +56,10 @@
             android:id="@+id/img_food_veg_non_veg"
             android:layout_width="15dp"
             android:layout_height="15dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/card_margin"
             android:layout_below="@id/text_food_description"
             android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
             tools:src="@color/red_non_veg"
             tools:ignore="ContentDescription" />
 

@@ -13,13 +13,3 @@ sealed class Result<out V, out E : Exception> {
             }
     }
 }
-
-inline fun <reified I, reified O> Result<I, Exception>.map(mapper: (I) -> O): Result<O, Exception> =
-    try {
-        when (this) {
-            is Result.Value -> Result.Value(mapper(value))
-            is Result.Error -> this
-        }
-    } catch (e: Exception) {
-        Result.Error(e)
-    }

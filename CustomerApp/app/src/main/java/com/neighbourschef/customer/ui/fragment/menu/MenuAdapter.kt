@@ -13,7 +13,6 @@ import com.neighbourschef.customer.util.common.EXTRA_PRODUCT
 
 class MenuAdapter(
     items: MutableList<Product>,
-    private val day: String,
     private val navController: NavController
 ): BaseAdapter<FoodViewHolder, Product>(items, true) {
     override fun getItemId(position: Int): Long = items[position].hashCode().toLong()

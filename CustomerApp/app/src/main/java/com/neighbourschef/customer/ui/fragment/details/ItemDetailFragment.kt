@@ -100,10 +100,6 @@ class ItemDetailFragment: BaseFragment<FragmentItemDetailBinding>() {
                 navController.navigate(MobileNavigationDirections.navigateToProfile())
                 true
             }
-            R.id.action_settings -> {
-                navController.navigate(MobileNavigationDirections.navigateToSettings())
-                true
-            }
             R.id.action_help -> {
                 navController.navigate(MobileNavigationDirections.navigateToHelp())
                 true

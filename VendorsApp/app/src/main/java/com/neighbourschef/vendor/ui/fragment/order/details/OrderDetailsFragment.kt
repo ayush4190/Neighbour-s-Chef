@@ -104,18 +104,23 @@ class OrderDetailsFragment : BaseFragment<FragmentOrderDetailsBinding>() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
         R.id.action_update_order -> {
-            MaterialAlertDialogBuilder(requireContext())
-                .setTitle(R.string.title_update_order_status)
-                .setSingleChoiceItems(
-                    arrayOf("Cancel", "Complete"),
-                    0
-                ) { _, which ->
-                    val status = if (which == 0) Order.OrderStatus.CANCELLED else Order.OrderStatus.COMPLETED
-                    order.status = status
-                    FirebaseRepository.saveOrder(order, uid)
-                }
-                .show()
-            findNavController().navigateUp()
+            if (order.status == Order.OrderStatus.PLACED) {
+                MaterialAlertDialogBuilder(requireContext())
+                    .setTitle(R.string.title_update_order_status)
+                    .setSingleChoiceItems(
+                        arrayOf("Cancel", "Complete"),
+                        0
+                    ) { dialog, which ->
+                        val status = if (which == 0) Order.OrderStatus.CANCELLED else Order.OrderStatus.COMPLETED
+                        order.status = status
+                        FirebaseRepository.saveOrder(order, uid)
+                        findNavController().navigateUp()
+                        dialog.dismiss()
+                    }
+                    .show()
+            } else {
+                toast { "The order is already ${order.status}" }
+            }
             true
         }
         R.id.action_logout -> {

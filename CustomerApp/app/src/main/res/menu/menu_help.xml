@@ -6,10 +6,6 @@
         app:actionLayout="@layout/action_layout_profile"
         app:showAsAction="ifRoom"/>
 
-    <item android:id="@+id/action_settings"
-        android:title="@string/title_settings"
-        app:showAsAction="never" />
-
     <item android:id="@+id/action_logout"
         android:title="@string/action_logout"
         app:showAsAction="never" />

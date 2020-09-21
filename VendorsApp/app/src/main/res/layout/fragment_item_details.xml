@@ -5,8 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingStart="10dp"
-    android:paddingEnd="10dp"
+    android:paddingHorizontal="@dimen/horizontal_padding"
     tools:context=".ui.fragment.details.ItemDetailsFragment">
 
     <LinearLayout
@@ -18,7 +17,7 @@
             android:id="@+id/img_food"
             android:layout_width="200dp"
             android:layout_height="200dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/margin_default"
             android:layout_gravity="center_horizontal"
             android:contentDescription="@string/food"
             tools:src="@drawable/ic_food_default_64" />
@@ -27,7 +26,7 @@
             android:id="@+id/layout_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/margin_default"
             android:hint="@string/name">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -42,7 +41,7 @@
             android:id="@+id/layout_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="@dimen/card_margin"
             android:hint="@string/description">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -57,7 +56,7 @@
             android:id="@+id/layout_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="@dimen/card_margin"
             android:hint="@string/price">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -72,7 +71,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="5dp">
+            android:layout_marginTop="@dimen/card_margin">
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/text_for_day"
@@ -99,7 +98,7 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_margin="@dimen/fab_margin"
         android:text="@string/action_update"
         android:layout_gravity="bottom|end"
         app:icon="@drawable/ic_edit_24"/>

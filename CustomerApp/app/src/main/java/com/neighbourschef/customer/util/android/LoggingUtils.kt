@@ -1,4 +1,3 @@
-@file:JvmName("LoggingUtils")
 package com.neighbourschef.customer.util.android
 
 import timber.log.Timber

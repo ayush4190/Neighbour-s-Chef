@@ -46,7 +46,7 @@ abstract class BaseAdapter<VH: BaseViewHolder<out ViewBinding, T>, T>(
      *
      * @see BaseAdapter.submitList
      */
-    fun addItem(item: T) {
+    private fun addItem(item: T) {
         items += item
         notifyItemInserted(items.size - 1)
     }
@@ -54,7 +54,7 @@ abstract class BaseAdapter<VH: BaseViewHolder<out ViewBinding, T>, T>(
     /**
      * Clears the data held and notifies updates to the RecyclerView
      */
-    fun clear() {
+    private fun clear() {
         val size = items.size
         items.clear()
         notifyItemRangeRemoved(0, size)

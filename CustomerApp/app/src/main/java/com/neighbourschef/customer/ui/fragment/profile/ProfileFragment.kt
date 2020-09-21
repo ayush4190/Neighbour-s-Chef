@@ -103,10 +103,6 @@ class ProfileFragment: BaseFragment<FragmentProfileBinding>() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean =
         when(item.itemId) {
-            R.id.action_settings -> {
-                navController.navigate(MobileNavigationDirections.navigateToSettings())
-                true
-            }
             R.id.action_help -> {
                 navController.navigate(MobileNavigationDirections.navigateToHelp())
                 true

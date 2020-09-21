@@ -80,10 +80,6 @@ class HelpFragment: BaseFragment<FragmentHelpBinding>() {
                 navController.navigate(MobileNavigationDirections.navigateToProfile())
                 true
             }
-            R.id.action_settings -> {
-                navController.navigate(MobileNavigationDirections.navigateToSettings())
-                true
-            }
             R.id.action_logout -> {
                 auth.signOut()
                 (requireActivity() as MainActivity).googleSignInClient.signOut()
