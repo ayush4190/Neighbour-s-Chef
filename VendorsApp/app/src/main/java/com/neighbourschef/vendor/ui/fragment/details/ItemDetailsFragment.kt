@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import coil.load
+import coil.transform.CircleCropTransformation
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.neighbourschef.vendor.MobileNavigationDirections
@@ -49,7 +50,9 @@ class ItemDetailsFragment : BaseFragment<FragmentItemDetailsBinding>() {
         binding.textForDay.text = requireContext().getString(R.string.for_day, item.day)
 
         val drawable = if (item.veg) R.drawable.green_veg else R.drawable.red_non_veg
-        binding.imgFoodVegNonVeg.load(drawable)
+        binding.imgFoodVegNonVeg.load(drawable) {
+            transformations(CircleCropTransformation())
+        }
 
         binding.fab.setOnClickListener {
             closeKeyboard()
