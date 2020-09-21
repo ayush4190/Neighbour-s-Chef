@@ -216,7 +216,7 @@ class AddItemFragment : BaseFragment<FragmentAddItemBinding>() {
                 val day = if (binding.btnToday.isChecked) DAY_TODAY else DAY_TOMORROW
                 val itemName = binding.editName.asString().trim()
 
-                binding.layoutMain.alpha = 0.45f
+                binding.layoutMain.alpha = 0.25f
                 binding.layoutProgress.isVisible = true
 
                 // Don't upload default image (already present on customer app)
