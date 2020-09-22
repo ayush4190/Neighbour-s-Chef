@@ -3,10 +3,10 @@ package com.neighbourschef.vendor.ui.fragment.menu
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.navigation.NavController
-import com.neighbourschef.vendor.MobileNavigationDirections
 import com.neighbourschef.vendor.databinding.CardFoodBinding
 import com.neighbourschef.vendor.model.Product
 import com.neighbourschef.vendor.ui.fragment.FoodViewHolder
+import com.neighbourschef.vendor.ui.fragment.menu.root.RootMenuFragmentDirections
 import com.neighbourschef.vendor.util.android.base.BaseAdapter
 
 class MenuAdapter(
@@ -24,7 +24,7 @@ class MenuAdapter(
             )
         ).apply {
             setOnClickListener {
-                navController.navigate(MobileNavigationDirections.navigateToItemDetails(items[adapterPosition]))
+                navController.navigate(RootMenuFragmentDirections.navigateToItemDetails(items[adapterPosition]))
             }
         }
 }

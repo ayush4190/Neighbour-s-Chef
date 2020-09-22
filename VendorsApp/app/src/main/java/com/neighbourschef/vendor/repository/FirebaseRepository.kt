@@ -31,6 +31,13 @@ object FirebaseRepository {
         databaseReference.child(PATH_MENU).child(product.id).setValue(product)
     }
 
+    fun deleteItem(product: Product) {
+        databaseReference.child(PATH_MENU).child(product.id).removeValue()
+        if (product.firebaseUrl != null) {
+            storageReference.child(PATH_IMAGES).child(product.name).delete()
+        }
+    }
+
     fun getOrders(): Flow<Result<List<Pair<String, Order>>, Exception>> = databaseReference.child(PATH_ORDERS)
         .asResultFlow<HashMap<String, HashMap<String, @JvmSuppressWildcards Order>>, List<Pair<String, Order>>>(
             listOf()
