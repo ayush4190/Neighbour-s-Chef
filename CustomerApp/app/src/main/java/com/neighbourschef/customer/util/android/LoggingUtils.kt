@@ -15,6 +15,10 @@ class HyperlinkedDebugTree: Timber.DebugTree() {
     }
 }
 
+class ReleaseTree: Timber.Tree() {
+    override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {}
+}
+
 /**
  * In Java, call [log(object, prefix)]
  */
