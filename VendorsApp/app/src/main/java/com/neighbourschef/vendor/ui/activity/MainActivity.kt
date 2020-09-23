@@ -1,5 +1,6 @@
 package com.neighbourschef.vendor.ui.activity
 
+import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -14,6 +15,7 @@ import com.neighbourschef.vendor.R
 import com.neighbourschef.vendor.databinding.ActivityMainBinding
 import com.neighbourschef.vendor.model.Product
 import com.neighbourschef.vendor.util.common.EXTRA_PRODUCT
+import io.github.inflationx.viewpump.ViewPumpContextWrapper
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -21,7 +23,11 @@ class MainActivity : AppCompatActivity() {
     private val navController: NavController by lazy(LazyThreadSafetyMode.NONE) {
         (supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment).navController
     }
-    private lateinit var appBarConfiguration: AppBarConfiguration
+    private val appBarConfiguration: AppBarConfiguration by lazy(LazyThreadSafetyMode.NONE) {
+        AppBarConfiguration(
+            setOf(R.id.nav_orders, R.id.nav_login, R.id.nav_root_menu)
+        )
+    }
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,9 +36,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
-        appBarConfiguration = AppBarConfiguration(
-            setOf(R.id.nav_orders, R.id.nav_login, R.id.nav_root_menu)
-        )
         setupActionBarWithNavController(navController, appBarConfiguration)
         binding.navView.setupWithNavController(navController)
 
@@ -56,6 +59,8 @@ class MainActivity : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean =
         navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
+
+    override fun attachBaseContext(newBase: Context) = super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase))
 
     private fun initViews() {
         binding.fab.setOnClickListener {
