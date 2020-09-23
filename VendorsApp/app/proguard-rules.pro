@@ -25,3 +25,6 @@
 -keepclassmembers class com.neighbourschef.vendor.model.** {
     *;
 }
+
+-keep class * extends androidx.fragment.app.Fragment{}
+-keepnames class * extends android.os.Parcelable

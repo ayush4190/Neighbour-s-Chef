@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.core.view.isVisible
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.neighbourschef.vendor.MobileNavigationDirections
@@ -34,16 +35,19 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>() {
             closeKeyboard()
             val res = validateInput()
             if (res != null) {
+                binding.progressBar.isVisible = true
                 auth.signInWithEmailAndPassword(res.first, res.second)
                     .addOnCompleteListener {
                         if (it.isSuccessful) {
                             toast { "Logged in!" }
                             navController.navigate(MobileNavigationDirections.navigateToOrders())
                         } else {
+                            binding.progressBar.isVisible = false
                             toast { it.exception?.message ?: it.exception.toString() }
                         }
                     }
                     .addOnFailureListener {
+                        binding.progressBar.isVisible = false
                         toast { it.message ?: it.toString() }
                     }
             }

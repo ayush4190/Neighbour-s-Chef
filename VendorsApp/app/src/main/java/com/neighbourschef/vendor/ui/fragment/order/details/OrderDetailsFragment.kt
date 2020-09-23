@@ -123,6 +123,10 @@ class OrderDetailsFragment : BaseFragment<FragmentOrderDetailsBinding>() {
             }
             true
         }
+        R.id.action_help -> {
+            navController.navigate(MobileNavigationDirections.navigateToHelp())
+            true
+        }
         R.id.action_logout -> {
             auth.signOut()
             navController.navigate(MobileNavigationDirections.navigateToLogin())
