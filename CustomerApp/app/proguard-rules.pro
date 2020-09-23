@@ -22,6 +22,9 @@
 
 # Firebase rules
 -keepattributes Signature
--keepclassmembers class com.neighbourschef.vendor.model.** {
+-keepclassmembers class com.neighbourschef.customer.model.** {
     *;
 }
+
+-keep class * extends androidx.fragment.app.Fragment{}
+-keepnames class * extends android.os.Parcelable

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.navOptions
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -70,9 +71,11 @@ class RegistrationFragment: BaseFragment<FragmentRegistrationBinding>() {
                 try {
                     val account = task.getResult(ApiException::class.java)!!
                     val credential = GoogleAuthProvider.getCredential(account.idToken!!, null)
+                    binding.progressBar.isVisible = true
                     auth.signInWithCredential(credential)
                         .addOnCompleteListener(requireActivity()) {
                             if (it.isSuccessful) {
+                                binding.progressBar.isVisible = false
                                 currentUser = auth.currentUser
 
                                 lifecycleScope.launch {
@@ -106,11 +109,13 @@ class RegistrationFragment: BaseFragment<FragmentRegistrationBinding>() {
                                     }
                                 }
                             } else {
+                                binding.progressBar.isVisible = false
                                 toast("Authentication failed: ${it.exception?.message}")
                             }
                         }
                 } catch (e: ApiException) {
-                    Timber.w(e, "signInResult:failed code=${e.statusCode}")
+                    binding.progressBar.isVisible = false
+                    Timber.w(e, "signInResult:failed code=${e.statusCode}, message=${e.message}")
                 }
             }
         }

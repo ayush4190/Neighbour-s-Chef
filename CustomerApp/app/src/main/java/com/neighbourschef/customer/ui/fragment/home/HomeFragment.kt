@@ -8,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.content.ContextCompat
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.google.android.material.tabs.TabLayoutMediator
@@ -61,7 +62,12 @@ class HomeFragment: BaseFragment<FragmentHomeBinding>() {
         }
 
         imageView?.load(auth.currentUser?.photoUrl) {
-            transformations(CircleCropTransformation(), CircleBorderTransformation())
+            transformations(
+                CircleCropTransformation(),
+                CircleBorderTransformation(
+                    borderColor = ContextCompat.getColor(requireContext(), R.color.colorOnPrimary)
+                )
+            )
             placeholder(R.drawable.ic_person_outline_24)
             fallback(R.drawable.ic_person_outline_24)
         }
