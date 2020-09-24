@@ -1,6 +1,5 @@
 package com.neighbourschef.customer.ui.activity
 
-import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -20,7 +19,6 @@ import com.neighbourschef.customer.databinding.ActivityMainBinding
 import com.neighbourschef.customer.model.Product
 import com.neighbourschef.customer.util.android.getCart
 import com.neighbourschef.customer.util.common.EXTRA_PRODUCT
-import io.github.inflationx.viewpump.ViewPumpContextWrapper
 import org.koin.android.ext.android.inject
 
 class MainActivity : AppCompatActivity() {
@@ -115,8 +113,6 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
         sharedPreferences.unregisterOnSharedPreferenceChangeListener(sharedPreferencesListener)
     }
-
-    override fun attachBaseContext(newBase: Context) = super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase))
 
     private fun setupListeners() {
         sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferencesListener)
