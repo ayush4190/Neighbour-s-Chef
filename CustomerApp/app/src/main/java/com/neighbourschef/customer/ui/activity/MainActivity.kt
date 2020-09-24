@@ -123,6 +123,12 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, arguments ->
             when(destination.id) {
+                R.id.nav_splash -> {
+                    binding.fabCart.isVisible = false
+                    binding.navView.isVisible = false
+                    supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                    binding.appbar.isVisible = false
+                }
                 R.id.nav_menu -> {
                     binding.fabCart.isVisible = true
                     binding.navView.isVisible = true

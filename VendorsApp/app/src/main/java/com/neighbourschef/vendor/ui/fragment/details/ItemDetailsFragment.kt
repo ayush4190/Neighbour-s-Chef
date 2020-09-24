@@ -19,12 +19,14 @@ import com.neighbourschef.vendor.repository.FirebaseRepository
 import com.neighbourschef.vendor.util.android.asString
 import com.neighbourschef.vendor.util.android.base.BaseFragment
 import com.neighbourschef.vendor.util.android.closeKeyboard
+import com.neighbourschef.vendor.util.android.snackbar
+import com.neighbourschef.vendor.util.android.toast
 import com.neighbourschef.vendor.util.common.EXTRA_PRODUCT
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 class ItemDetailsFragment : BaseFragment<FragmentItemDetailsBinding>() {
-    private val item: Product by lazy(LazyThreadSafetyMode.NONE) {
+    private val product: Product by lazy(LazyThreadSafetyMode.NONE) {
         requireArguments().getParcelable(EXTRA_PRODUCT)!!
     }
     private val auth by lazy(LazyThreadSafetyMode.NONE) { Firebase.auth }
@@ -40,16 +42,16 @@ class ItemDetailsFragment : BaseFragment<FragmentItemDetailsBinding>() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.imgFood.load(item.firebaseUrl) {
+        binding.imgFood.load(product.firebaseUrl) {
             placeholder(R.drawable.ic_food_default_64)
             fallback(R.drawable.ic_food_default_64)
         }
-        binding.editName.setText(item.name)
-        binding.editDescription.setText(item.description)
-        binding.editPrice.setText(String.format("%.2f", item.price))
-        binding.textForDay.text = requireContext().getString(R.string.for_day, item.day)
+        binding.editName.setText(product.name)
+        binding.editDescription.setText(product.description)
+        binding.editPrice.setText(String.format("%.2f", product.price))
+        binding.textForDay.text = requireContext().getString(R.string.for_day, product.day)
 
-        val drawable = if (item.veg) R.drawable.green_veg else R.drawable.red_non_veg
+        val drawable = if (product.veg) R.drawable.green_veg else R.drawable.red_non_veg
         binding.imgFoodVegNonVeg.load(drawable) {
             transformations(CircleCropTransformation())
         }
@@ -57,7 +59,7 @@ class ItemDetailsFragment : BaseFragment<FragmentItemDetailsBinding>() {
         binding.fab.setOnClickListener {
             closeKeyboard()
             FirebaseRepository.saveItem(
-                item.copy(
+                product.copy(
                     name = binding.editName.asString().trim(),
                     description = binding.editDescription.asString().trim(),
                     price = binding.editPrice.asString().toDouble()
@@ -67,9 +69,18 @@ class ItemDetailsFragment : BaseFragment<FragmentItemDetailsBinding>() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) = inflater.inflate(R.menu.menu_main, menu)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) =
+        inflater.inflate(R.menu.menu_item_details, menu)
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean = when (item.itemId) {
+        R.id.action_delete -> {
+            snackbar("This item will be deleted forever!", "Delete") {
+                navController.navigateUp()
+                FirebaseRepository.deleteItem(product)
+                toast { "Item deleted!" }
+            }
+            true
+        }
         R.id.action_help -> {
             navController.navigate(MobileNavigationDirections.navigateToHelp())
             true

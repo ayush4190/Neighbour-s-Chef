@@ -3,6 +3,7 @@ package com.neighbourschef.vendor
 import android.app.Application
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.neighbourschef.vendor.util.common.HyperlinkedDebugTree
+import com.neighbourschef.vendor.util.common.ReleaseTree
 import timber.log.Timber
 
 class VendorsApp : Application() {
@@ -10,6 +11,6 @@ class VendorsApp : Application() {
         super.onCreate()
 
         AndroidThreeTen.init(this)
-        Timber.plant(HyperlinkedDebugTree())
+        if (BuildConfig.DEBUG) Timber.plant(HyperlinkedDebugTree()) else Timber.plant(ReleaseTree())
     }
 }

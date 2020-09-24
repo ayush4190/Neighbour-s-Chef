@@ -45,6 +45,7 @@
     <string name="call_us">Call Us @ 8989973062</string>
     <string name="empty_orders">Orders will be displayed here when available</string>
     <string name="body">Body</string>
+    <string name="title_delete">Delete</string>
 
     <plurals name="items">
         <item quantity="one">Item</item>

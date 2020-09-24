@@ -3,6 +3,7 @@ package com.neighbourschef.customer.util.android
 import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.Paint
+import androidx.annotation.ColorInt
 import androidx.annotation.Px
 import androidx.core.graphics.applyCanvas
 import coil.bitmap.BitmapPool
@@ -14,7 +15,8 @@ import kotlin.math.min
  * A [Transformation] that draws a white circular border around the bitmap.
  */
 class CircleBorderTransformation(
-    @Px private val borderSize: Float = 7f
+    @Px private val borderSize: Float = 5f,
+    @ColorInt private val borderColor: Int = Color.BLACK
 ): Transformation {
     init {
         require(borderSize > 0f) { "Border size must be > 0" }
@@ -26,7 +28,7 @@ class CircleBorderTransformation(
         val paint = Paint(Paint.ANTI_ALIAS_FLAG or Paint.DITHER_FLAG).apply {
             strokeWidth = borderSize
             style = Paint.Style.STROKE
-            color = Color.WHITE
+            color = borderColor
         }
 
         val minSize = min(input.width + borderSize, input.height + borderSize)

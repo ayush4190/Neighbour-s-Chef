@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
@@ -119,7 +120,12 @@ class CartFragment: BaseFragment<FragmentCartBinding>() {
         }
 
         imageView.load(auth.currentUser?.photoUrl) {
-            transformations(CircleCropTransformation(), CircleBorderTransformation())
+            transformations(
+                CircleCropTransformation(),
+                CircleBorderTransformation(
+                    borderColor = ContextCompat.getColor(requireContext(), R.color.colorOnPrimary)
+                )
+            )
             placeholder(R.drawable.ic_person_outline_24)
             fallback(R.drawable.ic_person_outline_24)
         }

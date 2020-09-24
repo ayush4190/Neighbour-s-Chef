@@ -7,6 +7,7 @@ import androidx.core.content.getSystemService
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.neighbourschef.customer.di.sharedPreferencesModule
 import com.neighbourschef.customer.util.android.HyperlinkedDebugTree
+import com.neighbourschef.customer.util.android.ReleaseTree
 import com.neighbourschef.customer.util.android.isNetworkAvailable
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -17,7 +18,7 @@ class CustomerApp: Application() {
         super.onCreate()
 
         AndroidThreeTen.init(this)
-        Timber.plant(HyperlinkedDebugTree())
+        if (BuildConfig.DEBUG) Timber.plant(HyperlinkedDebugTree()) else Timber.plant(ReleaseTree())
 
         startKoin {
             androidContext(this@CustomerApp)

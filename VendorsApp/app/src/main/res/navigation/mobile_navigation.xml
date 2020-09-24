@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/nav_login">
+    app:startDestination="@id/nav_splash">
 
     <action
         android:id="@+id/navigate_to_login"
@@ -34,20 +34,9 @@
         app:popEnterAnim="@android:anim/fade_in"
         app:popExitAnim="@android:anim/fade_out"/>
 
-    <action
-        android:id="@+id/navigate_to_item_details"
-        app:destination="@id/nav_item_details"
-        app:enterAnim="@android:anim/fade_in"
-        app:exitAnim="@android:anim/fade_out"
-        app:popEnterAnim="@android:anim/fade_in"
-        app:popExitAnim="@android:anim/fade_out">
-
-        <argument
-            android:name="com.neighbourschef.vendor.EXTRA_PRODUCT"
-            app:argType="com.neighbourschef.vendor.model.Product"
-            app:nullable="false"/>
-
-    </action>
+    <fragment android:id="@+id/nav_splash"
+        android:name="com.neighbourschef.vendor.ui.fragment.splash.SplashFragment"
+        tools:layout="@layout/fragment_splash"/>
 
     <fragment
         android:id="@+id/nav_login"
@@ -81,7 +70,24 @@
         android:id="@+id/nav_root_menu"
         android:name="com.neighbourschef.vendor.ui.fragment.menu.root.RootMenuFragment"
         android:label="@string/title_menu"
-        tools:layout="@layout/fragment_root_menu"/>
+        tools:layout="@layout/fragment_root_menu">
+
+        <action
+            android:id="@+id/navigate_to_item_details"
+            app:destination="@id/nav_item_details"
+            app:enterAnim="@android:anim/fade_in"
+            app:exitAnim="@android:anim/fade_out"
+            app:popEnterAnim="@android:anim/fade_in"
+            app:popExitAnim="@android:anim/fade_out">
+
+            <argument
+                android:name="com.neighbourschef.vendor.EXTRA_PRODUCT"
+                app:argType="com.neighbourschef.vendor.model.Product"
+                app:nullable="false"/>
+
+        </action>
+
+    </fragment>
 
     <fragment
         android:id="@+id/nav_item_details"
