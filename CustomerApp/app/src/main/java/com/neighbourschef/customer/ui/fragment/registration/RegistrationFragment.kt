@@ -59,7 +59,10 @@ class RegistrationFragment: BaseFragment<FragmentRegistrationBinding>() {
         if (currentUser != null) {
             navController.navigate(MobileNavigationDirections.navigateToMenu())
         }
-        binding.btnSignIn.setOnClickListener { signIn() }
+        binding.btnGoogle.setOnClickListener { googleSignIn() }
+        binding.btnPhone.setOnClickListener {
+            navController.navigate(RegistrationFragmentDirections.navigateToPhoneSignIn())
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -88,7 +91,7 @@ class RegistrationFragment: BaseFragment<FragmentRegistrationBinding>() {
                                                     val user = User(
                                                         currentUser!!.displayName!!,
                                                         currentUser!!.email!!,
-                                                        "",
+                                                        currentUser!!.phoneNumber ?: "",
                                                         Address.EMPTY
                                                     )
                                                     FirebaseRepository.saveUser(user, currentUser!!.uid)
@@ -121,7 +124,7 @@ class RegistrationFragment: BaseFragment<FragmentRegistrationBinding>() {
         }
     }
 
-    private fun signIn() =
+    private fun googleSignIn() =
         requireActivity().startActivityFromFragment(
             this,
             (requireActivity() as MainActivity).googleSignInClient.signInIntent,

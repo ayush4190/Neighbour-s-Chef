@@ -43,6 +43,14 @@
     <string name="body">Body</string>
     <string name="food">Food</string>
     <string name="title_menu">Menu</string>
+    <string name="phone_login">Phone Login</string>
+    <string name="google_login">Google Login</string>
+    <string name="phone_sign_in_disclaimer">Note: You will receive an SMS for verification. Standard data rates may apply.</string>
+    <string name="code">Verification Code</string>
+    <string name="submit">Submit</string>
+    <string name="verify_otp">Verify OTP</string>
+    <string name="name">Name</string>
+    <string name="resend_otp">Resend OTP</string>
 
     <plurals name="items">
         <item quantity="one">Item</item>
