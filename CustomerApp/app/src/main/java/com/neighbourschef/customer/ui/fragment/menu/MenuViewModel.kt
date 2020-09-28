@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.neighbourschef.customer.model.Product
 import com.neighbourschef.customer.repositories.FirebaseRepository
+import com.neighbourschef.customer.util.android.getViewModelErrorMessage
 import com.neighbourschef.customer.util.common.Result
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -21,6 +22,6 @@ class MenuViewModelFactory(private val day: String) : ViewModelProvider.Factory 
         if (modelClass.isAssignableFrom(MenuViewModel::class.java)) {
             MenuViewModel(day) as T
         } else {
-            throw IllegalArgumentException("${modelClass.simpleName} is not assignable by ${MenuViewModel::class.java.simpleName}")
+            throw IllegalArgumentException(getViewModelErrorMessage(modelClass, MenuViewModel::class.java))
         }
 }

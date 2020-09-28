@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.neighbourschef.customer.model.Order
 import com.neighbourschef.customer.repositories.FirebaseRepository
+import com.neighbourschef.customer.util.android.getViewModelErrorMessage
 import com.neighbourschef.customer.util.common.Result
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -21,6 +22,6 @@ class OrdersViewModelFactory(private val uid: String): ViewModelProvider.Factory
         if (modelClass.isAssignableFrom(OrdersViewModel::class.java)) {
             OrdersViewModel(uid) as T
         } else {
-            throw IllegalArgumentException("${modelClass.simpleName} is not assignable by ${OrdersViewModel::class.java.simpleName}")
+            throw IllegalArgumentException(getViewModelErrorMessage(modelClass, OrdersViewModel::class.java))
         }
 }

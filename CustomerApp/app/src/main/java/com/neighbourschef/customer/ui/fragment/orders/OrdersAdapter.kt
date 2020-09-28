@@ -51,7 +51,6 @@ class OrdersAdapter(
         override fun bindTo(item: Order) {
             binding.btnCancel.isVisible = item.status == Order.OrderStatus.PLACED
 
-            binding.textId.text = binding.root.context.getString(R.string.order, item.id)
             binding.textQuantity.text = binding.root.context.getString(
                 R.string.set_items,
                 item.totalQuantity(),

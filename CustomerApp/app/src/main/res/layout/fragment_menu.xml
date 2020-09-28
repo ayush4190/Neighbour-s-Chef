@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="5dp"
     tools:context=".ui.fragment.menu.MenuFragment">
 
     <com.skydoves.androidveil.VeilRecyclerFrameView
@@ -13,6 +14,8 @@
         android:layout_margin="5dp"
         app:veilFrame_layout="@layout/card_food"
         app:veilFrame_shimmerEnable="true"
+        app:veilFrame_baseColor="@android:color/darker_gray"
+        app:veilFrame_highlightColor="@color/silver"
         app:veilFrame_veiled="true" />
 
     <com.google.android.material.textview.MaterialTextView

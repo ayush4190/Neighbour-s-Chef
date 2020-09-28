@@ -13,7 +13,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.CircleCropTransformation
 import com.google.firebase.auth.FirebaseAuth
@@ -27,6 +26,7 @@ import com.neighbourschef.customer.util.android.CircleBorderTransformation
 import com.neighbourschef.customer.util.android.base.BaseFragment
 import com.neighbourschef.customer.util.android.toast
 import com.neighbourschef.customer.util.common.Result
+import com.neighbourschef.customer.util.common.VEILED_ITEM_COUNT
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -55,21 +55,27 @@ class OrdersFragment: BaseFragment<FragmentOrdersBinding>() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.recyclerOrders.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
-        binding.recyclerOrders.adapter = adapter
+        binding.recyclerOrders.apply {
+            setAdapter(adapter)
+            setLayoutManager(LinearLayoutManager(requireContext()))
+            addVeiledItems(VEILED_ITEM_COUNT)
+        }
 
         lifecycleScope.launch {
             viewModel.orders.collectLatest {
-                binding.progressBar.isVisible = true
+                binding.recyclerOrders.veil()
+                binding.recyclerOrders.isVisible = it is Result.Value
+
                 when (it) {
                     is Result.Value -> {
-                        binding.progressBar.isVisible = false
-                        adapter.submitList(it.value.sortedByDescending {o -> o.timestamp })
-                        binding.recyclerOrders.isVisible = adapter.itemCount != 0
+                        binding.recyclerOrders.unVeil()
+                        adapter.submitList(it.value.sortedByDescending { o -> o.timestamp })
+
                         binding.textEmptyState.isVisible = adapter.itemCount == 0
+                        binding.recyclerOrders.isVisible = adapter.itemCount != 0
                     }
                     is Result.Error -> {
-                        binding.progressBar.isVisible = false
+                        binding.textEmptyState.isVisible = true
                         toast(it.error.message ?: it.error.toString())
                     }
                 }
