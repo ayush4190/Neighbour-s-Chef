@@ -12,6 +12,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import coil.transform.CircleCropTransformation
@@ -23,6 +24,7 @@ import com.neighbourschef.customer.MobileNavigationDirections
 import com.neighbourschef.customer.R
 import com.neighbourschef.customer.databinding.DialogCommentsBinding
 import com.neighbourschef.customer.databinding.FragmentCartBinding
+import com.neighbourschef.customer.model.Address
 import com.neighbourschef.customer.model.Cart
 import com.neighbourschef.customer.model.Order
 import com.neighbourschef.customer.repositories.FirebaseRepository
@@ -32,7 +34,12 @@ import com.neighbourschef.customer.util.android.asString
 import com.neighbourschef.customer.util.android.base.BaseFragment
 import com.neighbourschef.customer.util.android.getCart
 import com.neighbourschef.customer.util.android.saveCart
+import com.neighbourschef.customer.util.android.toast
+import com.neighbourschef.customer.util.common.Result
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.take
+import kotlinx.coroutines.launch
 import org.koin.android.ext.android.inject
 
 @ExperimentalCoroutinesApi
@@ -40,10 +47,20 @@ class CartFragment: BaseFragment<FragmentCartBinding>() {
     private val sharedPreferences: SharedPreferences by inject()
     private val cart by lazy(LazyThreadSafetyMode.NONE) { getCart(sharedPreferences, uid) }
 
+    private val listener = SharedPreferences.OnSharedPreferenceChangeListener { sp, key ->
+        if (key == uid) {
+            val newCart = getCart(sp, key)
+            binding.layoutCart.isVisible = !newCart.isEmpty()
+            binding.textEmptyState.isVisible = newCart.isEmpty()
+
+            binding.textTotalPrice.text = getString(R.string.set_price, String.format("%.2f", newCart.total()))
+        }
+    }
+
     private val auth: FirebaseAuth by lazy(LazyThreadSafetyMode.NONE) { Firebase.auth }
     private val uid: String by lazy(LazyThreadSafetyMode.NONE) { auth.uid!! }
     private val adapter: CartAdapter by lazy(LazyThreadSafetyMode.NONE) {
-        CartAdapter(cart.products, uid, sharedPreferences, binding.textTotalPrice)
+        CartAdapter(cart.products, uid, sharedPreferences)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,42 +89,16 @@ class CartFragment: BaseFragment<FragmentCartBinding>() {
             }
 
             btnCheckout.setOnClickListener {
-                val dialogBinding = DialogCommentsBinding.inflate(LayoutInflater.from(requireContext()))
-                MaterialAlertDialogBuilder(requireContext())
-                    .setTitle("Confirm order")
-                    .setView(dialogBinding.root)
-                    .setMessage("Add comments")
-                    .setPositiveButton("Place order") { _, _ ->
-                        val comments = dialogBinding.editComments.asString().trim()
-                        val orders = Order.fromProducts(getCart(sharedPreferences, uid).products)
-                        if (orders.size > 1) Toast.makeText(
-                            requireContext(),
-                            "Split into 2 orders as items differ by day",
-                            Toast.LENGTH_LONG
-                        ).show()
-
-                        orders.forEach {
-                            it.comments = comments
-                            FirebaseRepository.saveOrder(it, uid)
-                        }
-                        saveCart(sharedPreferences, uid, Cart())
-
-                        MaterialAlertDialogBuilder(requireContext())
-                            .setTitle("Order placed")
-                            .setItems(orders.map {
-                                "Order ID: ${it.id}\nOrder Status: ${it.status}"
-                            }.toTypedArray()) { _, _ -> }
-                            .setNeutralButton("OK") { _, _ ->  }
-                            .show()
-
-                        navController.navigate(
-                            MobileNavigationDirections.navigateToMenu()
-                        )
-                    }
-                    .setNegativeButton("Cancel") { _, _ -> }
-                    .show()
+                checkProfileAndOrder()
             }
         }
+
+        sharedPreferences.registerOnSharedPreferenceChangeListener(listener)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -149,4 +140,58 @@ class CartFragment: BaseFragment<FragmentCartBinding>() {
             }
             else -> super.onOptionsItemSelected(item)
         }
+
+    private fun checkProfileAndOrder() {
+        lifecycleScope.launch {
+            FirebaseRepository.getUser(uid).take(1).collect {
+                if (it is Result.Value) {
+                    if (it.value.phoneNumber == "" || it.value.address == Address.EMPTY) {
+                        toast("Profile not completed!")
+                        navController.navigate(MobileNavigationDirections.navigateToProfile())
+                    } else {
+                        placeOrder()
+                    }
+                } else {
+                    toast("Something went wrong!")
+                }
+            }
+        }
+    }
+
+    private fun placeOrder() {
+        val dialogBinding = DialogCommentsBinding.inflate(LayoutInflater.from(requireContext()))
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle("Confirm order")
+            .setView(dialogBinding.root)
+            .setMessage("Add comments")
+            .setPositiveButton("Place order") { _, _ ->
+                val comments = dialogBinding.editComments.asString().trim()
+                val orders = Order.fromProducts(getCart(sharedPreferences, uid).products)
+                if (orders.size > 1) Toast.makeText(
+                    requireContext(),
+                    "Split into 2 orders as items differ by day",
+                    Toast.LENGTH_LONG
+                ).show()
+
+                orders.forEach {
+                    it.comments = comments
+                    FirebaseRepository.saveOrder(it, uid)
+                }
+                saveCart(sharedPreferences, uid, Cart())
+
+                MaterialAlertDialogBuilder(requireContext())
+                    .setTitle("Order placed")
+                    .setItems(orders.map {
+                        "Order ID: ${it.id}\nOrder Status: ${it.status}"
+                    }.toTypedArray()) { _, _ -> }
+                    .setNeutralButton("OK") { _, _ ->  }
+                    .show()
+
+                navController.navigate(
+                    MobileNavigationDirections.navigateToMenu()
+                )
+            }
+            .setNegativeButton("Cancel") { _, _ -> }
+            .show()
+    }
 }

@@ -6,12 +6,10 @@ import android.view.View
 import android.view.ViewGroup
 import coil.load
 import coil.transform.CircleCropTransformation
-import com.google.android.material.textview.MaterialTextView
 import com.neighbourschef.customer.R
 import com.neighbourschef.customer.databinding.CardCartBinding
 import com.neighbourschef.customer.model.Cart
 import com.neighbourschef.customer.model.Product
-import com.neighbourschef.customer.model.total
 import com.neighbourschef.customer.util.android.base.BaseAdapter
 import com.neighbourschef.customer.util.android.base.BaseViewHolder
 import com.neighbourschef.customer.util.android.saveCart
@@ -19,8 +17,7 @@ import com.neighbourschef.customer.util.android.saveCart
 class CartAdapter(
     items: MutableList<Product>,
     private val uid: String,
-    private val sharedPreferences: SharedPreferences,
-    private val priceTextView: MaterialTextView
+    private val sharedPreferences: SharedPreferences
 ): BaseAdapter<CartAdapter.CartViewHolder, Product>(items, false) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder =
         CartViewHolder(
@@ -39,14 +36,12 @@ class CartAdapter(
                     item.quantity--
                 }
                 bindTo(item)
-                priceTextView.text = it.context.getString(R.string.set_price, String.format("%.2f", items.total()))
                 saveCart(sharedPreferences, uid, Cart(items))
             }
             setPlusClickListener {
                 val item = items[adapterPosition]
                 item.quantity++
                 bindTo(item)
-                priceTextView.text = it.context.getString(R.string.set_price, String.format("%.2f", items.total()))
                 saveCart(sharedPreferences, uid, Cart(items))
             }
         }

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.widget.Toast
 import androidx.core.net.toUri
+import androidx.lifecycle.ViewModel
 import com.neighbourschef.customer.util.common.EMAIL_DEV
 
 /**
@@ -25,3 +26,6 @@ fun sendEmail(context: Context, subject: String, message: String) {
     }
 
 }
+
+fun <T : ViewModel?, VM> getViewModelErrorMessage(modelClass: Class<T>, assignedFrom: Class<VM>): String =
+    "${modelClass.simpleName} cannot be assigned from ${assignedFrom.simpleName}"

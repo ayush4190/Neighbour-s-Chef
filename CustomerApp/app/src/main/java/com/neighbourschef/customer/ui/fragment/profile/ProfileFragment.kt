@@ -78,6 +78,7 @@ class ProfileFragment: BaseFragment<FragmentProfileBinding>() {
                         binding.progressBar.isVisible = false
                         user = it.value
 
+                        binding.textUserName.text = user.name
                         binding.textUserPhone.text = if (user.phoneNumber == "") {
                             getString(R.string.empty_phone)
                         } else {
@@ -119,6 +120,8 @@ class ProfileFragment: BaseFragment<FragmentProfileBinding>() {
     private fun setupViews() {
         binding.imgUser.load(currentUser.photoUrl) {
             placeholder(R.drawable.ic_person_outline_60)
+            fallback(R.drawable.ic_person_outline_60)
+            error(R.drawable.ic_person_outline_60)
             transformations(CircleCropTransformation())
         }
         binding.textUserName.text = currentUser.displayName

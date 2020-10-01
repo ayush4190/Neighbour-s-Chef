@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment
  */
 fun EditText.asString(): String = text.toString()
 
+fun EditText.isEmpty(): Boolean = text.isBlank()
+
 /**
  * Check if the device is connected to any internet source (mobile data, WiFi or ethernet)
  */

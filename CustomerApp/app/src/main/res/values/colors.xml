@@ -11,4 +11,5 @@
 
     <color name="green_veg">#32cd32</color>
     <color name="red_non_veg">#ff3232</color>
+    <color name="silver">#c0c0c0</color>
 </resources>

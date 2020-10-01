@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.neighbourschef.customer.model.User
 import com.neighbourschef.customer.repositories.FirebaseRepository
+import com.neighbourschef.customer.util.android.getViewModelErrorMessage
 import com.neighbourschef.customer.util.common.Result
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -25,6 +26,6 @@ class ProfileViewModelFactory(private val uid: String) : ViewModelProvider.Facto
         if (modelClass.isAssignableFrom(ProfileViewModel::class.java)) {
             ProfileViewModel(uid) as T
         } else {
-            throw IllegalArgumentException("${modelClass.simpleName} is not assignable by ${ProfileViewModel::class.java.simpleName}")
+            throw IllegalArgumentException(getViewModelErrorMessage(modelClass, ProfileViewModel::class.java))
         }
 }
